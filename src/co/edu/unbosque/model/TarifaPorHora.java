@@ -15,12 +15,11 @@ public class TarifaPorHora extends Tarifa {
 			horas = 1;
 		}
 		
-		int horaSalida = registro.getHoraSalida().getHour();
-		boolean estanciaNoche = (horaSalida >= 21 || horaSalida < 7);
+		Jornada jornadaSalida = Jornada.de(registro.getHoraSalida().toLocalTime());
 		
 		double tarifa = TARIFA_HORA_DIURNA;
 		
-		if(estanciaNoche) {
+		if(jornadaSalida == Jornada.NOCTURNA) {
 			tarifa = tarifa * 1.20;
 		}
 		return horas * tarifa;
