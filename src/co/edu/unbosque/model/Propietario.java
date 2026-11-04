@@ -9,6 +9,9 @@ public class Propietario implements Serializable {
     private String nombre;
     private String telefono;
 
+    public Propietario() {  	
+    }
+    
     public Propietario(String documento, String nombre, String telefono) {
         this.documento = documento;
         this.nombre = nombre;

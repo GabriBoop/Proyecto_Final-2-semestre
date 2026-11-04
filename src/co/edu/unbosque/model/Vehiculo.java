@@ -1,6 +1,5 @@
 package co.edu.unbosque.model;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 public abstract class Vehiculo{
