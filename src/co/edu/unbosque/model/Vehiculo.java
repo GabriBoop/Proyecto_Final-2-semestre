@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public abstract class Vehiculo {
 	
 	
+	
 	private String placa;
 	private String tipo;
 	private Propietario propietario;
