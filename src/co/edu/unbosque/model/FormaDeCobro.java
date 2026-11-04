@@ -1,5 +1,7 @@
 package co.edu.unbosque.model;
 
-public class FormaDeCobro {
-    
+public enum FormaDeCobro {
+	MENSUAL,
+	HORA,
+	FIJA   
 }
