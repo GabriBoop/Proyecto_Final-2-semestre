@@ -1,7 +1,11 @@
 package co.edu.unbosque.model;
 
-public class Propietario {
-    private String documento;
+import java.io.Serializable;
+
+public class Propietario implements Serializable {
+    
+	private static final long serialVersionUID = 1233888836589495674L;
+	private String documento;
     private String nombre;
     private String telefono;
 

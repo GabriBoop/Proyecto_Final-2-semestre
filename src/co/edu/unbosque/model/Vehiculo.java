@@ -1,10 +1,11 @@
 package co.edu.unbosque.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public abstract class Vehiculo {
+public abstract class Vehiculo implements Serializable{
 	
-	
+	private static final long serialVersionUID = 8404078430756996533L;
 	private String placa;
 	private String tipo;
 	private Propietario propietario;
@@ -41,6 +42,7 @@ public abstract class Vehiculo {
 	public void setVencimientoSoat(LocalDate vencimientoSoat) {
 		this.vencimientoSoat = vencimientoSoat;
 	}
+	
 	
 	
 	
