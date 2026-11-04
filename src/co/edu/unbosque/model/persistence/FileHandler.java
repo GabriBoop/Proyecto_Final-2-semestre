@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class FileHandler {
+	private static final String RUTA_BASE = "src/co/edu/unbosque/files/";
 	private static File archivo;
 	private static Scanner lector;
 	private static PrintWriter escritor;
@@ -23,7 +24,7 @@ public class FileHandler {
 
 	public static void crearYEscribirArchivo(String url, String contenido) {
 		try {
-			archivo = new File(url);
+			archivo = new File(RUTA_BASE + url);
 			if (!archivo.exists()) {
 
 				archivo.createNewFile();
@@ -39,7 +40,7 @@ public class FileHandler {
 	public static String abrirYLeerArchivo(String url) {
 		String contenido = "";
 		try {
-			archivo = new File(url);
+			archivo = new File(RUTA_BASE + url);
 			if (!archivo.exists()) {
 				archivo.createNewFile();
 			}
@@ -58,7 +59,7 @@ public class FileHandler {
 	public static void crearYEscribirSerializado(String url,Object o) {
 		try {
 			//valida si existe sino existe lo crea
-			archivo = new File(url);
+			archivo = new File(RUTA_BASE + url);
 			if (!archivo.exists()) {
 				archivo.createNewFile();
 			}
@@ -76,7 +77,7 @@ public class FileHandler {
 	public static Object abrirYLeerSerializado(String url) {
 		try {
 			//valida si existe sino existe lo crea
-			archivo = new File(url);
+			archivo = new File(RUTA_BASE + url);
 			if (!archivo.exists()) {
 				archivo.createNewFile();
 			}
