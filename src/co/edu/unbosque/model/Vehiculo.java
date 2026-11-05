@@ -9,6 +9,9 @@ public abstract class Vehiculo{
 	private Propietario propietario;
 	private LocalDate  vencimientoSoat;
 	
+	public Vehiculo() {
+		
+	}
 	
 	public Vehiculo(String placa, String tipo, Propietario propietario, LocalDate vencimientoSoat) {
 		this.placa = placa.toUpperCase();
