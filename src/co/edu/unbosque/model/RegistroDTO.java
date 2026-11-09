@@ -9,6 +9,10 @@ public class RegistroDTO {
     private LocalDateTime horaSalida;
     private boolean pagaMensualidad;
     private Tarifa tarifaAplicada;
+    
+    public RegistroDTO() {
+    	
+    }
 	
     public RegistroDTO(Vehiculo vehiculo, LocalDateTime horaIngreso, LocalDateTime horaSalida, boolean pagaMensualidad,
 			Tarifa tarifaAplicada) {

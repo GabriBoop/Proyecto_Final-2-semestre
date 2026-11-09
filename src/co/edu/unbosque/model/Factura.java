@@ -72,5 +72,6 @@ public class Factura implements Serializable {
 	public void setValor(double valor) {
 		this.valor = valor;
 	}
+	
 
 }

@@ -2,18 +2,17 @@ package co.edu.unbosque.model.persistence;
 
 import java.util.ArrayList;
 
-public interface DAO<D, E> {
+public interface DAO<E, D> {
 
-    public boolean crear(D D);
+    public void crear(D D);
 
-    public boolean eliminar(D datoEliminar);
+    public boolean eliminar(int index);
 
-    public boolean actualizar(D anterior, D nuevoDato);
+    public boolean actualizar(int index, D datoActualizado);
 
     public String mostrarTodo();
 
-    public ArrayList<D> darLista();
+    public ArrayList<E> darLista();
 
-    public D buscar(D paraBuscar);
     
 }
