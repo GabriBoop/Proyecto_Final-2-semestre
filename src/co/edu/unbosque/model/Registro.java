@@ -1,25 +1,27 @@
 package co.edu.unbosque.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Registro {
+public class Registro implements Serializable{
 
+	private static final long serialVersionUID = 1699718911461202595L;
 	private Vehiculo vehiculo;
 	private LocalDateTime horaIngreso;
-    private LocalDateTime horaSalida;
+	private LocalDateTime horaSalida;
     private boolean pagaMensualidad;
     private Tarifa tarifaAplicada;
+    private boolean activo = true;
     
     public Registro() {
     	
     }
 	
-    public Registro(Vehiculo vehiculo, LocalDateTime horaIngreso, LocalDateTime horaSalida, boolean pagaMensualidad,
+    public Registro(Vehiculo vehiculo, LocalDateTime horaIngreso, boolean pagaMensualidad,
 			Tarifa tarifaAplicada) {
 		super();
 		this.vehiculo = vehiculo;
 		this.horaIngreso = horaIngreso;
-		this.horaSalida = horaSalida;
 		this.pagaMensualidad = pagaMensualidad;
 		this.tarifaAplicada = tarifaAplicada;
 	}
@@ -63,6 +65,13 @@ public class Registro {
 	public void setTarifaAplicada(Tarifa tarifaAplicada) {
 		this.tarifaAplicada = tarifaAplicada;
 	}
-	
-	
+
+	public boolean isActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+
 }
