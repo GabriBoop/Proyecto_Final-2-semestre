@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 public class Carro extends Vehiculo {
 	
+	private static final long serialVersionUID = -7975916342477791276L;
+
 	public Carro() {
 		
 	}

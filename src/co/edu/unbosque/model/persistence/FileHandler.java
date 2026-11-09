@@ -22,7 +22,7 @@ public class FileHandler {
 	public static ObjectInputStream ois;
 
 
-	public static void crearYEscribirArchivo(String url, String contenido) {
+	public void crearYEscribirArchivo(String url, String contenido) {
 		try {
 			archivo = new File(RUTA_BASE + url);
 			if (!archivo.exists()) {
@@ -37,7 +37,7 @@ public class FileHandler {
 		}
 	}
 
-	public static String abrirYLeerArchivo(String url) {
+	public String abrirYLeerArchivo(String url) {
 		String contenido = "";
 		try {
 			archivo = new File(RUTA_BASE + url);
@@ -56,7 +56,7 @@ public class FileHandler {
 		return "";
 	}
 	
-	public static void crearYEscribirSerializado(String url,Object o) {
+	public void crearYEscribirSerializado(String url,Object o) {
 		try {
 			//valida si existe sino existe lo crea
 			archivo = new File(RUTA_BASE + url);
@@ -74,7 +74,7 @@ public class FileHandler {
 		}
 	}
 	
-	public static Object abrirYLeerSerializado(String url) {
+	public Object abrirYLeerSerializado(String url) {
 		try {
 			//valida si existe sino existe lo crea
 			archivo = new File(RUTA_BASE + url);

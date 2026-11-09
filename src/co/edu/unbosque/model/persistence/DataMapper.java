@@ -25,7 +25,7 @@ public class DataMapper {
 
 		return entity;
 	}
-	public static Moto convertirMotoDTOAMoto(CarroDTO dto) {
+	public static Moto convertirMotoDTOAMoto(MotoDTO dto) {
 		Moto entity = new Moto();
 		entity.setPlaca(dto.getPlaca());
 		entity.setPropietario(dto.getPropietario());

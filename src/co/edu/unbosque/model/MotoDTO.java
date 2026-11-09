@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public class MotoDTO extends Vehiculo{
 
+	private static final long serialVersionUID = 9083767406550040881L;
 	
 	public MotoDTO(){
 		

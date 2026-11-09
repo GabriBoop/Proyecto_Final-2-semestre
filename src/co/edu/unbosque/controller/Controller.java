@@ -5,28 +5,28 @@ import co.edu.unbosque.model.persistence.*;
 
 public class Controller {
 	
-	private FileHandler Fh;
+	private FileHandler fh;
 	
 	public void start(){
 		Scanner sc = new Scanner(System.in);
-		Fh = new FileHandler();
+		fh = new FileHandler();
 		
 		boolean start = true;
 		ciclo: while(start) {
 			System.out.println("       ------[ADMIN]------\n == Bievenido Al Parqueadero ==");
-			System.out.println("1. Ver Vehiculos\n2. Suicidio");
+			System.out.println("1. Ver Vehiculos\n2. Salir");
 			int r = sc.nextInt();
 			switch(r) {
 			case 1:
-				Fh.crearYEscribirArchivo("Gabriel.csv","GABRIEEEEEEEL");
-				System.out.println("todavia no hay carros nwn");
+				fh.crearYEscribirArchivo("Gabriel.csv","GABRIEEEEEEEL");
+				System.out.println("Todavia no hay carros en el sistema.");
 				
 				break;
 			case 2:
-				System.out.println("aa netanyahu");
+				System.out.println("se ha salido del programa.");
 				break ciclo;
 			default:
-				System.out.println("igual aa netantaya");
+				System.out.println("[ERROR] Opcion Invalida.");
 				break ciclo;
 			}
 		}
