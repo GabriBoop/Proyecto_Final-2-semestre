@@ -1,11 +1,9 @@
 package co.edu.unbosque.model;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Registro implements Serializable{
-	
-	private static final long serialVersionUID = 5539847879740762618L;
+public class Registro {
+
 	private Vehiculo vehiculo;
 	private LocalDateTime horaIngreso;
     private LocalDateTime horaSalida;
@@ -25,7 +23,7 @@ public class Registro implements Serializable{
 	public Vehiculo getVehiculo() {
 		return vehiculo;
 	}
-
+	
 	public void setVehiculo(Vehiculo vehiculo) {
 		this.vehiculo = vehiculo;
 	}
@@ -61,5 +59,6 @@ public class Registro implements Serializable{
 	public void setTarifaAplicada(Tarifa tarifaAplicada) {
 		this.tarifaAplicada = tarifaAplicada;
 	}
-    
+	
+	
 }
