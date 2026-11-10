@@ -28,7 +28,7 @@ public class Parqueadero {
     }
     
     public int espaciosDisponibles() {
-    	return cantidad - CANTIDAD_MAX;
+    	return CANTIDAD_MAX - cantidad;
     }
     
     public int cupoMaximoMensualidades() {

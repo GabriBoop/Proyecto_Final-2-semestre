@@ -2,17 +2,24 @@ package co.edu.unbosque.controller;
 
 import java.util.Scanner;
 import co.edu.unbosque.model.persistence.*;
+import co.edu.unbosque.view.MainFrame;
+import co.edu.unbosque.view.PanelMenu;
 
 public class Controller {
 	
 	private FileHandler fh;
+	Scanner sc = new Scanner(System.in);
+	
+	MainFrame principal = new MainFrame();
+	PanelMenu pm = new PanelMenu();
 	
 	public void start(){
-		Scanner sc = new Scanner(System.in);
+		
 		fh = new FileHandler();
 		
-		boolean start = true;
-		ciclo: while(start) {
+		principal.setVisible(true);
+		ciclo: while(true) {
+			principal.cambiarPanel(pm.getPanel());
 			System.out.println("       ------[ADMIN]------\n == Bievenido Al Parqueadero ==");
 			System.out.println("1. Ver Vehiculos\n2. Salir");
 			int r = sc.nextInt();

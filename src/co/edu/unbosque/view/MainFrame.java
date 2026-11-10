@@ -17,7 +17,7 @@ public class MainFrame extends JFrame{
 	public MainFrame() {
 	
 		setBounds(0, 0, ANCHO, ALTO);
-		setTitle("---");
+		setTitle("PARQUEADERO UEB: MENU");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		setBackground(new Color(15,0,50));
