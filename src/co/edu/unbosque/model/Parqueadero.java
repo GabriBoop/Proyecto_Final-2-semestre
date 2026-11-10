@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
+import co.edu.unbosque.util.exceptions.FacturaNoEncontradaException;
 import co.edu.unbosque.util.exceptions.PlacaNoEncontradaException;
 import co.edu.unbosque.util.exceptions.PlacaYaRegistradaException;
 import co.edu.unbosque.util.exceptions.RegistroNoEncontradoException;
@@ -18,7 +19,8 @@ public class Parqueadero {
     
     private int cantidad = 0;
     private int numeroFacturas = 0;
-    private ArrayList<Registro> registros = new ArrayList<>();
+
+	private ArrayList<Registro> registros = new ArrayList<>();
 	private ArrayList<Mensualidad> mensualidades = new ArrayList<>();
 	private ArrayList<Factura> facturas = new ArrayList<>();
 	
@@ -123,11 +125,15 @@ public class Parqueadero {
     	return false;
 	}
     
-    public Factura buscarFactura(int num) throws RegistroNoEncontradoException {
+    public Factura buscarFactura(int num) throws FacturaNoEncontradaException {
     	for(Factura f : facturas) {
     		if(f.getNum() == num) return f;
     	}
-    	throw new RegistroNoEncontradoException();
+    	throw new FacturaNoEncontradaException();
+	}
+    
+    public int getNumeroFacturas() {
+		return numeroFacturas;
 	}
   
 }
