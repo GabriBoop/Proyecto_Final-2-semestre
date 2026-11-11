@@ -5,15 +5,8 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
-import co.edu.unbosque.model.persistence.FacturaDAO;
-import co.edu.unbosque.model.persistence.MensualidadDAO;
-import co.edu.unbosque.model.persistence.RegistroDAO;
-import co.edu.unbosque.util.exceptions.FacturaNoEncontradaException;
-import co.edu.unbosque.util.exceptions.PlacaNoEncontradaException;
-import co.edu.unbosque.util.exceptions.PlacaYaRegistradaException;
-import co.edu.unbosque.util.exceptions.RegistroNoEncontradoException;
-import co.edu.unbosque.util.exceptions.SobrecupoDeMensualidadesException;
-import co.edu.unbosque.util.exceptions.SobrecupoParqueaderoException;
+import co.edu.unbosque.model.persistence.*;
+import co.edu.unbosque.util.exceptions.*;
 
 public class Parqueadero {
 	
@@ -24,12 +17,22 @@ public class Parqueadero {
     private int numeroFacturas = 0;
 	private InformacionPolicia sistemaPolicia;
 
-    private FacturaDAO facturas = new FacturaDAO();
-    private MensualidadDAO mensualidades = new MensualidadDAO();
-    private RegistroDAO registros = new RegistroDAO();
+    private FacturaDAO facturas;
+    private MensualidadDAO mensualidades;
+    private RegistroDAO registros;
+    private AlertaPolicia alertaPolicia;
+    private AlertaSoat alertaSoat;
     
     public Parqueadero() {
+    	
+    }
+    public Parqueadero(FacturaDAO facturas,MensualidadDAO mensualidades,RegistroDAO registros) {
 		sistemaPolicia = new InformacionPolicia();
+		alertaPolicia = new AlertaPolicia();
+		alertaSoat =  new AlertaSoat();
+		this.facturas = facturas;
+		this.mensualidades = mensualidades;
+		this.registros = registros;	
     }
     
     public int espaciosDisponibles() {
@@ -78,13 +81,15 @@ public class Parqueadero {
 		String sp = sistemaPolicia.consultaPolicia(v.getPlaca());
 		switch(sp) {
 		case "LIMPIO":
-			
 		case "ROBADO":
-			
+			alertaPolicia.mandarAlerta(v, sp);
 		case "INCAUTADO":
-			
+			alertaPolicia.mandarAlerta(v, sp);
 		default :
-			
+		}
+		boolean s = soatPorVencer(v);
+		if (s==true) {
+			alertaSoat.mandarAlerta(v);
 		}
     	Tarifa t = null;
     	if(!tieneMensualidad(v.getPlaca())) {

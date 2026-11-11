@@ -15,15 +15,22 @@ public class InformacionPolicia {
 	public String consultaPolicia(String placa){
 		Vehicle v = sistemaPolicia.getCarInfo(placa);
 		String consulta ="";
-		if(v.getStatus()==Status.CLEAN) {
-			consulta = "LIMPIO";
-		}else if (v.getStatus()==Status.SEIZED) {
-			consulta = "INCAUTADO";
-		}else if(v.getStatus()==Status.STOLEN) {
-			consulta = "ROBADO";
-		}else {
-			consulta = "LIMPIO";
-		}
+		if(v.getStatus() == null) return "SIN INFORMACION";
+		
+		switch(v.getStatus()) {
+		        case CLEAN:
+		            consulta = "LIMPIO";
+		            break;
+		        case SEIZED:
+		            consulta = "INCAUTADO";
+		            break;
+		        case STOLEN:
+		            consulta = "INCAUTADO";
+		            break;
+		        default:
+		            consulta = "SIN INFORMACION";
+		            break;
+		        } 
 		return consulta;
 	}
 
