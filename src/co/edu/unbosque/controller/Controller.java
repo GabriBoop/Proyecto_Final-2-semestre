@@ -3,21 +3,34 @@ package co.edu.unbosque.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import co.edu.unbosque.model.persistence.*;
+import co.edu.unbosque.model.*;
 import co.edu.unbosque.view.*;
 
-public class Controller implements ActionListener {
 
-	private FileHandler fh;
+public class Controller implements ActionListener {
 
 	private MainFrame principal = new MainFrame();
 	private PanelMenu pm = new PanelMenu();
 	private PanelMenuVehiculo pmVehiculo = new PanelMenuVehiculo();
 	private PanelMenuMensualidades pmMensualidad = new PanelMenuMensualidades();
+	private CarroDAO carroDAO;
+	private FacturaDAO facturaDAO;
+	private MotoDAO motoDAO;
+	private PropietarioDAO propietarioDAO;
+	private RegistroDAO registroDAO;
+	
+	public Controller(){
+		carroDAO = new CarroDAO();
+		facturaDAO = new FacturaDAO();
+		motoDAO = new MotoDAO();
+		propietarioDAO = new PropietarioDAO();
+		registroDAO = new RegistroDAO();
+	}
 
 	public void start() {
 		asignarOyentes();
-		fh = new FileHandler();
-		fh.crearYEscribirArchivo("Thomas.csv", "THOMAAAAAAAAAAAAAAAA");
+		propietarioDAO.crear(new PropietarioDTO("1032941791","thomas","12345213"));
+		System.out.println(propietarioDAO.mostrarTodo());
 		principal.cambiarPanel(pm.getPanel());
 		principal.setVisible(true);
 	}

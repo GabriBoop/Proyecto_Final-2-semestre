@@ -13,7 +13,6 @@ public class RegistroDAO implements DAO<Registro, RegistroDTO> {
 	
 	public RegistroDAO() {
 		setListaRegistros(new ArrayList<>());
-		escribirArchivo();
 		escribirArchivoSerializado();
 	}
 
