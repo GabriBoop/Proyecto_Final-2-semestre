@@ -53,9 +53,9 @@ public class PropietarioDAO implements DAO<Propietario,PropietarioDTO> {
 		int posicion = 0;
 
 		for (Propietario p: listaPropietarios) {
-			contenido  += "Posicion en la lista:"+ posicion;
-			contenido += "Documento: "+ p.getDocumento();
-			contenido += "Nombre: "+ p.getNombre();
+			contenido  += "Posicion en la lista:"+ posicion+"\n";
+			contenido += "Documento: "+ p.getDocumento()+"\n";
+			contenido += "Nombre: "+ p.getNombre()+"\n";
 			contenido += "Telefono: "+ p.getTelefono();
 			posicion++;
 

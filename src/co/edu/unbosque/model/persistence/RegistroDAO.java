@@ -54,12 +54,12 @@ public class RegistroDAO implements DAO<Registro, RegistroDTO> {
 		int posicion = 0;
 
 		for (Registro r: listaRegistros) {
-			contenido  += "Posicion en la lista:"+ posicion;
-			contenido += "Vehiculo: "+ r.getVehiculo();
-			contenido += "Hora de ingreso: "+ r.getHoraIngreso();
-			contenido += "Hora de salida: "+ r.getHoraSalida();
-			contenido += "Tarifa Aplicada: "+ r.getTarifaAplicada();
-			contenido += "Paga mensualidad: "+ r.isPagaMensualidad();
+			contenido  += "Posicion en la lista:"+ posicion+"\n";
+			contenido += "Vehiculo: "+ r.getVehiculo()+"\n";
+			contenido += "Hora de ingreso: "+ r.getHoraIngreso()+"\n";
+			contenido += "Hora de salida: "+ r.getHoraSalida()+"\n";
+			contenido += "Tarifa Aplicada: "+ r.getTarifaAplicada()+"\n";
+			contenido += "Paga mensualidad: "+ r.isPagaMensualidad()+"\n";
 			contenido += "Activo: "+ r.isActivo();
 			posicion++;
 

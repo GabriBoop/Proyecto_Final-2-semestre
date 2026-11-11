@@ -8,22 +8,24 @@ import co.edu.unbosque.view.*;
 
 
 public class Controller implements ActionListener {
-
+	
+	private Consola con;
 	private MainFrame principal = new MainFrame();
 	private PanelMenu pm = new PanelMenu();
 	private PanelMenuVehiculo pmVehiculo = new PanelMenuVehiculo();
 	private PanelMenuMensualidades pmMensualidad = new PanelMenuMensualidades();
 	private CarroDAO carroDAO;
 	private FacturaDAO facturaDAO;
+	private MensualidadDAO mensualidadDAO;
 	private MotoDAO motoDAO;
 	private PropietarioDAO propietarioDAO;
 	private RegistroDAO registroDAO;
-	private Consola con;
 	
 	public Controller(){
 		con = new Consola();
 		carroDAO = new CarroDAO();
 		facturaDAO = new FacturaDAO();
+		mensualidadDAO = new MensualidadDAO();
 		motoDAO = new MotoDAO();
 		propietarioDAO = new PropietarioDAO();
 		registroDAO = new RegistroDAO();
@@ -32,17 +34,32 @@ public class Controller implements ActionListener {
 	public void start() {
 		asignarOyentes();
 		cicloPrincipal : while(true) {
+			principal.cambiarPanel(pm.getPanel());
+			propietarioDAO.crear(new PropietarioDTO("1032941791","thomas","12345213"));
+			principal.setVisible(true);
 			con.imprimirConSalto("Bienvenido al menu principal del parquadero");
 			con.imprimirConSalto("Seleccione la opcion que necesita");
-			
+			con.imprimirConSalto("1.Registrar un propietario");
+			con.imprimirConSalto("2.Ingresar un vehiculo");
+			con.imprimirConSalto("3.Registrar la salida de un vehiculo");
+			con.imprimirConSalto("4.Ver propietarios");
+			con.imprimirConSalto("5.Ver vehiculos");
+			con.imprimirConSalto("6.Salir");
+
 			int a = con.leerEntero();
 			switch(a) {
 			case 1:
 			case 2:
+			case 3:
+			case 4:
+				con.imprimirConSalto(propietarioDAO.mostrarTodo());
+			case 5:
+				con.imprimirConSalto(motoDAO.mostrarTodo());
+				con.imprimirConSalto(carroDAO.mostrarTodo());
+			case 6: 
+				break cicloPrincipal;
 			}
 
-			propietarioDAO.crear(new PropietarioDTO("1032941791","thomas","12345213"));
-			con.imprimirConSalto(propietarioDAO.mostrarTodo());
 			principal.cambiarPanel(pm.getPanel());
 			principal.setVisible(true);
 		}

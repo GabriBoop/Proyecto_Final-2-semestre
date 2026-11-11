@@ -56,10 +56,10 @@ public class MotoDAO implements DAO<Moto,MotoDTO>{
 		int posicion = 0;
 
 		for (Moto m: listaMotos) {
-			contenido  += "Posicion en la lista:"+ posicion;
-			contenido += "Placa: "+m.getPlaca();
-			contenido += "Tipo: "+m.getTipo();
-			contenido += "Propietario: "+m.getPropietario() ;
+			contenido  += "Posicion en la lista:"+ posicion+"\n";
+			contenido += "Placa: "+m.getPlaca()+"\n";
+			contenido += "Tipo: "+m.getTipo()+"\n";
+			contenido += "Propietario: "+m.getPropietario()+"\n";
 			contenido += "Fecha de vencimiento del soat: "+m.getVencimientoSoat();
 			posicion++;
 

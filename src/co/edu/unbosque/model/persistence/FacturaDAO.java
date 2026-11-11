@@ -57,13 +57,13 @@ public class FacturaDAO implements DAO<Factura,FacturaDTO>{
 		int posicion = 0;
 
 		for (Factura f: listaFacturas) {
-			contenido  += "Posicion en la lista:"+ posicion;
-			contenido += "Nombre: "+f.getNombrePropietario();
-			contenido += "Numero de factura: "+f.getNum();
-			contenido += "Placa: "+f.getPlaca() ;
-			contenido += "Forma de Cobro: "+f.getFormaDeCobro();
-			contenido += "Hora de ingreso: "+f.getHoraIngreso();
-			contenido += "Hora de salida: "+f.getHoraSalida();
+			contenido  += "Posicion en la lista:"+ posicion+"\n";
+			contenido += "Nombre: "+f.getNombrePropietario()+"\n";
+			contenido += "Numero de factura: "+f.getNum()+"\n";
+			contenido += "Placa: "+f.getPlaca()+"\n";
+			contenido += "Forma de Cobro: "+f.getFormaDeCobro()+"\n";
+			contenido += "Hora de ingreso: "+f.getHoraIngreso()+"\n";
+			contenido += "Hora de salida: "+f.getHoraSalida()+"\n";
 			contenido += "Valor Total: "+f.getValor();
 
 			posicion++;

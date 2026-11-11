@@ -56,9 +56,9 @@ public class MensualidadDAO implements DAO<Mensualidad,MensualidadDTO>{
 		int posicion = 0;
 
 		for (Mensualidad m: listaMensualidades) {
-			contenido  += "Posicion en la lista:"+ posicion;
-			contenido += "Valor: "+m.getValor();
-			contenido += "Fecha de Inicio: "+m.getFechaInicio();
+			contenido  += "Posicion en la lista:"+ posicion+"\n";
+			contenido += "Valor: "+m.getValor()+"\n";
+			contenido += "Fecha de Inicio: "+m.getFechaInicio()+"\n";
 			contenido += "Propietario: "+m.getPropietario();
 			
 			posicion++;

@@ -56,10 +56,10 @@ public class CarroDAO implements DAO<Carro,CarroDTO>{
 		int posicion = 0;
 
 		for (Carro c: listaCarros) {
-			contenido  += "Posicion en la lista:"+ posicion;
-			contenido += "Placa: "+c.getPlaca();
-			contenido += "Tipo: "+c.getTipo();
-			contenido += "Propietario: "+c.getPropietario() ;
+			contenido  += "Posicion en la lista:"+ posicion+"\n";
+			contenido += "Placa: "+c.getPlaca()+"\n";
+			contenido += "Tipo: "+c.getTipo()+"\n";
+			contenido += "Propietario: "+c.getPropietario()+"\n";
 			contenido += "Fecha de vencimiento del soat: "+c.getVencimientoSoat();
 			posicion++;
 
