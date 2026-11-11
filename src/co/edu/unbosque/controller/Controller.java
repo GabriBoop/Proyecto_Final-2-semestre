@@ -133,10 +133,10 @@ public class Controller implements ActionListener {
 			principal.cambiarPanel(pmMensualidad.getPanel());
 			break;
 		case "CONSULTAS":
-			principal.cambiarPanel(pmConsulta);
+			principal.cambiarPanel(pmConsulta.getPanel());
 			break;
 		case "REPORTES":
-			principal.cambiarPanel(pmReportes);
+			principal.cambiarPanel(pmReportes.getPanel());
 			break;
 		case "VOLVER":
 			principal.cambiarPanel(pm.getPanel());

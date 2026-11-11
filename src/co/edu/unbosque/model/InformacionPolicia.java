@@ -22,7 +22,7 @@ public class InformacionPolicia {
 		}else if(v.getStatus()==Status.STOLEN) {
 			consulta = "ROBADO";
 		}else {
-			consulta = "SIN INFORMACION";
+			consulta = "LIMPIO";
 		}
 		return consulta;
 	}

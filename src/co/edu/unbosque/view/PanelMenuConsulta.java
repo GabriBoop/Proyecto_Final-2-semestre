@@ -1,51 +1,67 @@
 package co.edu.unbosque.view;
 
+import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.SwingConstants;
 
-public class PanelMenuConsulta extends JPanel {
+public class PanelMenuConsulta {
 	
+	private JPanel panel = new JPanel(new GridBagLayout());
+	private JPanel columna = new JPanel(new GridLayout(6, 1, 0, 30));
 	private JLabel txt = new JLabel();
-	private JButton btnVerRegistros;
-    private JButton btnVerFacturas;
-    private JButton btnUltimaFactura;
-    private JButton btnBuscarFactura;
-    private JButton btnVolver;
+	private JButton btnVerRegistros = new JButton("Ver Registros");
+    private JButton btnVerFacturas = new JButton("Ver Facturas");
+    private JButton btnUltimaFactura = new JButton("Última Factura");
+    private JButton btnBuscarFactura = new JButton("Buscar Factura");
+    private JButton btnVolver = new JButton("Volver");
     
     public PanelMenuConsulta() {
-    	setLayout(new GridLayout(6, 1, 15, 15));
-    	setBorder(new EmptyBorder(20, 50, 20, 50));
-    	inicializarComponentes();
+    	txt.setText("<html>Consultas<br>");
+    	txt.setHorizontalAlignment(SwingConstants.CENTER);
+		txt.setFont(new Font("Arial", Font.BOLD, 26));
+		btnVerRegistros.setFont(new Font("Arial", Font.PLAIN, 24));
+		btnVerFacturas.setFont(new Font("Arial", Font.PLAIN, 24));
+		btnUltimaFactura.setFont(new Font("Arial", Font.PLAIN, 24));
+		btnBuscarFactura.setFont(new Font("Arial", Font.PLAIN, 24));
+		btnVolver.setFont(new Font("Arial", Font.PLAIN, 24));
+    	
+		columna.add(txt);
+		columna.add(btnVerRegistros);
+		columna.add(btnVerFacturas);
+		columna.add(btnUltimaFactura);
+		columna.add(btnBuscarFactura);
+		columna.add(btnVolver);
+		panel.add(columna);
     }
     
-    public void inicializarComponentes() {
-    	txt.setText("Consultas");
-    	btnVerRegistros = new JButton("Ver Registros");
-    	btnVerRegistros.setActionCommand("VER_REGISTROS");
-    	
-    	btnVerFacturas = new JButton("Ver Facturas");
-        btnVerFacturas.setActionCommand("VER_FACTURAS");
+	public JPanel getPanel() {
+		return panel;
+	}
 
-        btnUltimaFactura = new JButton("Última Factura");
-        btnUltimaFactura.setActionCommand("ULTIMA_FACTURA");
+	public void setPanel(JPanel panel) {
+		this.panel = panel;
+	}
 
-        btnBuscarFactura = new JButton("Buscar Factura");
-        btnBuscarFactura.setActionCommand("BUSCAR_FACTURA");
+	public JPanel getColumna() {
+		return columna;
+	}
 
-        btnVolver = new JButton("Volver");
-        btnVolver.setActionCommand("VOLVER_MENU_PRINCIPAL");
+	public void setColumna(JPanel columna) {
+		this.columna = columna;
+	}
 
-        add(txt);
-        add(btnVerRegistros);
-        add(btnVerFacturas);
-        add(btnUltimaFactura);
-        add(btnBuscarFactura);
-        add(btnVolver);
-    }
+	public JLabel getTxt() {
+		return txt;
+	}
+
+	public void setTxt(JLabel txt) {
+		this.txt = txt;
+	}
 
 	public JButton getBtnVerRegistros() {
 		return btnVerRegistros;

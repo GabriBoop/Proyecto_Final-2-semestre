@@ -1,46 +1,64 @@
 package co.edu.unbosque.view;
 
+import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.SwingConstants;
 
-public class PanelMenuReportes extends JPanel {
+public class PanelMenuReportes {
 	
+	private JPanel panel = new JPanel(new GridBagLayout());
+	private JPanel columna = new JPanel(new GridLayout(5, 1, 0, 30));
 	private JLabel txt = new JLabel();
-	private JButton btnVehiculosNoche;
-    private JButton btnVehiculos24h;
-    private JButton btnDineroMensual;
-    private JButton btnVolver;
+	private JButton btnVehiculosNoche = new JButton("Vehículos que pasaron la Noche");
+    private JButton btnVehiculos24h = new JButton("Vehículos con mas de 24 Horas");
+    private JButton btnDineroMensual = new JButton("Dinero recaudado mensual");
+    private JButton btnVolver = new JButton("Volver");
     
     public PanelMenuReportes() {
-        setLayout(new GridLayout(5, 1, 15, 15));
-        setBorder(new EmptyBorder(20, 50, 20, 50));
-        inicializarComponentes();
+    	txt.setText("<html>Reportes<br>");
+    	txt.setHorizontalAlignment(SwingConstants.CENTER);
+		txt.setFont(new Font("Arial", Font.BOLD, 26));
+		btnVehiculosNoche.setFont(new Font("Arial", Font.PLAIN, 24));
+		btnVehiculos24h.setFont(new Font("Arial", Font.PLAIN, 24));
+		btnDineroMensual.setFont(new Font("Arial", Font.PLAIN, 24));
+		btnVolver.setFont(new Font("Arial", Font.PLAIN, 24));
+		
+		columna.add(txt);
+		columna.add(btnVehiculosNoche);
+		columna.add(btnVehiculos24h);
+		columna.add(btnDineroMensual);
+		columna.add(btnVolver);
+		panel.add(columna);
     }
     
-    public void inicializarComponentes() {
-    	txt.setText("Reportes");
-    	btnVehiculosNoche = new JButton("Vehículos que pasaron la Noche");
-        btnVehiculosNoche.setActionCommand("REP_VEHICULOS_NOCHE");
+	public JPanel getPanel() {
+		return panel;
+	}
 
-        btnVehiculos24h = new JButton("Vehículos con mas de 24 Horas");
-        btnVehiculos24h.setActionCommand("REP_VEHICULOS_+24H");
+	public void setPanel(JPanel panel) {
+		this.panel = panel;
+	}
 
-        btnDineroMensual = new JButton("Dinero recaudado mensual");
-        btnDineroMensual.setActionCommand("REP_DINERO_MENSUAL");
-        
-        btnVolver = new JButton("Volver");
-        btnVolver.setActionCommand("VOLVER_MENU_PRINCIPAL");
-        
-        add(txt);
-        add(btnVehiculosNoche);
-        add(btnVehiculos24h);
-        add(btnDineroMensual);
-        add(btnVolver);
-    }
+	public JPanel getColumna() {
+		return columna;
+	}
+
+	public void setColumna(JPanel columna) {
+		this.columna = columna;
+	}
+
+	public JLabel getTxt() {
+		return txt;
+	}
+
+	public void setTxt(JLabel txt) {
+		this.txt = txt;
+	}
 
 	public JButton getBtnVehiculosNoche() {
 		return btnVehiculosNoche;
