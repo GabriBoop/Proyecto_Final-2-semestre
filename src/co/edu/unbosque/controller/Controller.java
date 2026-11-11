@@ -18,8 +18,10 @@ public class Controller implements ActionListener {
 	private MotoDAO motoDAO;
 	private PropietarioDAO propietarioDAO;
 	private RegistroDAO registroDAO;
+	private Consola con;
 	
 	public Controller(){
+		con = new Consola();
 		carroDAO = new CarroDAO();
 		facturaDAO = new FacturaDAO();
 		motoDAO = new MotoDAO();
@@ -29,10 +31,21 @@ public class Controller implements ActionListener {
 
 	public void start() {
 		asignarOyentes();
-		propietarioDAO.crear(new PropietarioDTO("1032941791","thomas","12345213"));
-		System.out.println(propietarioDAO.mostrarTodo());
-		principal.cambiarPanel(pm.getPanel());
-		principal.setVisible(true);
+		cicloPrincipal : while(true) {
+			con.imprimirConSalto("Bienvenido al menu principal del parquadero");
+			con.imprimirConSalto("Seleccione la opcion que necesita");
+			
+			int a = con.leerEntero();
+			switch(a) {
+			case 1:
+			case 2:
+			}
+
+			propietarioDAO.crear(new PropietarioDTO("1032941791","thomas","12345213"));
+			con.imprimirConSalto(propietarioDAO.mostrarTodo());
+			principal.cambiarPanel(pm.getPanel());
+			principal.setVisible(true);
+		}
 	}
 
 	public void asignarOyentes() {
