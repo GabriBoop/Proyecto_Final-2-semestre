@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import co.edu.unbosque.model.*;
 
 
-public class MotoDAO implements DAO<MotoDTO,Moto>{
+public class MotoDAO implements DAO<Moto,MotoDTO>{
 	
 	private ArrayList<Moto> listaMotos;
 	private final String NOMBRE_ARCHIVO_TEXTO = "Moto.csv";

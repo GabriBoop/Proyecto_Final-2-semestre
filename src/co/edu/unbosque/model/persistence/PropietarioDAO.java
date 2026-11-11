@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import co.edu.unbosque.model.Propietario;
 import co.edu.unbosque.model.PropietarioDTO;
 
-public class PropietarioDAO implements DAO<PropietarioDTO,Propietario> {
+public class PropietarioDAO implements DAO<Propietario,PropietarioDTO> {
 	
 	private ArrayList<Propietario> listaPropietarios;
 	private final String NOMBRE_ARCHIVO_TEXTO = "Propietario.csv";

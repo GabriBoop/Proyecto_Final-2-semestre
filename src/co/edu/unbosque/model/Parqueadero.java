@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
+import co.edu.unbosque.model.persistence.FacturaDAO;
+import co.edu.unbosque.model.persistence.MensualidadDAO;
+import co.edu.unbosque.model.persistence.RegistroDAO;
 import co.edu.unbosque.util.exceptions.FacturaNoEncontradaException;
 import co.edu.unbosque.util.exceptions.PlacaNoEncontradaException;
 import co.edu.unbosque.util.exceptions.PlacaYaRegistradaException;
@@ -21,11 +24,10 @@ public class Parqueadero {
     private int numeroFacturas = 0;
 	private InformacionPolicia sistemaPolicia;
 
-    //borrar
-	private ArrayList<Registro> registros = new ArrayList<>();
-	private ArrayList<Mensualidad> mensualidades = new ArrayList<>();
-	private ArrayList<Factura> facturas = new ArrayList<>();
-	
+    private FacturaDAO facturas = new FacturaDAO();
+    private MensualidadDAO mensualidades = new MensualidadDAO();
+    private RegistroDAO registros = new RegistroDAO();
+    
     public Parqueadero() {
 		sistemaPolicia = new InformacionPolicia();
     }
@@ -44,22 +46,22 @@ public class Parqueadero {
     
     public int vehiculosMensualidad() {
     	int total = 0;
-    	for (Mensualidad m : mensualidades) {
+    	for (Mensualidad m : mensualidades.darLista()) {
     		total += m.getVehiculos().size();
     	}
     	return total;
     }
     
     public boolean tieneMensualidad(String placa) {
-    	for(Mensualidad m : mensualidades) {
+    	for(Mensualidad m : mensualidades.darLista()) {
     		if(m.mismaPlaca(placa)) return true;
     	}
     	return false;
     }
     
-    public void agregarMensualidad(Mensualidad m) throws SobrecupoDeMensualidadesException {	
+    public void agregarMensualidad(MensualidadDTO m) throws SobrecupoDeMensualidadesException {	
     	if (vehiculosMensualidad() + m.getVehiculos().size() > cupoMaximoMensualidades()) throw new SobrecupoDeMensualidadesException();
-    	mensualidades.add(m);
+    	mensualidades.crear(m);
     }
     
     public boolean soatPorVencer(Vehiculo v) {
@@ -67,7 +69,7 @@ public class Parqueadero {
     	else return false;
     }
     
-    public Registro ingresarVehiculo(Vehiculo v, boolean nocturna) throws Exception {
+    public RegistroDTO ingresarVehiculo(Vehiculo v, boolean nocturna) throws Exception {
     	
 
     	if(isRegistroActivo(v.getPlaca()) == true) throw new PlacaYaRegistradaException();
@@ -89,13 +91,13 @@ public class Parqueadero {
     		if(nocturna) t = new TarifaNocturnaFija();
     		else t = new TarifaPorHora();
     	}
-    	Registro r = new Registro(v, LocalDateTime.now(), tieneMensualidad(v.getPlaca()),t);
-    	registros.add(r);
+    	RegistroDTO r = new RegistroDTO(v, LocalDateTime.now(), tieneMensualidad(v.getPlaca()),t);
+    	registros.crear(r);
     	cantidad++;
     	return r;
     }
     
-    public Factura salidaVehiculo(String placa) throws PlacaNoEncontradaException {
+    public FacturaDTO salidaVehiculo(String placa) throws PlacaNoEncontradaException, RegistroNoEncontradoException {
     	Registro r = buscarRegistro(placa);
     	Vehiculo v = r.getVehiculo();
 		r.setHoraSalida(LocalDateTime.now());
@@ -110,23 +112,23 @@ public class Parqueadero {
 			else cobro = FormaDeCobro.HORA;
 		}
 		
-		Factura f = new Factura(numeroFacturas++,v.getPlaca(),v.getPropietario().getNombre(),r.getHoraIngreso(),r.getHoraSalida(),cobro,total);
-		facturas.add(f);
+		FacturaDTO f = new FacturaDTO(numeroFacturas++,v.getPlaca(),v.getPropietario().getNombre(),r.getHoraIngreso(),r.getHoraSalida(),cobro,total);
+		facturas.crear(f);
 		cantidad--;
     	return f;
     }
     
-    public Registro buscarRegistro(String placa) throws PlacaNoEncontradaException {
+    public Registro buscarRegistro(String placa) throws RegistroNoEncontradoException {
     	placa = placa.toUpperCase();
-    	for(Registro r : registros) {
+    	for(Registro r : registros.darLista()) {
     		if(r.isActivo() && placa.equals(r.getVehiculo().getPlaca())) return r;
     	}
-    	throw new PlacaNoEncontradaException(placa);
+    	throw new RegistroNoEncontradoException(placa);
 	}
     
     public ArrayList<Registro> registrosActivos() {
     	ArrayList<Registro> list = new ArrayList<Registro>();
-    	for(Registro r : registros) {
+    	for(Registro r : registros.darLista()) {
     		if(r.isActivo()) list.add(r);
     	}
     	return list;
@@ -134,14 +136,14 @@ public class Parqueadero {
     
     public boolean isRegistroActivo(String placa) {
     	placa = placa.toUpperCase();
-    	for(Registro r : registros) {
+    	for(Registro r : registros.darLista()) {
     		if(r.isActivo() && (r.getVehiculo().getPlaca().equals(placa))) return true;
     	}
     	return false;
 	}
     
     public Factura buscarFactura(int num) throws FacturaNoEncontradaException {
-    	for(Factura f : facturas) {
+    	for(Factura f : facturas.darLista()) {
     		if(f.getNum() == num) return f;
     	}
     	throw new FacturaNoEncontradaException();

@@ -2,8 +2,8 @@ package co.edu.unbosque.util.exceptions;
 
 public class RegistroNoEncontradoException extends Exception{
 	
-	public RegistroNoEncontradoException() {
-        super("[ERROR] El Archivo no fue encontrado");
+	public RegistroNoEncontradoException(String placa) {
+        super("[ERROR] El Registro no fue encontrado con la placa: " + placa);
     }
 
 }
