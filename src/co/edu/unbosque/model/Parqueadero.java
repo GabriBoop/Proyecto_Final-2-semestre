@@ -19,12 +19,15 @@ public class Parqueadero {
     
     private int cantidad = 0;
     private int numeroFacturas = 0;
+	private InformacionPolicia sistemaPolicia;
 
+    //borrar
 	private ArrayList<Registro> registros = new ArrayList<>();
 	private ArrayList<Mensualidad> mensualidades = new ArrayList<>();
 	private ArrayList<Factura> facturas = new ArrayList<>();
 	
     public Parqueadero() {
+		sistemaPolicia = new InformacionPolicia();
     }
     
     public int espaciosDisponibles() {
@@ -66,9 +69,21 @@ public class Parqueadero {
     
     public Registro ingresarVehiculo(Vehiculo v, boolean nocturna) throws Exception {
     	
+
     	if(isRegistroActivo(v.getPlaca()) == true) throw new PlacaYaRegistradaException();
     	if(espaciosDisponibles() == 0) throw new SobrecupoParqueaderoException();
     	
+		String sp = sistemaPolicia.consultaPolicia(v.getPlaca());
+		switch(sp) {
+		case "LIMPIO":
+			
+		case "ROBADO":
+			
+		case "INCAUTADO":
+			
+		default :
+			
+		}
     	Tarifa t = null;
     	if(!tieneMensualidad(v.getPlaca())) {
     		if(nocturna) t = new TarifaNocturnaFija();
