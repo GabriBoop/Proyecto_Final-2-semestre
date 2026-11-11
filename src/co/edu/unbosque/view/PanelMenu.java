@@ -14,7 +14,6 @@ public class PanelMenu {
 	private JButton btnMensualidades = new JButton("Mensualidades");
 	private JButton btnConsultas = new JButton("Consultas");
 	private JButton btnReportes = new JButton("Reportes");
-	private JButton btnArchivo = new JButton("Archivos");
 	private JButton btnSalir = new JButton("Salir");
 
 	public PanelMenu() {
@@ -26,7 +25,6 @@ public class PanelMenu {
 		btnMensualidades.setFont(new Font("Arial", Font.PLAIN, 24));
 		btnConsultas.setFont(new Font("Arial", Font.PLAIN, 24));
 		btnReportes.setFont(new Font("Arial", Font.PLAIN, 24));
-		btnArchivo.setFont(new Font("Arial", Font.PLAIN, 24));
 		btnSalir.setFont(new Font("Arial", Font.PLAIN, 24));
 
 		columna.add(txt);
@@ -34,7 +32,6 @@ public class PanelMenu {
 		columna.add(btnMensualidades);
 		columna.add(btnConsultas);
 		columna.add(btnReportes);
-		columna.add(btnArchivo);
 		columna.add(btnSalir);
 		panel.add(columna);
 	}
@@ -95,13 +92,6 @@ public class PanelMenu {
 		this.btnReportes = btnReportes;
 	}
 
-	public JButton getBtnArchivo() {
-		return btnArchivo;
-	}
-
-	public void setBtnArchivo(JButton btnArchivo) {
-		this.btnArchivo = btnArchivo;
-	}
 
 	public JButton getBtnSalir() {
 		return btnSalir;
