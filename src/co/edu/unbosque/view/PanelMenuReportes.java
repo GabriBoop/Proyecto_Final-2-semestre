@@ -3,23 +3,26 @@ package co.edu.unbosque.view;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 public class PanelMenuReportes extends JPanel {
 	
+	private JLabel txt = new JLabel();
 	private JButton btnVehiculosNoche;
     private JButton btnVehiculos24h;
     private JButton btnDineroMensual;
     private JButton btnVolver;
     
     public PanelMenuReportes() {
-        setLayout(new GridLayout(4, 1, 15, 15));
+        setLayout(new GridLayout(5, 1, 15, 15));
         setBorder(new EmptyBorder(20, 50, 20, 50));
         inicializarComponentes();
     }
     
     public void inicializarComponentes() {
+    	txt.setText("Reportes");
     	btnVehiculosNoche = new JButton("Vehículos que pasaron la Noche");
         btnVehiculosNoche.setActionCommand("REP_VEHICULOS_NOCHE");
 
@@ -31,7 +34,8 @@ public class PanelMenuReportes extends JPanel {
         
         btnVolver = new JButton("Volver");
         btnVolver.setActionCommand("VOLVER_MENU_PRINCIPAL");
-
+        
+        add(txt);
         add(btnVehiculosNoche);
         add(btnVehiculos24h);
         add(btnDineroMensual);

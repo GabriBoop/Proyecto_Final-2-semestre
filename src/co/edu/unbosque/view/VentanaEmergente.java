@@ -10,6 +10,8 @@ import javax.swing.JOptionPane;
  */
 public class VentanaEmergente {
 	
+	
+	
 	/**
 	 * Muestra una ventana informativa con un mensaje.
 	 * 
@@ -28,6 +30,18 @@ public class VentanaEmergente {
 	public void mostrarERROR(String txt, String titulo) {
 		JOptionPane.showMessageDialog(null, txt, titulo, 0, null);
 	}
+	
+	/**
+	 * Muestra una ventana de confirmación con las opciones Sí y No.
+	 * 
+	 * @param txt Pregunta que se presenta al usuario.
+	 * @param titulo Título de la ventana.
+	 * @return 0 si el usuario elige Sí, 1 si elige No, o -1 si cierra la ventana.
+	 */
+	public int preguntarSiNo(String txt, String titulo) {
+	    return JOptionPane.showConfirmDialog(null, txt, titulo, JOptionPane.YES_NO_OPTION);
+	}
+	
 	/**
 	 * Solicita al usuario un texto mediante una ventana de entrada.
 	 * 

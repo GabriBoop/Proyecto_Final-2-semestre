@@ -9,26 +9,41 @@ import co.edu.unbosque.view.*;
 
 public class Controller implements ActionListener {
 	
-	private Consola con;
-	private MainFrame principal = new MainFrame();
-	private PanelMenu pm = new PanelMenu();
-	private PanelMenuVehiculo pmVehiculo = new PanelMenuVehiculo();
-	private PanelMenuMensualidades pmMensualidad = new PanelMenuMensualidades();
+	// Visual
+	private Consola con; //matarlo
+	private MainFrame principal;
+	private PanelMenu pm;
+	private PanelMenuVehiculo pmVehiculo;
+	private PanelMenuMensualidades pmMensualidad;
+	private PanelMenuConsulta pmConsulta;
+	private PanelMenuReportes pmReportes;
+	private PanelVehiculoRegistrar pvRegistrar;
+	// DAO
 	private CarroDAO carroDAO;
 	private FacturaDAO facturaDAO;
 	private MensualidadDAO mensualidadDAO;
 	private MotoDAO motoDAO;
 	private PropietarioDAO propietarioDAO;
 	private RegistroDAO registroDAO;
+	private VentanaEmergente ve;
 	
 	public Controller(){
 		con = new Consola();
+		principal = new MainFrame();
+		pm = new PanelMenu();
+		pmVehiculo = new PanelMenuVehiculo();
+		pvRegistrar = new PanelVehiculoRegistrar();
+		pmMensualidad = new PanelMenuMensualidades();
+		pmConsulta = new PanelMenuConsulta();
+		pmReportes = new PanelMenuReportes();
+		ve = new VentanaEmergente();
+		
 		carroDAO = new CarroDAO();
 		facturaDAO = new FacturaDAO();
 		mensualidadDAO = new MensualidadDAO();
 		motoDAO = new MotoDAO();
 		propietarioDAO = new PropietarioDAO();
-		registroDAO = new RegistroDAO();
+		registroDAO = new RegistroDAO();	
 	}
 
 	public void start() {
@@ -69,17 +84,38 @@ public class Controller implements ActionListener {
 		pm.getBtnVerVehiculos().addActionListener(this);
 		pm.getBtnVerVehiculos().setActionCommand("VEHICULO");
 		
+		pvRegistrar.getBtnRegistrar().addActionListener(this);
+		pvRegistrar.getBtnRegistrar().setActionCommand("REGISTRAR");
+		
 		pm.getBtnMensualidades().addActionListener(this);
 		pm.getBtnMensualidades().setActionCommand("MENSUALIDADES");
 		
+		pm.getBtnConsultas().addActionListener(this);
+		pm.getBtnConsultas().setActionCommand("CONSULTAS");
+		
+		pm.getBtnReportes().addActionListener(this);
+		pm.getBtnReportes().setActionCommand("REPORTES");
+		
 		pm.getBtnSalir().addActionListener(this);
 		pm.getBtnSalir().setActionCommand("SALIR");
-
+		
+		pmVehiculo.getBtnRegistrar().addActionListener(this);
+		pmVehiculo.getBtnRegistrar().setActionCommand("VEHICULO_REGISTRAR");
+		
 		pmVehiculo.getBtnVolver().addActionListener(this);
 		pmVehiculo.getBtnVolver().setActionCommand("VOLVER");
 		
+		pvRegistrar.getBtnVolver().addActionListener(this);
+		pvRegistrar.getBtnVolver().setActionCommand("VOLVER");
+		
 		pmMensualidad.getBtnVolver().addActionListener(this);
 		pmMensualidad.getBtnVolver().setActionCommand("VOLVER");
+		
+		pmConsulta.getBtnVolver().addActionListener(this);
+		pmConsulta.getBtnVolver().setActionCommand("VOLVER");
+		
+		pmReportes.getBtnVolver().addActionListener(this);
+		pmReportes.getBtnVolver().setActionCommand("VOLVER");
 	}
 
 	@Override
@@ -90,14 +126,24 @@ public class Controller implements ActionListener {
 		case "VEHICULO":
 			principal.cambiarPanel(pmVehiculo.getPanel());
 			break;
+		case "VEHICULO_REGISTRAR":
+			principal.cambiarPanel(pvRegistrar.getPanel());
+			break;
 		case "MENSUALIDADES":
 			principal.cambiarPanel(pmMensualidad.getPanel());
+			break;
+		case "CONSULTAS":
+			principal.cambiarPanel(pmConsulta);
+			break;
+		case "REPORTES":
+			principal.cambiarPanel(pmReportes);
 			break;
 		case "VOLVER":
 			principal.cambiarPanel(pm.getPanel());
 			break;
 		case "SALIR":
-			System.exit(0);
+			int r = ve.preguntarSiNo("¿Desea Salir Del Programa?", "CONFIRMACION");
+			if(r == 0) System.exit(0);
 			break;
 		}
 	}

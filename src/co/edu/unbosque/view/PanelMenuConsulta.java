@@ -3,11 +3,13 @@ package co.edu.unbosque.view;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 public class PanelMenuConsulta extends JPanel {
 	
+	private JLabel txt = new JLabel();
 	private JButton btnVerRegistros;
     private JButton btnVerFacturas;
     private JButton btnUltimaFactura;
@@ -15,12 +17,13 @@ public class PanelMenuConsulta extends JPanel {
     private JButton btnVolver;
     
     public PanelMenuConsulta() {
-    	setLayout(new GridLayout(5, 1, 15, 15));
+    	setLayout(new GridLayout(6, 1, 15, 15));
     	setBorder(new EmptyBorder(20, 50, 20, 50));
     	inicializarComponentes();
     }
     
     public void inicializarComponentes() {
+    	txt.setText("Consultas");
     	btnVerRegistros = new JButton("Ver Registros");
     	btnVerRegistros.setActionCommand("VER_REGISTROS");
     	
@@ -36,6 +39,7 @@ public class PanelMenuConsulta extends JPanel {
         btnVolver = new JButton("Volver");
         btnVolver.setActionCommand("VOLVER_MENU_PRINCIPAL");
 
+        add(txt);
         add(btnVerRegistros);
         add(btnVerFacturas);
         add(btnUltimaFactura);
