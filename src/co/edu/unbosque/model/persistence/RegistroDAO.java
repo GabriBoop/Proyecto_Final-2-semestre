@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import co.edu.unbosque.model.Registro;
 import co.edu.unbosque.model.RegistroDTO;
 
-public class RegistroDAO implements DAO<Registro, RegistroDTO> {
+public class RegistroDAO implements DAO<RegistroDTO, Registro> {
 	
 	private ArrayList<Registro> listaRegistros;
 	private final String NOMBRE_ARCHIVO_TEXTO = "Registro.csv";

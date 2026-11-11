@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import co.edu.unbosque.model.*;
 
 
-public class FacturaDAO implements DAO<Factura,FacturaDTO>{
+public class FacturaDAO implements DAO<FacturaDTO,Factura>{
 	
 	private ArrayList<Factura> listaFacturas;
 	private final String NOMBRE_ARCHIVO_TEXTO = "Factura.csv";

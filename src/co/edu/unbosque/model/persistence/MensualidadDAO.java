@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import co.edu.unbosque.model.*;
 
 
-public class MensualidadDAO implements DAO<Mensualidad,MensualidadDTO>{
+public class MensualidadDAO implements DAO<MensualidadDTO,Mensualidad>{
 	
 	private ArrayList<Mensualidad> listaMensualidades;
 	private final String NOMBRE_ARCHIVO_TEXTO = "Mensualidad.csv";
