@@ -81,11 +81,15 @@ public class Parqueadero {
 		String sp = sistemaPolicia.consultaPolicia(v.getPlaca());
 		switch(sp) {
 		case "LIMPIO":
+			break;
 		case "ROBADO":
 			alertaPolicia.mandarAlerta(v, sp);
+			break;
 		case "INCAUTADO":
 			alertaPolicia.mandarAlerta(v, sp);
+			break;
 		default :
+			break;
 		}
 		boolean s = soatPorVencer(v);
 		if (s==true) {

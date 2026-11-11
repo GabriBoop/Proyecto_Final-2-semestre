@@ -20,7 +20,7 @@ public class AlertaPolicia{
 				+ "Asunto: Alerta: vehiculo reportado ingreso al parqueadero\n\n"
 				+ "Buen dia,\n\n"
 				+ "Se informa que el vehiculo con placa " + v.getPlaca()
-				+ ", reportado en su sistema como " + estado.toLowerCase()
+				+ ", reportado en su sistema como " + estado
 				+ ", ingreso a las instalaciones del Centro Comercial.\n\n"
 				+ "Fecha de ingreso: " +LocalDate.now()+ "\n"
 				+ "Hora de ingreso: " + LocalTime.now() + "\n\n"
