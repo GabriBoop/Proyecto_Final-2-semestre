@@ -11,6 +11,7 @@ import javax.swing.JPanel;
  */
 public class MainFrame extends JFrame{ 
 	
+	private static final long serialVersionUID = 2954269221207709216L;
 	private static final int ANCHO = 800; //Dimensiones de Pantalla
 	private static final int ALTO = 600;
 	

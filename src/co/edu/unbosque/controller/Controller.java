@@ -1,42 +1,62 @@
 package co.edu.unbosque.controller;
 
-import java.util.Scanner;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import co.edu.unbosque.model.persistence.*;
-import co.edu.unbosque.view.MainFrame;
-import co.edu.unbosque.view.PanelMenu;
+import co.edu.unbosque.view.*;
 
-public class Controller {
-	
+public class Controller implements ActionListener {
+
 	private FileHandler fh;
-	Scanner sc = new Scanner(System.in);
-	
-	MainFrame principal = new MainFrame();
-	PanelMenu pm = new PanelMenu();
-	
-	public void start(){
-		
+
+	private MainFrame principal = new MainFrame();
+	private PanelMenu pm = new PanelMenu();
+	private PanelMenuVehiculo pmVehiculo = new PanelMenuVehiculo();
+	private PanelMenuMensualidades pmMensualidad = new PanelMenuMensualidades();
+
+	public void start() {
+		asignarOyentes();
 		fh = new FileHandler();
-		
+		fh.crearYEscribirArchivo("Thomas.csv", "THOMAAAAAAAAAAAAAAAA");
+		principal.cambiarPanel(pm.getPanel());
 		principal.setVisible(true);
-		ciclo: while(true) {
+	}
+
+	public void asignarOyentes() {
+		pm.getBtnVerVehiculos().addActionListener(this);
+		pm.getBtnVerVehiculos().setActionCommand("VEHICULO");
+		
+		pm.getBtnMensualidades().addActionListener(this);
+		pm.getBtnMensualidades().setActionCommand("MENSUALIDADES");
+		
+		pm.getBtnSalir().addActionListener(this);
+		pm.getBtnSalir().setActionCommand("SALIR");
+
+		pmVehiculo.getBtnVolver().addActionListener(this);
+		pmVehiculo.getBtnVolver().setActionCommand("VOLVER");
+		
+		pmMensualidad.getBtnVolver().addActionListener(this);
+		pmMensualidad.getBtnVolver().setActionCommand("VOLVER");
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String cmd = e.getActionCommand();
+
+		switch (cmd) {
+		case "VEHICULO":
+			principal.cambiarPanel(pmVehiculo.getPanel());
+			break;
+		case "MENSUALIDADES":
+			principal.cambiarPanel(pmMensualidad.getPanel());
+			break;
+		case "VOLVER":
 			principal.cambiarPanel(pm.getPanel());
-			System.out.println("       ------[ADMIN]------\n == Bievenido Al Parqueadero ==");
-			System.out.println("1. Ver Vehiculos\n2. Salir");
-			int r = sc.nextInt();
-			switch(r) {
-			case 1:
-				fh.crearYEscribirArchivo("Gabriel.csv","GABRIEEEEEEEL");
-				System.out.println("Todavia no hay carros en el sistema.");
-				
-				break;
-			case 2:
-				System.out.println("se ha salido del programa.");
-				break ciclo;
-			default:
-				System.out.println("[ERROR] Opcion Invalida.");
-				break ciclo;
-			}
+			break;
+		case "SALIR":
+			System.exit(0);
+			break;
 		}
 	}
-    
+
 }
