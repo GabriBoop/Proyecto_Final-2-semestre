@@ -7,14 +7,12 @@ import java.net.URL;
  * <p>Gestiona la musica de fondo y los efectos de sonido de forma estatica,
  * permitiendo reproducir, detener y cambiar pistas desde cualquier parte del codigo.
  *
- * @author Gabriel Alejandro Morales Diaz
- * @author Cesar David Reyes Ruiz
- * @author Juan David Barrera Lopez
  */
 public class ReproducirAudio {
 
     // Guardamos el clip de manera estática para poder controlarlo desde cualquier método
     private static Clip clip;
+    private static final String RUTA = "/co/edu/unbosque/sounds/";
     
     /**
      * Reproduce un archivo de audio como musica de fondo.
@@ -29,7 +27,7 @@ public class ReproducirAudio {
             // Si ya hay algo sonando, lo detenemos antes de reproducir el siguiente
             detener();
 
-            URL url = ReproducirAudio.class.getResource(nombreArchivo);
+            URL url = ReproducirAudio.class.getResource(RUTA + nombreArchivo);
             
             if (url == null) {
                 System.out.println("No se encontró el archivo: " + nombreArchivo);
@@ -57,7 +55,7 @@ public class ReproducirAudio {
     
     public static void reproducirSFX(String nombreArchivo) {
         try {
-            URL url = ReproducirAudio.class.getResource(nombreArchivo);
+            URL url = ReproducirAudio.class.getResource(RUTA + nombreArchivo);
             
             if (url == null) {
                 System.out.println("No se encontró el archivo de efecto: " + nombreArchivo);
@@ -90,6 +88,6 @@ public class ReproducirAudio {
     }
 
     public static void main(String[] args) {	        
-        reproducir("/co/edu/unbosque/sound/solo.wav");	        	      
+    	reproducirSFX("Click.wav");        	      
     }
 }

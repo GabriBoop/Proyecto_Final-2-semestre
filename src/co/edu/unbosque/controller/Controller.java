@@ -7,12 +7,12 @@ import java.time.format.DateTimeParseException;
 
 import co.edu.unbosque.model.persistence.*;
 import co.edu.unbosque.util.exceptions.DatoVacioException;
+import co.edu.unbosque.util.exceptions.PlacaInvalidaException;
 import co.edu.unbosque.model.*;
 import co.edu.unbosque.view.*;
 
 
 public class Controller implements ActionListener {
-	private ReproducirAudio r = new ReproducirAudio();
 	
 	// Visual
 	private Consola con; //matarlo
@@ -53,7 +53,6 @@ public class Controller implements ActionListener {
 	}
 
 	public void start() {
-		r.reproducir("rhythm-heaven.wav");
 		asignarOyentes();
 		
 		cicloPrincipal : while(true) {
@@ -133,13 +132,17 @@ public class Controller implements ActionListener {
 
 		switch (cmd) {
 		case "VEHICULO":
+			ReproducirAudio.reproducirSFX("Click.wav");
 			principal.cambiarPanel(pmVehiculo.getPanel());
 			break;
 		case "VEHICULO_REGISTRAR":
+			ReproducirAudio.reproducirSFX("Click.wav");
 			principal.cambiarPanel(pvRegistrar.getPanel());
 			break;	
 		case "REGISTRAR":
+			
 			try {
+				
 				String placa = pvRegistrar.getTxtfieldPlaca().getText().trim().toUpperCase();
 				String tipoV = pvRegistrar.getBoxTiposVehiculo().getSelectedItem().toString();
 				String documento = pvRegistrar.getTxtfieldPropietarioDoc().getText();
@@ -148,11 +151,11 @@ public class Controller implements ActionListener {
 				String fechaSoat = pvRegistrar.getTxtfieldSOAT().getText().trim();
 				String tipoTarifa = pvRegistrar.getBoxTarifa().getSelectedItem().toString();
 				
-				if (placa.isBlank()) throw new DatoVacioException("placa");
-				if (documento.isBlank()) throw new DatoVacioException("documento");
-				if (nombre.isBlank()) throw new DatoVacioException("nombre");
-				if (telefono.isBlank()) throw new DatoVacioException("telefono");
-				if (fechaSoat.isBlank()) throw new DatoVacioException("SOAT");
+				if (placa.isBlank()) throw new DatoVacioException("Placa.");
+				if (documento.isBlank()) throw new DatoVacioException("Documento.");
+				if (nombre.isBlank()) throw new DatoVacioException("Nombre.");
+				if (telefono.isBlank()) throw new DatoVacioException("Telefono.");
+				if (fechaSoat.isBlank()) throw new DatoVacioException("Fecha del SOAT.");
 
 				LocalDate soat = LocalDate.parse(fechaSoat);
 				
@@ -173,32 +176,43 @@ public class Controller implements ActionListener {
 					moto.setVencimientoSoat(soat);
 					motoDAO.crear(moto);
 				}
-				
+				ReproducirAudio.reproducirSFX("Success.wav");
 				ve.mostrar(tipoV + " " + placa + " registrado.");
 				pvRegistrar.getTxtfieldPlaca().setText("");
 				pvRegistrar.getTxtfieldPropietarioDoc().setText("");
 				pvRegistrar.getTxtfieldPropietarioNom().setText("");
 				pvRegistrar.getTxtfieldPropietarioTel().setText("");
 				pvRegistrar.getTxtfieldSOAT().setText("");
+				
 			} catch (DatoVacioException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
 				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			} catch (PlacaInvalidaException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(), "ERROR");	
 			} catch (DateTimeParseException  ex) {
-				ve.mostrarERROR("La fecha debe tener el formato AAAA-MM-DD.", "ERROR");
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR("La fecha debe tener el formato. (AAAA-MM-DD)", "ERROR");
 			}
 			break;
 		case "MENSUALIDADES":
+			ReproducirAudio.reproducirSFX("Click.wav");
 			principal.cambiarPanel(pmMensualidad.getPanel());
 			break;
 		case "CONSULTAS":
+			ReproducirAudio.reproducirSFX("Click.wav");
 			principal.cambiarPanel(pmConsulta.getPanel());
 			break;
 		case "REPORTES":
+			ReproducirAudio.reproducirSFX("Click.wav");
 			principal.cambiarPanel(pmReportes.getPanel());
 			break;
 		case "VOLVER":
+			ReproducirAudio.reproducirSFX("Click.wav");
 			principal.cambiarPanel(pm.getPanel());
 			break;
 		case "SALIR":
+			ReproducirAudio.reproducirSFX("Click.wav");
 			int r = ve.preguntarSiNo("¿Desea Salir Del Programa?", "CONFIRMACION");
 			if(r == 0) System.exit(0);
 			break;

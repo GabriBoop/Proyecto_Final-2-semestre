@@ -1,10 +1,11 @@
 package co.edu.unbosque.model.persistence;
 
 import co.edu.unbosque.model.*;
+import co.edu.unbosque.util.exceptions.PlacaInvalidaException;
 
 public class DataMapper {
 
-	public static Carro convertirCarroDTOACarro(CarroDTO dto) {
+	public static Carro convertirCarroDTOACarro(CarroDTO dto) throws PlacaInvalidaException {
 		Carro entity = new Carro();
 		entity.setPlaca(dto.getPlaca());
 		entity.setPropietario(dto.getPropietario());
@@ -15,7 +16,7 @@ public class DataMapper {
 		return entity;
 	}
 	
-	public static CarroDTO convertirCarroACarroDTO(Carro e) {
+	public static CarroDTO convertirCarroACarroDTO(Carro e) throws PlacaInvalidaException {
 		CarroDTO dto = new CarroDTO();
 		dto.setPlaca(e.getPlaca());
 		dto.setPropietario(e.getPropietario());
@@ -73,7 +74,7 @@ public class DataMapper {
 		return dto;
 	}
 	
-	public static Moto convertirMotoDTOAMoto(MotoDTO dto) {
+	public static Moto convertirMotoDTOAMoto(MotoDTO dto) throws PlacaInvalidaException {
 		Moto entity = new Moto();
 		entity.setPlaca(dto.getPlaca());
 		entity.setPropietario(dto.getPropietario());
@@ -84,7 +85,7 @@ public class DataMapper {
 		return entity;
 	}
 	
-	public static MotoDTO convertirCarroACarroDTO(Moto e) {
+	public static MotoDTO convertirCarroACarroDTO(Moto e) throws PlacaInvalidaException {
 		MotoDTO dto = new MotoDTO();
 		dto.setPlaca(e.getPlaca());
 		dto.setPropietario(e.getPropietario());

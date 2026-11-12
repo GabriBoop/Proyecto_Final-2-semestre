@@ -3,6 +3,7 @@ package co.edu.unbosque.model.persistence;
 import java.util.ArrayList;
 
 import co.edu.unbosque.model.*;
+import co.edu.unbosque.util.exceptions.PlacaInvalidaException;
 
 
 public class CarroDAO implements DAO<Carro,CarroDTO>{

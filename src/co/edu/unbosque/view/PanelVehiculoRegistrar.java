@@ -34,7 +34,7 @@ public class PanelVehiculoRegistrar {
 		
 		columna.add(txt);
 		columna.add(new JLabel());
-		columna.add(new JLabel("Placa:"));
+		columna.add(new JLabel("Placa (AAA-###):"));
 		columna.add(txtfieldPlaca);
 		columna.add(new JLabel("Tipo de vehiculo:"));
 		columna.add(boxTiposVehiculo);

@@ -2,9 +2,13 @@ package co.edu.unbosque.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import co.edu.unbosque.util.exceptions.PlacaInvalidaException;
+
 public abstract class Vehiculo implements Serializable{
 	
 	private static final long serialVersionUID = 1739452775398256614L;
+	private static final String PLACA_FORMATO = "[A-Z]{3}-\\d{3}";
+	
 	private String placa;
 	private String tipo;
 	private Propietario propietario;
@@ -15,17 +19,28 @@ public abstract class Vehiculo implements Serializable{
 	}
 	
 	public Vehiculo(String placa, String tipo, Propietario propietario, LocalDate vencimientoSoat) {
-		this.placa = placa.toUpperCase();
+		setPlaca(placa);
 		this.tipo = tipo;
 		this.propietario = propietario;
 		this.vencimientoSoat = vencimientoSoat;
 	}
 	
+	public static String validarPlaca(String placa){
+		if (placa == null) {
+			throw new PlacaInvalidaException();
+		}
+		placa = placa.trim().toUpperCase();
+		if (!placa.matches(PLACA_FORMATO)) {
+			throw new PlacaInvalidaException();
+		}
+		return placa;
+	}
+	
 	public String getPlaca() {
 		return placa;
 	}
-	public void setPlaca(String placa) {
-		this.placa = placa;
+	public void setPlaca(String placa) throws PlacaInvalidaException {
+		this.placa = validarPlaca(placa);
 	}
 	public abstract String getTipo();
 	

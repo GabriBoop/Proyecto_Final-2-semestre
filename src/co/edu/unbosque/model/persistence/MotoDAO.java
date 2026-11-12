@@ -3,6 +3,7 @@ package co.edu.unbosque.model.persistence;
 import java.util.ArrayList;
 
 import co.edu.unbosque.model.*;
+import co.edu.unbosque.util.exceptions.PlacaInvalidaException;
 
 
 public class MotoDAO implements DAO<Moto,MotoDTO>{
@@ -17,7 +18,6 @@ public class MotoDAO implements DAO<Moto,MotoDTO>{
 	}
 	@Override
 	public void crear(MotoDTO D) {
-		// TODO Auto-generated method stub
 		listaMotos.add(DataMapper.convertirMotoDTOAMoto(D));
 		escribirArchivo();
 		escribirArchivoSerializado();
