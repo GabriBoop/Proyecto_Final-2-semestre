@@ -12,6 +12,7 @@ import co.edu.unbosque.view.*;
 
 
 public class Controller implements ActionListener {
+	private ReproducirAudio r = new ReproducirAudio();
 	
 	// Visual
 	private Consola con; //matarlo
@@ -32,6 +33,7 @@ public class Controller implements ActionListener {
 	private VentanaEmergente ve;
 	
 	public Controller(){
+		
 		con = new Consola();
 		principal = new MainFrame();
 		pm = new PanelMenu();
@@ -51,7 +53,9 @@ public class Controller implements ActionListener {
 	}
 
 	public void start() {
+		r.reproducir("rhythm-heaven.wav");
 		asignarOyentes();
+		
 		cicloPrincipal : while(true) {
 			principal.cambiarPanel(pm.getPanel());
 			propietarioDAO.crear(new PropietarioDTO("1032941791","thomas","12345213"));
@@ -124,6 +128,7 @@ public class Controller implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
 		String cmd = e.getActionCommand();
 
 		switch (cmd) {
