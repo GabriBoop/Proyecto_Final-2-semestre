@@ -2,7 +2,11 @@ package co.edu.unbosque.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
 import co.edu.unbosque.model.persistence.*;
+import co.edu.unbosque.util.exceptions.DatoVacioException;
 import co.edu.unbosque.model.*;
 import co.edu.unbosque.view.*;
 
@@ -128,6 +132,54 @@ public class Controller implements ActionListener {
 			break;
 		case "VEHICULO_REGISTRAR":
 			principal.cambiarPanel(pvRegistrar.getPanel());
+			break;	
+		case "REGISTRAR":
+			try {
+				String placa = pvRegistrar.getTxtfieldPlaca().getText().trim().toUpperCase();
+				String tipoV = pvRegistrar.getBoxTiposVehiculo().getSelectedItem().toString();
+				String documento = pvRegistrar.getTxtfieldPropietarioDoc().getText();
+				String nombre = pvRegistrar.getTxtfieldPropietarioNom().getText().trim();
+				String telefono = pvRegistrar.getTxtfieldPropietarioTel().getText().trim();
+				String fechaSoat = pvRegistrar.getTxtfieldSOAT().getText().trim();
+				String tipoTarifa = pvRegistrar.getBoxTarifa().getSelectedItem().toString();
+				
+				if (placa.isBlank()) throw new DatoVacioException("placa");
+				if (documento.isBlank()) throw new DatoVacioException("documento");
+				if (nombre.isBlank()) throw new DatoVacioException("nombre");
+				if (telefono.isBlank()) throw new DatoVacioException("telefono");
+				if (fechaSoat.isBlank()) throw new DatoVacioException("SOAT");
+
+				LocalDate soat = LocalDate.parse(fechaSoat);
+				
+				PropietarioDTO propDTO = new PropietarioDTO(documento,nombre,telefono);
+				Propietario prop = new Propietario(documento,nombre,telefono);
+				propietarioDAO.crear(propDTO);
+				
+				if (tipoV.equals("Carro")) {
+					CarroDTO carro = new CarroDTO();
+					carro.setPlaca(placa);
+					carro.setPropietario(prop);
+					carro.setVencimientoSoat(soat);
+					carroDAO.crear(carro);
+				} else {
+					MotoDTO moto = new MotoDTO();
+					moto.setPlaca(placa);
+					moto.setPropietario(prop);
+					moto.setVencimientoSoat(soat);
+					motoDAO.crear(moto);
+				}
+				
+				ve.mostrar(tipoV + " " + placa + " registrado.");
+				pvRegistrar.getTxtfieldPlaca().setText("");
+				pvRegistrar.getTxtfieldPropietarioDoc().setText("");
+				pvRegistrar.getTxtfieldPropietarioNom().setText("");
+				pvRegistrar.getTxtfieldPropietarioTel().setText("");
+				pvRegistrar.getTxtfieldSOAT().setText("");
+			} catch (DatoVacioException ex) {
+				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			} catch (DateTimeParseException  ex) {
+				ve.mostrarERROR("La fecha debe tener el formato AAAA-MM-DD.", "ERROR");
+			}
 			break;
 		case "MENSUALIDADES":
 			principal.cambiarPanel(pmMensualidad.getPanel());
