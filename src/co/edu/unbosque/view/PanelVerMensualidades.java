@@ -1,6 +1,8 @@
 package co.edu.unbosque.view;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -15,7 +17,8 @@ import javax.swing.SwingConstants;
 public class PanelVerMensualidades {
 	
 	private JPanel panel = new JPanel(new GridBagLayout());
-	private JPanel columna = new JPanel(new GridLayout(4, 1, 15, 15));
+	private JPanel columna = new JPanel(new BorderLayout(15, 15));
+	private JPanel superior = new JPanel(new GridLayout(4, 1, 15, 15));
 	private JLabel txt = new JLabel();
 
 	private JLabel lblTotalMensualidades = new JLabel("Mensualidades activas: 0");
@@ -30,17 +33,22 @@ public class PanelVerMensualidades {
 		lblTotalMensualidades.setHorizontalAlignment(SwingConstants.CENTER);
 
 		areaMensualidades.setEditable(false);
+		areaMensualidades.setLineWrap(true);
+		areaMensualidades.setWrapStyleWord(true);
+		scrollMensualidades.setPreferredSize(new Dimension(550, 220));
 
-		columna.add(txt);
-		columna.add(lblTotalMensualidades);
-		columna.add(scrollMensualidades);
-		columna.add(btnVolver);
+		superior.add(txt);
+		superior.add(lblTotalMensualidades);
+		columna.add(superior, BorderLayout.NORTH);
+		columna.add(scrollMensualidades, BorderLayout.CENTER);
+		columna.add(btnVolver, BorderLayout.SOUTH);
 
-		for (Component c : columna.getComponents()) {
+		for (Component c : superior.getComponents()) {
 			c.setFont(new Font("Arial", Font.PLAIN, 18));
 		}
 		areaMensualidades.setFont(new Font("Arial", Font.PLAIN, 16));
 		txt.setFont(new Font("Arial", Font.BOLD, 24));
+		btnVolver.setFont(new Font("Arial", Font.PLAIN, 18));
 		panel.add(columna);
 	}
 
@@ -99,5 +107,14 @@ public class PanelVerMensualidades {
 	public void setBtnVolver(JButton btnVolver) {
 		this.btnVolver = btnVolver;
 	}
+
+	public JPanel getSuperior() {
+		return superior;
+	}
+
+	public void setSuperior(JPanel superior) {
+		this.superior = superior;
+	}
+	
 	
 }

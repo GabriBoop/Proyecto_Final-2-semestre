@@ -112,7 +112,17 @@ public class Controller implements ActionListener {
 		pmenRegistrar.getBtnVolver().addActionListener(this);
 		pmenRegistrar.getBtnVolver().setActionCommand("MENSUALIDADES");
 		
-		
+		pmMensualidad.getBtnVer().addActionListener(this);
+		pmMensualidad.getBtnVer().setActionCommand("VER_MENSUALIDADES");
+
+		pmMensualidad.getBtnVacantes().addActionListener(this);
+		pmMensualidad.getBtnVacantes().setActionCommand("VACANTES_MENSUALIDADES");
+
+		pmVerMensualidades.getBtnVolver().addActionListener(this);
+		pmVerMensualidades.getBtnVolver().setActionCommand("MENSUALIDADES");
+
+		pmVerMensualidadesVacantes.getBtnVolver().addActionListener(this);
+		pmVerMensualidadesVacantes.getBtnVolver().setActionCommand("MENSUALIDADES");
 		
 		pm.getBtnConsultas().addActionListener(this);
 		pm.getBtnConsultas().setActionCommand("CONSULTAS");
@@ -424,6 +434,52 @@ public class Controller implements ActionListener {
 				ReproducirAudio.reproducirSFX("Error.wav");
 				ve.mostrarERROR(ex.getMessage(), "ERROR");
 			}
+			break;
+		case "VER_MENSUALIDADES":
+			ReproducirAudio.reproducirSFX("Click.wav");
+			pmVerMensualidades.getLblTotalMensualidades().setText(
+					"Mensualidades activas: " + mensualidadDAO.darLista().size()
+					+ " | Vehículos suscritos: " + parqueadero.vehiculosMensualidad()
+					);
+			
+			StringBuilder listaMen = new StringBuilder();
+			for (Mensualidad m : mensualidadDAO.darLista()) {
+				listaMen.append("Propietario: ").append(m.getPropietario().getNombre())
+				        .append(" (Doc: ").append(m.getPropietario().getDocumento()).append(")")
+				        .append(" | Inicio: ").append(m.getFechaInicio())
+				        .append(" | Valor: $").append(m.getValor())
+				        .append("\n   Vehículos: ");
+				
+				for (Vehiculo v : m.getVehiculos()) {
+					listaMen.append("[").append(v.getPlaca()).append(" - ").append(v.getTipo()).append("] ");
+				}
+				listaMen.append("\n\n");
+			}
+			
+			pmVerMensualidades.getAreaMensualidades().setText(
+					listaMen.length() == 0 ? "No hay mensualidades registradas." : listaMen.toString()
+				);
+				principal.cambiarPanel(pmVerMensualidades.getPanel());
+			break;
+		case "VACANTES_MENSUALIDADES":
+			ReproducirAudio.reproducirSFX("Click.wav");
+			int maxCupos = parqueadero.cupoMaximoMensualidades();
+			int ocupados = parqueadero.vehiculosMensualidad();
+			int disponibles = parqueadero.espaciosDisponiblesMensualidad();
+
+			pmVerMensualidadesVacantes.getLblVacantesDisponibles().setText(
+				"Vacantes disponibles: " + disponibles + " / " + maxCupos
+			);
+			pmVerMensualidadesVacantes.getLblCuposOcupados().setText(
+				"Cupos ocupados: " + ocupados
+			);
+			pmVerMensualidadesVacantes.getAreaVacantes().setText(
+				"Capacidad total del parqueadero: 200 puestos\n"
+				+ "Cupo máximo mensualidades (30%): " + maxCupos + " vehículos\n"
+				+ "Vehículos con mensualidad activa: " + ocupados + "\n"
+				+ "Cupos libres para nuevas mensualidades: " + disponibles
+			);
+			principal.cambiarPanel(pmVerMensualidadesVacantes.getPanel());
 			break;
 		case "CONSULTAS":
 			ReproducirAudio.reproducirSFX("Click.wav");

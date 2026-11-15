@@ -1,6 +1,8 @@
 package co.edu.unbosque.view;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -15,7 +17,8 @@ import javax.swing.SwingConstants;
 public class PanelMensualidadesVacantes {
 	
 	private JPanel panel = new JPanel(new GridBagLayout());
-	private JPanel columna = new JPanel(new GridLayout(5, 1, 15, 15));
+	private JPanel columna = new JPanel(new BorderLayout(15, 15));
+	private JPanel superior = new JPanel(new GridLayout(5, 1, 15, 15));
 	private JLabel txt = new JLabel();
 
 	private JLabel lblVacantesDisponibles = new JLabel("Vacantes disponibles: 0 / 0");
@@ -32,18 +35,23 @@ public class PanelMensualidadesVacantes {
 		lblCuposOcupados.setHorizontalAlignment(SwingConstants.CENTER);
 
 		areaVacantes.setEditable(false);
+		areaVacantes.setLineWrap(true);
+		areaVacantes.setWrapStyleWord(true);
+		scrollVacantes.setPreferredSize(new Dimension(550, 180));
 
-		columna.add(txt);
-		columna.add(lblVacantesDisponibles);
-		columna.add(lblCuposOcupados);
-		columna.add(scrollVacantes);
-		columna.add(btnVolver);
+		superior.add(txt);
+		superior.add(lblVacantesDisponibles);
+		superior.add(lblCuposOcupados);
+		columna.add(superior, BorderLayout.NORTH);
+		columna.add(scrollVacantes, BorderLayout.CENTER);
+		columna.add(btnVolver, BorderLayout.SOUTH);;
 
-		for (Component c : columna.getComponents()) {
+		for (Component c : superior.getComponents()) {
 			c.setFont(new Font("Arial", Font.PLAIN, 18));
 		}
 		areaVacantes.setFont(new Font("Arial", Font.PLAIN, 16));
 		txt.setFont(new Font("Arial", Font.BOLD, 24));
+		btnVolver.setFont(new Font("Arial", Font.PLAIN, 18));
 		panel.add(columna);
 	}
 
@@ -109,6 +117,14 @@ public class PanelMensualidadesVacantes {
 
 	public void setBtnVolver(JButton btnVolver) {
 		this.btnVolver = btnVolver;
+	}
+
+	public JPanel getSuperior() {
+		return superior;
+	}
+
+	public void setSuperior(JPanel superior) {
+		this.superior = superior;
 	}
 	
 }
