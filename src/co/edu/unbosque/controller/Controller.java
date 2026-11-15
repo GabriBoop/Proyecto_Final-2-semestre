@@ -203,15 +203,16 @@ public class Controller implements ActionListener {
                         carro.setPropietario(p);
                         carro.setVencimientoSoat(soat);
                         carroDAO.crear(carro);
+                        parqueadero.ingresarVehiculo(carro, nocturna);
                     } else {
                         MotoDTO moto = new MotoDTO();
                         moto.setPlaca(placa);
                         moto.setPropietario(p);
                         moto.setVencimientoSoat(soat);
                         motoDAO.crear(moto);
+                        parqueadero.ingresarVehiculo(moto, nocturna);
                     }
                 }else throw new PropietarioNoExisteException();
-                
                 ReproducirAudio.reproducirSFX("Success.wav");
 				ve.mostrar(tipoV + " " + placa + " registrado.");
 				pvRegistrar.getTxtfieldPlaca().setText("");
