@@ -10,6 +10,7 @@ public class PanelMenu {
 	private JPanel panel = new JPanel(new GridBagLayout());
 	private JPanel columna = new JPanel(new GridLayout(7, 1, 0, 30));
 	private JLabel txt = new JLabel();
+	private JButton btnRegistrarPropietario = new JButton("Registrar Propietario");
 	private JButton btnVerVehiculos = new JButton("Vehiculos");
 	private JButton btnMensualidades = new JButton("Mensualidades");
 	private JButton btnConsultas = new JButton("Consultas");
@@ -21,6 +22,7 @@ public class PanelMenu {
 				+ "<html>Bienvenido Al Parqueadero UEB<br>");
 		txt.setHorizontalAlignment(SwingConstants.CENTER);
 		txt.setFont(new Font("Arial", Font.BOLD, 26));
+		btnRegistrarPropietario.setFont(new Font("Arial", Font.PLAIN, 24));
 		btnVerVehiculos.setFont(new Font("Arial", Font.PLAIN, 24));
 		btnMensualidades.setFont(new Font("Arial", Font.PLAIN, 24));
 		btnConsultas.setFont(new Font("Arial", Font.PLAIN, 24));
@@ -28,6 +30,7 @@ public class PanelMenu {
 		btnSalir.setFont(new Font("Arial", Font.PLAIN, 24));
 
 		columna.add(txt);
+		columna.add(btnRegistrarPropietario);
 		columna.add(btnVerVehiculos);
 		columna.add(btnMensualidades);
 		columna.add(btnConsultas);
@@ -58,6 +61,15 @@ public class PanelMenu {
 
 	public void setTxt(JLabel txt) {
 		this.txt = txt;
+	}
+	
+
+	public JButton getBtnRegistrarPropietario() {
+		return btnRegistrarPropietario;
+	}
+
+	public void setBtnRegistrarPropietario(JButton btnRegistrarPropietario) {
+		this.btnRegistrarPropietario = btnRegistrarPropietario;
 	}
 
 	public JButton getBtnVerVehiculos() {

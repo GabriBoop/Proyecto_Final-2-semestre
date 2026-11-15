@@ -93,6 +93,19 @@ public class PropietarioDAO implements DAO<Propietario,PropietarioDTO> {
 			listaPropietarios = (ArrayList<Propietario>) o;
 		}
 	}
+	
+	public Propietario buscarPorDocumento(String documento) {
+		for (Propietario p : listaPropietarios) {
+			if (p.getDocumento().equals(documento)) {
+				return p;
+			}
+		}
+		return null;
+	}
+
+	public boolean existeDocumento(String documento) {
+		return buscarPorDocumento(documento) != null;
+	}
 
 	public ArrayList<Propietario> getListaPropietarios() {
 		return listaPropietarios;

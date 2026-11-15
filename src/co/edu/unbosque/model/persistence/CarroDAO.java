@@ -99,6 +99,15 @@ public class CarroDAO implements DAO<Carro,CarroDTO>{
 		}
 	}
 	
+	public Carro buscarPorPlaca(String placa) {
+		for (Carro c : listaCarros) {
+			if (c.getPlaca().equalsIgnoreCase(placa)) {
+				return c;
+			}
+		}
+		return null;
+	}
+	
 	public ArrayList<Carro> getListaCarros() {
 		return listaCarros;
 	}

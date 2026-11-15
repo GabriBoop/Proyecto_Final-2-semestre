@@ -97,6 +97,15 @@ public class MensualidadDAO implements DAO<Mensualidad,MensualidadDTO>{
 		}
 	}
 	
+	public int buscarIndicePorDocumento(String documento) {
+		for (int i = 0; i < listaMensualidades.size(); i++) {
+			if (listaMensualidades.get(i).getPropietario().getDocumento().equals(documento)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
 	public ArrayList<Mensualidad> getListaMensualidad() {
 		return listaMensualidades;
 	}

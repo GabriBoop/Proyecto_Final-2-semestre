@@ -1,11 +1,13 @@
 package co.edu.unbosque.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class MensualidadDTO {
+public class MensualidadDTO implements Serializable {
 
-    public static final int VEHICULOS_MAX = 2;
+	private static final long serialVersionUID = 6711196969298986696L;
+	public static final int VEHICULOS_MAX = 2;
     private Propietario propietario;
     private double valor;
     private LocalDate fechaInicio;

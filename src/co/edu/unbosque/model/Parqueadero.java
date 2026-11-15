@@ -62,6 +62,68 @@ public class Parqueadero {
     	return false;
     }
     
+    public void registrarMensualidad(String documento, String nombre, String placa, String tipoVehiculo,
+    		PropietarioDAO propietarioDAO, CarroDAO carroDAO, MotoDAO motoDAO)
+    		throws PlacaInvalidaException, PlacaYaRegistradaException, SobrecupoDeMensualidadesException {
+
+    	placa = Vehiculo.validarPlaca(placa);
+
+    	if (tieneMensualidad(placa)) {
+    		throw new PlacaYaRegistradaException();
+    	}
+    	if (espaciosDisponiblesMensualidad() <= 0) {
+    		throw new SobrecupoDeMensualidadesException();
+    	}
+
+    	Propietario prop = propietarioDAO.buscarPorDocumento(documento);
+    	if (prop == null) {
+    		PropietarioDTO propDTO = new PropietarioDTO(documento, nombre, "Sin telefono");
+    		propietarioDAO.crear(propDTO);
+    		prop = propietarioDAO.buscarPorDocumento(documento);
+    	}
+
+    	Vehiculo vehiculo;
+    	if (tipoVehiculo.equalsIgnoreCase("Carro")) {
+    		Carro carro = carroDAO.buscarPorPlaca(placa);
+    		if (carro == null) {
+    			CarroDTO carroDTO = new CarroDTO();
+    			carroDTO.setPlaca(placa);
+    			carroDTO.setPropietario(prop);
+    			carroDTO.setVencimientoSoat(LocalDate.now().plusYears(1));
+    			carroDAO.crear(carroDTO);
+    			carro = carroDAO.buscarPorPlaca(placa);
+    		}
+    		vehiculo = carro;
+    	} 
+    	else {
+    		Moto moto = motoDAO.buscarPorPlaca(placa);
+    		if (moto == null) {
+    			MotoDTO motoDTO = new MotoDTO();
+    			motoDTO.setPlaca(placa);
+    			motoDTO.setPropietario(prop);
+    			motoDTO.setVencimientoSoat(LocalDate.now().plusYears(1));
+    			motoDAO.crear(motoDTO);
+    			moto = motoDAO.buscarPorPlaca(placa);
+    		}
+    		vehiculo = moto;
+    	}
+
+    	int indice = mensualidades.buscarIndicePorDocumento(documento);
+    	if (indice != -1) {
+    		Mensualidad existente = mensualidades.darLista().get(indice);
+    		if (existente.getVehiculos().size() >= Mensualidad.VEHICULOS_MAX) {
+    			throw new SobrecupoDeMensualidadesException();
+    		}
+    		existente.agregarVehiculo(vehiculo);
+    		mensualidades.actualizar(indice, DataMapper.convertirMensualidadAMensualidadDTO(existente));
+    	} 
+    	else {
+    		MensualidadDTO nueva = new MensualidadDTO(prop, Mensualidad.VALOR_MENSUALIDAD, LocalDate.now());
+    		nueva.agregarVehiculo(vehiculo);
+    		agregarMensualidad(nueva);
+    	}
+    }
+    
     public void agregarMensualidad(MensualidadDTO m) throws SobrecupoDeMensualidadesException {	
     	if (vehiculosMensualidad() + m.getVehiculos().size() > cupoMaximoMensualidades()) throw new SobrecupoDeMensualidadesException();
     	mensualidades.crear(m);

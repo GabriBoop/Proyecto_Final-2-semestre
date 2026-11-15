@@ -98,6 +98,15 @@ public class MotoDAO implements DAO<Moto,MotoDTO>{
 		}
 	}
 	
+	public Moto buscarPorPlaca(String placa) {
+		for (Moto c : listaMotos) {
+			if (c.getPlaca().equalsIgnoreCase(placa)) {
+				return c;
+			}
+		}
+		return null;
+	}
+	
 	public ArrayList<Moto> getListaMotos() {
 		return listaMotos;
 	}

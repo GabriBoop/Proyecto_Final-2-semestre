@@ -1,11 +1,14 @@
 package co.edu.unbosque.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Mensualidad {
+public class Mensualidad implements Serializable {
 
-    public static final int VEHICULOS_MAX = 2;
+	private static final long serialVersionUID = 2914016275718574823L;
+	public static final int VEHICULOS_MAX = 2;
+	public static final double VALOR_MENSUALIDAD = 200000.0;
     private Propietario propietario;
     private double valor;
     private LocalDate fechaInicio;

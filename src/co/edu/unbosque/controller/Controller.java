@@ -8,6 +8,8 @@ import java.time.format.DateTimeParseException;
 import co.edu.unbosque.model.persistence.*;
 import co.edu.unbosque.util.exceptions.DatoVacioException;
 import co.edu.unbosque.util.exceptions.PlacaInvalidaException;
+import co.edu.unbosque.util.exceptions.PlacaYaRegistradaException;
+import co.edu.unbosque.util.exceptions.SobrecupoDeMensualidadesException;
 import co.edu.unbosque.model.*;
 import co.edu.unbosque.view.*;
 
@@ -18,8 +20,10 @@ public class Controller implements ActionListener {
 	private Consola con; //matarlo
 	private MainFrame principal;
 	private PanelMenu pm;
+	private PanelPropietarioRegistrar ppRegistrar;
 	private PanelMenuVehiculo pmVehiculo;
 	private PanelMenuMensualidades pmMensualidad;
+	private PanelMensualidadesRegistrar pmenRegistrar;
 	private PanelMenuConsulta pmConsulta;
 	private PanelMenuReportes pmReportes;
 	private PanelVehiculoRegistrar pvRegistrar;
@@ -31,18 +35,23 @@ public class Controller implements ActionListener {
 	private PropietarioDAO propietarioDAO;
 	private RegistroDAO registroDAO;
 	private VentanaEmergente ve;
+	// Funcionalidad
+	private Parqueadero parqueadero;
 	
 	public Controller(){
 		
 		con = new Consola();
 		principal = new MainFrame();
 		pm = new PanelMenu();
+		ppRegistrar = new PanelPropietarioRegistrar();
 		pmVehiculo = new PanelMenuVehiculo();
 		pvRegistrar = new PanelVehiculoRegistrar();
 		pmMensualidad = new PanelMenuMensualidades();
+		pmenRegistrar = new PanelMensualidadesRegistrar();
 		pmConsulta = new PanelMenuConsulta();
 		pmReportes = new PanelMenuReportes();
 		ve = new VentanaEmergente();
+		parqueadero = new Parqueadero(facturaDAO, mensualidadDAO, registroDAO);
 		
 		carroDAO = new CarroDAO();
 		facturaDAO = new FacturaDAO();
@@ -88,6 +97,15 @@ public class Controller implements ActionListener {
 	}
 
 	public void asignarOyentes() {
+		pm.getBtnRegistrarPropietario().addActionListener(this);
+		pm.getBtnRegistrarPropietario().setActionCommand("PROPIETARIO");
+		
+		ppRegistrar.getBtnRegistrar().addActionListener(this);
+		ppRegistrar.getBtnRegistrar().setActionCommand("REGISTRAR_PROPIETARIO");
+		
+		ppRegistrar.getBtnVolver().addActionListener(this);
+		ppRegistrar.getBtnVolver().setActionCommand("VOLVER");
+		
 		pm.getBtnVerVehiculos().addActionListener(this);
 		pm.getBtnVerVehiculos().setActionCommand("VEHICULO");
 		
@@ -96,6 +114,15 @@ public class Controller implements ActionListener {
 		
 		pm.getBtnMensualidades().addActionListener(this);
 		pm.getBtnMensualidades().setActionCommand("MENSUALIDADES");
+		
+		pmMensualidad.getBtnRegistrar().addActionListener(this);
+		pmMensualidad.getBtnRegistrar().setActionCommand("MENSUALIDAD_REGISTRAR");
+
+		pmenRegistrar.getBtnRegistrar().addActionListener(this);
+		pmenRegistrar.getBtnRegistrar().setActionCommand("REGISTRAR_MENSUALIDAD");
+		
+		pmenRegistrar.getBtnVolver().addActionListener(this);
+		pmenRegistrar.getBtnVolver().setActionCommand("MENSUALIDADES");
 		
 		pm.getBtnConsultas().addActionListener(this);
 		pm.getBtnConsultas().setActionCommand("CONSULTAS");
@@ -131,6 +158,43 @@ public class Controller implements ActionListener {
 		String cmd = e.getActionCommand();
 
 		switch (cmd) {
+		
+		case "PROPIETARIO":
+			ReproducirAudio.reproducirSFX("Click.wav");
+			principal.cambiarPanel(ppRegistrar.getPanel());
+			break;
+		case "REGISTRAR_PROPIETARIO":
+			try {
+				String documento = ppRegistrar.getTxtfieldDocumento().getText().trim();
+				String nombre = ppRegistrar.getTxtfieldNombre().getText().trim();
+				String telefono = ppRegistrar.getTxtfieldTelefono().getText().trim();
+				
+				if(documento.isBlank()) throw new DatoVacioException("Documento. ");
+				if(nombre.isBlank()) throw new DatoVacioException("Nombre. ");
+				if(telefono.isBlank()) throw new DatoVacioException("Telefono. ");
+				
+				if (propietarioDAO.existeDocumento(documento)) {
+					ReproducirAudio.reproducirSFX("Error.wav");
+					ve.mostrarERROR("[ERROR] Ya existe un propietario registrado con el documento: " + documento, "ERROR");
+					break;
+				}
+
+				PropietarioDTO propDTO = new PropietarioDTO(documento,nombre,telefono);
+				Propietario prop = new Propietario(documento,nombre,telefono);
+				propietarioDAO.crear(propDTO);
+				
+				ReproducirAudio.reproducirSFX("Success.wav");
+				ve.mostrar("Propietario " + nombre + " registrado correctamente.");
+				ppRegistrar.getTxtfieldDocumento().setText("");
+				ppRegistrar.getTxtfieldNombre().setText("");
+				ppRegistrar.getTxtfieldTelefono().setText("");
+			
+			} catch (DatoVacioException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			}
+			break;
+		
 		case "VEHICULO":
 			ReproducirAudio.reproducirSFX("Click.wav");
 			principal.cambiarPanel(pmVehiculo.getPanel());
@@ -198,6 +262,43 @@ public class Controller implements ActionListener {
 		case "MENSUALIDADES":
 			ReproducirAudio.reproducirSFX("Click.wav");
 			principal.cambiarPanel(pmMensualidad.getPanel());
+			break;
+		case "MENSUALIDAD_REGISTRAR":
+			ReproducirAudio.reproducirSFX("Click.wav");
+			principal.cambiarPanel(pmenRegistrar.getPanel());
+			break;
+		case "REGISTRAR_MENSUALIDAD":
+			try {
+				String nombre = pmenRegistrar.getTxtfieldPropietarioNom().getText().trim();
+				String documento = pmenRegistrar.getTxtfieldPropietarioDoc().getText().trim();
+				String placa = pmenRegistrar.getTxtfieldPlaca().getText().trim().toUpperCase();
+				String tipoV = pmenRegistrar.getBoxTiposVehiculo().getSelectedItem().toString();
+				
+				if (nombre.isBlank()) throw new DatoVacioException("Nombre del propietario.");
+				if (documento.isBlank()) throw new DatoVacioException("Documento del propietario.");
+				if (placa.isBlank()) throw new DatoVacioException("Placa.");
+				
+				parqueadero.registrarMensualidad(documento, nombre, placa, tipoV, propietarioDAO, carroDAO, motoDAO);
+				
+				ReproducirAudio.reproducirSFX("Success.wav");
+				ve.mostrar("Mensualidad registrada para " + tipoV + " " + placa + ".");
+				pmenRegistrar.getTxtfieldPropietarioNom().setText("");
+				pmenRegistrar.getTxtfieldPropietarioDoc().setText("");
+				pmenRegistrar.getTxtfieldPlaca().setText("");
+			
+			} catch (DatoVacioException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			} catch (PlacaInvalidaException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			} catch (PlacaYaRegistradaException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			} catch (SobrecupoDeMensualidadesException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			}
 			break;
 		case "CONSULTAS":
 			ReproducirAudio.reproducirSFX("Click.wav");
