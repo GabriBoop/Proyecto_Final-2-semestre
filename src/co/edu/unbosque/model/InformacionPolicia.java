@@ -1,5 +1,6 @@
 package co.edu.unbosque.model;
 
+import gov.police.data.controller.InternalSystemException;
 import gov.police.data.controller.PoliceDataSystem;
 import gov.police.data.model.Vehicle;
 
@@ -11,25 +12,32 @@ public class InformacionPolicia {
 	}
 	
 	public String consultaPolicia(String placa){
-		Vehicle v = sistemaPolicia.getCarInfo(placa);
+		Vehicle v = null;
 		String consulta ="";
-		if(v.getStatus() == null) return "SIN INFORMACION";
 		
-		switch(v.getStatus()) {
-		        case CLEAN:
-		            consulta = "LIMPIO";
-		            break;
-		        case SEIZED:
-		            consulta = "INCAUTADO";
-		            break;
-		        case STOLEN:
-		            consulta = "INCAUTADO";
-		            break;
-		        default:
-		            consulta = "SIN INFORMACION";
-		            break;
-		        } 
-		return consulta;
+		if (sistemaPolicia.getCarInfo(placa)==null) {
+			return consulta="SIN INFORMACION";
+		}else {
+			v = sistemaPolicia.getCarInfo(placa.toUpperCase());
+			
+			if(v.getStatus() == null) return "SIN INFORMACION";
+			
+			switch(v.getStatus()) {
+			        case CLEAN:
+			            consulta = "LIMPIO";
+			            break;
+			        case SEIZED:
+			            consulta = "INCAUTADO";
+			            break;
+			        case STOLEN:
+			            consulta = "INCAUTADO";
+			            break;
+			        default:
+			            consulta = "SIN INFORMACION";
+			            break;
+			        } 
+			return consulta;	
+		}
 	}
 
 }
