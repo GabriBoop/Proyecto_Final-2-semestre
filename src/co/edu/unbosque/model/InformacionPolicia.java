@@ -30,7 +30,7 @@ public class InformacionPolicia {
 			            consulta = "INCAUTADO";
 			            break;
 			        case STOLEN:
-			            consulta = "INCAUTADO";
+			            consulta = "ROBADO";
 			            break;
 			        default:
 			            consulta = "SIN INFORMACION";
