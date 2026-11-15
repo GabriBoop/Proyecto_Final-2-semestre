@@ -8,8 +8,10 @@ import java.time.format.DateTimeParseException;
 import co.edu.unbosque.model.persistence.*;
 import co.edu.unbosque.util.exceptions.DatoVacioException;
 import co.edu.unbosque.util.exceptions.PlacaInvalidaException;
+import co.edu.unbosque.util.exceptions.PlacaNoEncontradaException;
 import co.edu.unbosque.util.exceptions.PlacaYaRegistradaException;
 import co.edu.unbosque.util.exceptions.PropietarioNoExisteException;
+import co.edu.unbosque.util.exceptions.RegistroNoEncontradoException;
 import co.edu.unbosque.util.exceptions.SobrecupoDeMensualidadesException;
 import co.edu.unbosque.model.*;
 import co.edu.unbosque.view.*;
@@ -27,6 +29,9 @@ public class Controller implements ActionListener {
 	private PanelMenuConsulta pmConsulta;
 	private PanelMenuReportes pmReportes;
 	private PanelVehiculoRegistrar pvRegistrar;
+	private PanelVehiculoSalida pvSalida;
+	private PanelVehiculoParqueadero pvParqueadero;
+	private PanelVerParqueadero pvVerParqueadero;
 	// DAO
 	private CarroDAO carroDAO;
 	private FacturaDAO facturaDAO;
@@ -45,6 +50,9 @@ public class Controller implements ActionListener {
 		ppRegistrar = new PanelPropietarioRegistrar();
 		pmVehiculo = new PanelMenuVehiculo();
 		pvRegistrar = new PanelVehiculoRegistrar();
+		pvSalida = new PanelVehiculoSalida();
+		pvParqueadero = new PanelVehiculoParqueadero();
+		pvVerParqueadero = new PanelVerParqueadero();
 		pmMensualidad = new PanelMenuMensualidades();
 		pmenRegistrar = new PanelMensualidadesRegistrar();
 		pmConsulta = new PanelMenuConsulta();
@@ -110,8 +118,32 @@ public class Controller implements ActionListener {
 		pmVehiculo.getBtnVolver().addActionListener(this);
 		pmVehiculo.getBtnVolver().setActionCommand("VOLVER");
 		
+		pmVehiculo.getBtnSalida().addActionListener(this);
+		pmVehiculo.getBtnSalida().setActionCommand("VEHICULO_SALIDA");
+
+		pvSalida.getBtnRegistrarSalida().addActionListener(this);
+		pvSalida.getBtnRegistrarSalida().setActionCommand("SALIDA_VEHICULO");
+
+		pvSalida.getBtnVolver().addActionListener(this);
+		pvSalida.getBtnVolver().setActionCommand("VOLVER");
+		
 		pvRegistrar.getBtnVolver().addActionListener(this);
 		pvRegistrar.getBtnVolver().setActionCommand("VOLVER");
+		
+		pmVehiculo.getBtnParqueado().addActionListener(this);
+		pmVehiculo.getBtnParqueado().setActionCommand("VEHICULO_PARQUEADO");
+
+		pmVehiculo.getBtnVerParqueado().addActionListener(this);
+		pmVehiculo.getBtnVerParqueado().setActionCommand("VER_PARQUEADO");
+		
+		pvParqueadero.getBtnConsultar().addActionListener(this);
+		pvParqueadero.getBtnConsultar().setActionCommand("CONSULTAR_PARQUEADO");
+
+		pvParqueadero.getBtnVolver().addActionListener(this);
+		pvParqueadero.getBtnVolver().setActionCommand("VOLVER_VEHICULO");
+
+		pvVerParqueadero.getBtnVolver().addActionListener(this);
+		pvVerParqueadero.getBtnVolver().setActionCommand("VOLVER_VEHICULO");
 		
 		pmMensualidad.getBtnVolver().addActionListener(this);
 		pmMensualidad.getBtnVolver().setActionCommand("VOLVER");
@@ -175,7 +207,6 @@ public class Controller implements ActionListener {
 			principal.cambiarPanel(pvRegistrar.getPanel());
 			break;	
 		case "REGISTRAR":
-			
 			try {
 				
 				String placa = pvRegistrar.getTxtfieldPlaca().getText().trim().toUpperCase();
@@ -235,6 +266,98 @@ public class Controller implements ActionListener {
             	 ve.mostrarERROR(ex.getMessage(),"ERROR");
 			}
 			break;
+		case "VEHICULO_SALIDA":
+			ReproducirAudio.reproducirSFX("Click.wav");
+			principal.cambiarPanel(pvSalida.getPanel());
+			break;
+		case "SALIDA_VEHICULO":
+			try {
+				
+				String placaSalida = pvSalida.getTxtfieldPlaca().getText().trim().toUpperCase();
+				
+				if (placaSalida.isBlank()) throw new DatoVacioException("Placa.");
+				
+				placaSalida = Vehiculo.validarPlaca(placaSalida);
+				
+				FacturaDTO factura = parqueadero.salidaVehiculo(placaSalida);
+				
+				ReproducirAudio.reproducirSFX("Success.wav");
+				
+				ve.mostrar(
+						"Salida registrada correctamente\n"
+						+ "Factura #" + factura.getNum() + "\n"
+						+ "Placa: " + factura.getPlaca() + "\n"
+						+ "Propietario: " + factura.getNombrePropietario() + "\n"
+						+ "Forma de cobro: " + factura.getFormaDeCobro() + "\n"
+						+ "Total a pagar: $" + factura.getValor()
+					);
+					pvSalida.getTxtfieldPlaca().setText("");
+			
+			} catch (DatoVacioException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			} catch (PlacaInvalidaException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(), "ERROR");	
+			} catch (PlacaNoEncontradaException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			} catch (RegistroNoEncontradoException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(), "ERROR");	
+			}
+			break;
+		case "VEHICULO_PARQUEADO":
+			ReproducirAudio.reproducirSFX("Click.wav");
+			pvParqueadero.getTxtfieldPlaca().setText("");
+			pvParqueadero.getLblEstado().setText("");
+			pvParqueadero.getLblPropietario().setText("");
+			principal.cambiarPanel(pvParqueadero.getPanel());
+			break;
+		case "CONSULTAR_PARQUEADO":
+			try {
+				
+				String placa = pvParqueadero.getTxtfieldPlaca().getText().trim().toUpperCase();
+				if (placa.isBlank()) throw new DatoVacioException("Placa.");
+
+				Registro reg = parqueadero.buscarRegistro(placa);
+				ReproducirAudio.reproducirSFX("Success.wav");
+				pvParqueadero.getLblEstado().setText("Parqueado");
+				pvParqueadero.getLblPropietario().setText(reg.getVehiculo().getPropietario().getNombre());
+			
+			} catch (DatoVacioException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			} catch (RegistroNoEncontradoException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				pvParqueadero.getLblEstado().setText("No está parqueado");
+				pvParqueadero.getLblPropietario().setText("-");
+			}
+			break;
+		case "VER_PARQUEADO":
+			ReproducirAudio.reproducirSFX("Click.wav");
+			pvVerParqueadero.getLblCuposDisponibles().setText(
+				"Parqueaderos disponibles: " + parqueadero.espaciosDisponibles() + " / 200"
+			);
+			
+			StringBuilder listado = new StringBuilder();
+			
+			for (Registro r : parqueadero.registrosActivos()) {
+				listado.append("Placa: ").append(r.getVehiculo().getPlaca())
+				       .append(" | Propietario: ").append(r.getVehiculo().getPropietario().getNombre())
+				       .append(" | Ingreso: ").append(r.getHoraIngreso())
+				       .append("\n");
+			}
+			pvVerParqueadero.getAreaVehiculos().setText(
+				listado.length() == 0 ? "No hay vehículos parqueados actualmente." : listado.toString()
+			);
+			
+			principal.cambiarPanel(pvVerParqueadero.getPanel());
+			break;
+		case "VOLVER_VEHICULO":
+			ReproducirAudio.reproducirSFX("Click.wav");
+			principal.cambiarPanel(pmVehiculo.getPanel());
+			break; 
 		case "MENSUALIDADES":
 			ReproducirAudio.reproducirSFX("Click.wav");
 			principal.cambiarPanel(pmMensualidad.getPanel());
