@@ -178,7 +178,7 @@ public class Parqueadero {
 			}
 			else cobro = FormaDeCobro.HORA;
 		}
-		
+		r.setActivo(false);
 		FacturaDTO f = new FacturaDTO(numeroFacturas++,v.getPlaca(),v.getPropietario().getNombre(),r.getHoraIngreso(),r.getHoraSalida(),cobro,total);
 		facturas.crear(f);
 		cantidad--;
