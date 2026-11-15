@@ -85,7 +85,7 @@ public class DataMapper {
 		return entity;
 	}
 	
-	public static MotoDTO convertirCarroACarroDTO(Moto e) throws PlacaInvalidaException {
+	public static MotoDTO convertiMotoAMotoDTO(Moto e) throws PlacaInvalidaException {
 		MotoDTO dto = new MotoDTO();
 		dto.setPlaca(e.getPlaca());
 		dto.setPropietario(e.getPropietario());

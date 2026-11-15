@@ -63,37 +63,9 @@ public class Controller implements ActionListener {
 
 	public void start() {
 		asignarOyentes();
+		principal.cambiarPanel(pm.getPanel());
+		principal.setVisible(true);
 		
-		cicloPrincipal : while(true) {
-			principal.cambiarPanel(pm.getPanel());
-			propietarioDAO.crear(new PropietarioDTO("1032941791","thomas","12345213"));
-			principal.setVisible(true);
-			con.imprimirConSalto("Bienvenido al menu principal del parquadero");
-			con.imprimirConSalto("Seleccione la opcion que necesita");
-			con.imprimirConSalto("1.Registrar un propietario");
-			con.imprimirConSalto("2.Ingresar un vehiculo");
-			con.imprimirConSalto("3.Registrar la salida de un vehiculo");
-			con.imprimirConSalto("4.Ver propietarios");
-			con.imprimirConSalto("5.Ver vehiculos");
-			con.imprimirConSalto("6.Salir");
-
-			int a = con.leerEntero();
-			switch(a) {
-			case 1:
-			case 2:
-			case 3:
-			case 4:
-				con.imprimirConSalto(propietarioDAO.mostrarTodo());
-			case 5:
-				con.imprimirConSalto(motoDAO.mostrarTodo());
-				con.imprimirConSalto(carroDAO.mostrarTodo());
-			case 6: 
-				break cicloPrincipal;
-			}
-
-			principal.cambiarPanel(pm.getPanel());
-			principal.setVisible(true);
-		}
 	}
 
 	public void asignarOyentes() {
@@ -223,9 +195,8 @@ public class Controller implements ActionListener {
 
 				LocalDate soat = LocalDate.parse(fechaSoat);
 				
-				PropietarioDTO propDTO = new PropietarioDTO(documento,nombre,telefono);
+				propietarioDAO.crear(new PropietarioDTO(documento,nombre,telefono));
 				Propietario prop = new Propietario(documento,nombre,telefono);
-				propietarioDAO.crear(propDTO);
 				
 				if (tipoV.equals("Carro")) {
 					CarroDTO carro = new CarroDTO();
