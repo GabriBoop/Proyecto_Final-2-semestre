@@ -7,11 +7,13 @@ import java.time.format.DateTimeParseException;
 
 import co.edu.unbosque.model.persistence.*;
 import co.edu.unbosque.util.exceptions.DatoVacioException;
+import co.edu.unbosque.util.exceptions.DocumentoInvalidoException;
 import co.edu.unbosque.util.exceptions.PlacaInvalidaException;
 import co.edu.unbosque.util.exceptions.PlacaNoEncontradaException;
 import co.edu.unbosque.util.exceptions.PlacaYaRegistradaException;
 import co.edu.unbosque.util.exceptions.PropietarioNoExisteException;
 import co.edu.unbosque.util.exceptions.RegistroNoEncontradoException;
+import co.edu.unbosque.util.exceptions.SoatVencidoException;
 import co.edu.unbosque.util.exceptions.SobrecupoDeMensualidadesException;
 import co.edu.unbosque.util.exceptions.SobrecupoParqueaderoException;
 import co.edu.unbosque.model.*;
@@ -33,6 +35,8 @@ public class Controller implements ActionListener {
 	private PanelVehiculoSalida pvSalida;
 	private PanelVehiculoParqueadero pvParqueadero;
 	private PanelVerParqueadero pvVerParqueadero;
+	private PanelVerMensualidades pmVerMensualidades;
+	private PanelMensualidadesVacantes pmVerMensualidadesVacantes;
 	// DAO
 	private CarroDAO carroDAO;
 	private FacturaDAO facturaDAO;
@@ -58,6 +62,9 @@ public class Controller implements ActionListener {
 		pmenRegistrar = new PanelMensualidadesRegistrar();
 		pmConsulta = new PanelMenuConsulta();
 		pmReportes = new PanelMenuReportes();
+		pmVerMensualidades = new PanelVerMensualidades();
+		pmVerMensualidadesVacantes = new PanelMensualidadesVacantes();
+		
 		ve = new VentanaEmergente();
 		
 		carroDAO = new CarroDAO();
@@ -104,6 +111,8 @@ public class Controller implements ActionListener {
 		
 		pmenRegistrar.getBtnVolver().addActionListener(this);
 		pmenRegistrar.getBtnVolver().setActionCommand("MENSUALIDADES");
+		
+		
 		
 		pm.getBtnConsultas().addActionListener(this);
 		pm.getBtnConsultas().setActionCommand("CONSULTAS");
@@ -174,7 +183,8 @@ public class Controller implements ActionListener {
 				String nombre = ppRegistrar.getTxtfieldNombre().getText().trim();
 				String telefono = ppRegistrar.getTxtfieldTelefono().getText().trim();
 				
-				if(documento.isBlank()) throw new DatoVacioException("Documento. ");
+				if(documento.isBlank()) throw new DatoVacioException("Documento.");
+				if(!documento.matches("\\d+") || documento.length() != 10) throw new DocumentoInvalidoException();
 				if(nombre.isBlank()) throw new DatoVacioException("Nombre. ");
 				if(telefono.isBlank()) throw new DatoVacioException("Telefono. ");
 				
@@ -195,6 +205,9 @@ public class Controller implements ActionListener {
 				ppRegistrar.getTxtfieldTelefono().setText("");
 			
 			} catch (DatoVacioException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			} catch (DocumentoInvalidoException ex) {
 				ReproducirAudio.reproducirSFX("Error.wav");
 				ve.mostrarERROR(ex.getMessage(), "ERROR");
 			}
@@ -218,10 +231,12 @@ public class Controller implements ActionListener {
 				String tipoTarifa = pvRegistrar.getBoxTarifa().getSelectedItem().toString();
 				
 				if (placa.isBlank()) throw new DatoVacioException("Placa.");
+				if (!documento.matches("\\d+") || documento.length() != 10) throw new DocumentoInvalidoException();
 				if (documento.isBlank()) throw new DatoVacioException("Documento.");
 				if (fechaSoat.isBlank()) throw new DatoVacioException("Fecha del SOAT.");
 				
 				LocalDate soat = LocalDate.parse(fechaSoat);
+				if (!soat.isAfter(LocalDate.now())) throw new SoatVencidoException();
 				
 				boolean nocturna;
 				if(tipoTarifa.equals("Por Hora")) nocturna = false;
@@ -244,7 +259,7 @@ public class Controller implements ActionListener {
                         moto.setPropietario(p);
                         moto.setVencimientoSoat(soat);
                         parqueadero.ingresarVehiculo(moto, nocturna); 
-                        parqueadero.ingresarVehiculo(moto, nocturna);
+                        motoDAO.crear(moto);
                     }
                 }else throw new PropietarioNoExisteException();
                 ReproducirAudio.reproducirSFX("Success.wav");
@@ -266,10 +281,13 @@ public class Controller implements ActionListener {
                 ReproducirAudio.reproducirSFX("Error.wav");
                 ve.mostrarERROR(ex.getMessage(), "ERROR");
             } catch (PlacaYaRegistradaException ex) {
+            	ReproducirAudio.reproducirSFX("Error.wav");
 			    ve.mostrarERROR(ex.getMessage(), "ERROR");
 			} catch (SobrecupoParqueaderoException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
 				ve.mostrarERROR(ex.getMessage(), "ERROR");
 			} catch (Exception ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
 				ve.mostrarERROR(ex.getMessage(), "ERROR");
 			} 
 
