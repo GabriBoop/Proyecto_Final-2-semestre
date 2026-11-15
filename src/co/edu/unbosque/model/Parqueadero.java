@@ -23,9 +23,6 @@ public class Parqueadero {
     private AlertaPolicia alertaPolicia;
     private AlertaSoat alertaSoat;
     
-    public Parqueadero() {
-    	
-    }
     public Parqueadero(FacturaDAO facturas,MensualidadDAO mensualidades,RegistroDAO registros) {
 		sistemaPolicia = new InformacionPolicia();
 		alertaPolicia = new AlertaPolicia();

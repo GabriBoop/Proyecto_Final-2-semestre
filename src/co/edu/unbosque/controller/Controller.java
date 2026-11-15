@@ -11,6 +11,7 @@ import co.edu.unbosque.util.exceptions.PlacaInvalidaException;
 import co.edu.unbosque.util.exceptions.PlacaYaRegistradaException;
 import co.edu.unbosque.util.exceptions.PropietarioNoExisteException;
 import co.edu.unbosque.util.exceptions.SobrecupoDeMensualidadesException;
+import co.edu.unbosque.util.exceptions.SobrecupoParqueaderoException;
 import co.edu.unbosque.model.*;
 import co.edu.unbosque.view.*;
 
@@ -50,14 +51,15 @@ public class Controller implements ActionListener {
 		pmConsulta = new PanelMenuConsulta();
 		pmReportes = new PanelMenuReportes();
 		ve = new VentanaEmergente();
-		parqueadero = new Parqueadero(facturaDAO, mensualidadDAO, registroDAO);
 		
 		carroDAO = new CarroDAO();
 		facturaDAO = new FacturaDAO();
 		mensualidadDAO = new MensualidadDAO();
 		motoDAO = new MotoDAO();
 		propietarioDAO = new PropietarioDAO();
-		registroDAO = new RegistroDAO();	
+		registroDAO = new RegistroDAO();
+		
+		parqueadero = new Parqueadero(facturaDAO, mensualidadDAO, registroDAO);
 	}
 
 	public void start() {
@@ -203,13 +205,14 @@ public class Controller implements ActionListener {
                         carro.setPropietario(p);
                         carro.setVencimientoSoat(soat);
                         carroDAO.crear(carro);
-                        parqueadero.ingresarVehiculo(carro, nocturna);
+                        registroDAO.crear(parqueadero.ingresarVehiculo(carro, nocturna)); 
+                        
                     } else {
                         MotoDTO moto = new MotoDTO();
                         moto.setPlaca(placa);
                         moto.setPropietario(p);
                         moto.setVencimientoSoat(soat);
-                        motoDAO.crear(moto);
+                        registroDAO.crear(parqueadero.ingresarVehiculo(moto, nocturna)); 
                         parqueadero.ingresarVehiculo(moto, nocturna);
                     }
                 }else throw new PropietarioNoExisteException();
@@ -230,10 +233,15 @@ public class Controller implements ActionListener {
 				ve.mostrarERROR("La fecha debe tener el formato. (AAAA-MM-DD)", "ERROR");
 			} catch(PropietarioNoExisteException ex) {
                 ReproducirAudio.reproducirSFX("Error.wav");
-                ve.mostrarERROR("El propietario no existe", "ERROR");
-            } catch (Exception ex) {
-            	 ve.mostrarERROR(ex.getMessage(),"ERROR");
-			}
+                ve.mostrarERROR(ex.getMessage(), "ERROR");
+            } catch (PlacaYaRegistradaException ex) {
+			    ve.mostrarERROR(ex.getMessage(), "ERROR");
+			} catch (SobrecupoParqueaderoException ex) {
+				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			} catch (Exception ex) {
+				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			} 
+
 			break;
 		case "MENSUALIDADES":
 			ReproducirAudio.reproducirSFX("Click.wav");
