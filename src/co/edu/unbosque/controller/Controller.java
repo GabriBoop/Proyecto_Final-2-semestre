@@ -9,6 +9,7 @@ import co.edu.unbosque.model.persistence.*;
 import co.edu.unbosque.util.exceptions.DatoVacioException;
 import co.edu.unbosque.util.exceptions.PlacaInvalidaException;
 import co.edu.unbosque.util.exceptions.PlacaYaRegistradaException;
+import co.edu.unbosque.util.exceptions.PropietarioNoExisteException;
 import co.edu.unbosque.util.exceptions.SobrecupoDeMensualidadesException;
 import co.edu.unbosque.model.*;
 import co.edu.unbosque.view.*;
@@ -17,7 +18,6 @@ import co.edu.unbosque.view.*;
 public class Controller implements ActionListener {
 	
 	// Visual
-	private Consola con; //matarlo
 	private MainFrame principal;
 	private PanelMenu pm;
 	private PanelPropietarioRegistrar ppRegistrar;
@@ -39,8 +39,7 @@ public class Controller implements ActionListener {
 	private Parqueadero parqueadero;
 	
 	public Controller(){
-		
-		con = new Consola();
+	
 		principal = new MainFrame();
 		pm = new PanelMenu();
 		ppRegistrar = new PanelPropietarioRegistrar();
@@ -182,41 +181,41 @@ public class Controller implements ActionListener {
 				String placa = pvRegistrar.getTxtfieldPlaca().getText().trim().toUpperCase();
 				String tipoV = pvRegistrar.getBoxTiposVehiculo().getSelectedItem().toString();
 				String documento = pvRegistrar.getTxtfieldPropietarioDoc().getText();
-				String nombre = pvRegistrar.getTxtfieldPropietarioNom().getText().trim();
-				String telefono = pvRegistrar.getTxtfieldPropietarioTel().getText().trim();
 				String fechaSoat = pvRegistrar.getTxtfieldSOAT().getText().trim();
 				String tipoTarifa = pvRegistrar.getBoxTarifa().getSelectedItem().toString();
 				
 				if (placa.isBlank()) throw new DatoVacioException("Placa.");
 				if (documento.isBlank()) throw new DatoVacioException("Documento.");
-				if (nombre.isBlank()) throw new DatoVacioException("Nombre.");
-				if (telefono.isBlank()) throw new DatoVacioException("Telefono.");
 				if (fechaSoat.isBlank()) throw new DatoVacioException("Fecha del SOAT.");
-
+				
 				LocalDate soat = LocalDate.parse(fechaSoat);
 				
-				propietarioDAO.crear(new PropietarioDTO(documento,nombre,telefono));
-				Propietario prop = new Propietario(documento,nombre,telefono);
+				boolean nocturna;
+				if(tipoTarifa.equals("Por Hora")) nocturna = false;
+				else nocturna = true;
 				
-				if (tipoV.equals("Carro")) {
-					CarroDTO carro = new CarroDTO();
-					carro.setPlaca(placa);
-					carro.setPropietario(prop);
-					carro.setVencimientoSoat(soat);
-					carroDAO.crear(carro);
-				} else {
-					MotoDTO moto = new MotoDTO();
-					moto.setPlaca(placa);
-					moto.setPropietario(prop);
-					moto.setVencimientoSoat(soat);
-					motoDAO.crear(moto);
-				}
-				ReproducirAudio.reproducirSFX("Success.wav");
+				if (propietarioDAO.existeDocumento(documento)) {
+                    Propietario p = propietarioDAO.buscarPorDocumento(documento);
+                    
+                    if (tipoV.equals("Carro")) {
+                        CarroDTO carro = new CarroDTO();
+                        carro.setPlaca(placa);
+                        carro.setPropietario(p);
+                        carro.setVencimientoSoat(soat);
+                        carroDAO.crear(carro);
+                    } else {
+                        MotoDTO moto = new MotoDTO();
+                        moto.setPlaca(placa);
+                        moto.setPropietario(p);
+                        moto.setVencimientoSoat(soat);
+                        motoDAO.crear(moto);
+                    }
+                }else throw new PropietarioNoExisteException();
+                
+                ReproducirAudio.reproducirSFX("Success.wav");
 				ve.mostrar(tipoV + " " + placa + " registrado.");
 				pvRegistrar.getTxtfieldPlaca().setText("");
 				pvRegistrar.getTxtfieldPropietarioDoc().setText("");
-				pvRegistrar.getTxtfieldPropietarioNom().setText("");
-				pvRegistrar.getTxtfieldPropietarioTel().setText("");
 				pvRegistrar.getTxtfieldSOAT().setText("");
 				
 			} catch (DatoVacioException ex) {
@@ -228,6 +227,11 @@ public class Controller implements ActionListener {
 			} catch (DateTimeParseException  ex) {
 				ReproducirAudio.reproducirSFX("Error.wav");
 				ve.mostrarERROR("La fecha debe tener el formato. (AAAA-MM-DD)", "ERROR");
+			} catch(PropietarioNoExisteException ex) {
+                ReproducirAudio.reproducirSFX("Error.wav");
+                ve.mostrarERROR("El propietario no existe", "ERROR");
+            } catch (Exception ex) {
+            	 ve.mostrarERROR(ex.getMessage(),"ERROR");
 			}
 			break;
 		case "MENSUALIDADES":

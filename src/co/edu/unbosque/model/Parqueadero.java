@@ -136,7 +136,6 @@ public class Parqueadero {
     
     public RegistroDTO ingresarVehiculo(Vehiculo v, boolean nocturna) throws Exception {
     	
-
     	if(isRegistroActivo(v.getPlaca()) == true) throw new PlacaYaRegistradaException();
     	if(espaciosDisponibles() == 0) throw new SobrecupoParqueaderoException();
     	
