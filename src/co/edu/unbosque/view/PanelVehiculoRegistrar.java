@@ -14,8 +14,6 @@ public class PanelVehiculoRegistrar {
 	private JTextField txtfieldPlaca = new JTextField();
 	private JComboBox<String> boxTiposVehiculo = new JComboBox<String>();
 	private JTextField txtfieldPropietarioDoc = new JTextField();
-	private JTextField txtfieldPropietarioNom = new JTextField();
-	private JTextField txtfieldPropietarioTel = new JTextField();
 	private JTextField txtfieldSOAT = new JTextField();
 	private JComboBox<String> boxTarifa = new JComboBox<String>();
 	
@@ -40,10 +38,6 @@ public class PanelVehiculoRegistrar {
 		columna.add(boxTiposVehiculo);
 		columna.add(new JLabel("Documento del propietario:"));
 		columna.add(txtfieldPropietarioDoc);
-		columna.add(new JLabel("Nombre del propietario:"));
-		columna.add(txtfieldPropietarioNom);
-		columna.add(new JLabel("Telefono del propietario:"));
-		columna.add(txtfieldPropietarioTel);
 		columna.add(new JLabel("Vencimiento SOAT (AAAA-MM-DD):"));
 		columna.add(txtfieldSOAT);
 		columna.add(new JLabel("Cobro nocturno:"));
@@ -96,22 +90,6 @@ public class PanelVehiculoRegistrar {
 
 	public void setTxtfieldPropietarioDoc(JTextField txtfieldPropietarioDoc) {
 		this.txtfieldPropietarioDoc = txtfieldPropietarioDoc;
-	}
-
-	public JTextField getTxtfieldPropietarioNom() {
-		return txtfieldPropietarioNom;
-	}
-
-	public void setTxtfieldPropietarioNom(JTextField txtfieldPropietarioNom) {
-		this.txtfieldPropietarioNom = txtfieldPropietarioNom;
-	}
-
-	public JTextField getTxtfieldPropietarioTel() {
-		return txtfieldPropietarioTel;
-	}
-
-	public void setTxtfieldPropietarioTel(JTextField txtfieldPropietarioTel) {
-		this.txtfieldPropietarioTel = txtfieldPropietarioTel;
 	}
 
 	public JTextField getTxtfieldSOAT() {
