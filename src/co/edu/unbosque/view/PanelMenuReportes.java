@@ -1,42 +1,56 @@
 package co.edu.unbosque.view;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 public class PanelMenuReportes {
+
+	public static final Color FONDO_REPORTES = new Color(6, 18, 56);
 	
 	private JPanel panel = new JPanel(new GridBagLayout());
-	private JPanel columna = new JPanel(new GridLayout(5, 1, 0, 30));
+	private JPanel columna = new JPanel(new GridLayout(4, 1, 0, 30));
 	private JLabel txt = new JLabel();
 	private JButton btnVehiculosNoche = new JButton("Vehículos que pasaron la Noche");
-    private JButton btnVehiculos24h = new JButton("Vehículos con mas de 24 Horas");
-    private JButton btnDineroMensual = new JButton("Dinero recaudado mensual");
-    private JButton btnVolver = new JButton("Volver");
-    
-    public PanelMenuReportes() {
-		panel.setBackground(PanelMenu.FONDO);
-		columna.setBackground(PanelMenu.FONDO);
-    	txt.setText("<html>Reportes<br>");
-    	txt.setHorizontalAlignment(SwingConstants.CENTER);
-		txt.setFont(new Font("Arial", Font.BOLD, 26));
-		btnVehiculosNoche.setFont(new Font("Arial", Font.PLAIN, 24));
-		btnVehiculos24h.setFont(new Font("Arial", Font.PLAIN, 24));
-		btnDineroMensual.setFont(new Font("Arial", Font.PLAIN, 24));
-		btnVolver.setFont(new Font("Arial", Font.PLAIN, 24));
-		
-		columna.add(txt);
+	private JButton btnVehiculos24h = new JButton("Vehículos con mas de 24 Horas");
+	private JButton btnDineroMensual = new JButton("Dinero recaudado mensual");
+	private JButton btnVolver = new JButton("Volver");
+
+	public PanelMenuReportes() {
+		panel.setBackground(FONDO_REPORTES);
+		columna.setBackground(FONDO_REPORTES);
+
+		JLabel imgReportes = PanelMenu.crearImagen("/co/edu/unbosque/images/Reportes.png");
+
+		crearBotonReportes(btnVehiculosNoche, new Color(0, 50, 255), Color.WHITE);
+		crearBotonReportes(btnVehiculos24h, new Color(0, 90, 235), Color.WHITE);
+		crearBotonReportes(btnDineroMensual, new Color(0, 130, 215), Color.WHITE);
+		crearBotonReportes(btnVolver, new Color(0, 165, 195), Color.WHITE);
+
 		columna.add(btnVehiculosNoche);
 		columna.add(btnVehiculos24h);
 		columna.add(btnDineroMensual);
 		columna.add(btnVolver);
-		panel.add(columna);
-    }
+		PanelMenu.ajustarPanel(panel, imgReportes, columna);
+	}
+	
+	private void crearBotonReportes(JButton boton, Color color, Color txtColor) {
+		boton.setPreferredSize(new Dimension(450,50));
+		boton.setBackground(color);
+		boton.setForeground(txtColor);
+		boton.setOpaque(true);
+		boton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		boton.setFocusPainted(false);
+		boton.setBorder(BorderFactory.createLineBorder(txtColor, 4));
+	}
+
     
 	public JPanel getPanel() {
 		return panel;

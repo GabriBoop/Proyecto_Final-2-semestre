@@ -1,45 +1,46 @@
 package co.edu.unbosque.view;
 
-import java.awt.Font;
+import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 public class PanelMenuConsulta {
-	
+
+	protected static final Color FONDO_CONSULTA = new Color(48, 8, 58);   
+
 	private JPanel panel = new JPanel(new GridBagLayout());
-	private JPanel columna = new JPanel(new GridLayout(6, 1, 0, 30));
+	private JPanel columna = new JPanel(new GridLayout(5, 1, 0, 30));
 	private JLabel txt = new JLabel();
 	private JButton btnVerRegistros = new JButton("Ver Registros");
-    private JButton btnVerFacturas = new JButton("Ver Facturas");
-    private JButton btnUltimaFactura = new JButton("Última Factura");
-    private JButton btnBuscarFactura = new JButton("Buscar Factura");
-    private JButton btnVolver = new JButton("Volver");
-    
-    public PanelMenuConsulta() {
-		panel.setBackground(PanelMenu.FONDO);
-		columna.setBackground(PanelMenu.FONDO);
-    	txt.setText("<html>Consultas<br>");
-    	txt.setHorizontalAlignment(SwingConstants.CENTER);
-		txt.setFont(new Font("Arial", Font.BOLD, 26));
-		btnVerRegistros.setFont(new Font("Arial", Font.PLAIN, 24));
-		btnVerFacturas.setFont(new Font("Arial", Font.PLAIN, 24));
-		btnUltimaFactura.setFont(new Font("Arial", Font.PLAIN, 24));
-		btnBuscarFactura.setFont(new Font("Arial", Font.PLAIN, 24));
-		btnVolver.setFont(new Font("Arial", Font.PLAIN, 24));
-    	
-		columna.add(txt);
+	private JButton btnVerFacturas = new JButton("Ver Facturas");
+	private JButton btnUltimaFactura = new JButton("Última Factura");
+	private JButton btnBuscarFactura = new JButton("Buscar Factura");
+	private JButton btnVolver = new JButton("Volver");
+
+	public PanelMenuConsulta() {
+		panel.setBackground(FONDO_CONSULTA);
+		columna.setBackground(FONDO_CONSULTA);
+
+		JLabel imgConsultas = PanelMenu.crearImagen("/co/edu/unbosque/images/Consultas.png");
+
+		PanelMenu.crearBoton(btnVerRegistros, new Color(255, 4, 254), Color.WHITE);
+		PanelMenu.crearBoton(btnVerFacturas, new Color(228, 4, 254), Color.WHITE);
+		PanelMenu.crearBoton(btnUltimaFactura, new Color(200, 4, 254), Color.WHITE);
+		PanelMenu.crearBoton(btnBuscarFactura, new Color(172, 4, 254), Color.WHITE);
+		PanelMenu.crearBoton(btnVolver, new Color(144, 4, 254), Color.WHITE);
+
 		columna.add(btnVerRegistros);
 		columna.add(btnVerFacturas);
 		columna.add(btnUltimaFactura);
 		columna.add(btnBuscarFactura);
 		columna.add(btnVolver);
-		panel.add(columna);
-    }
+		PanelMenu.ajustarPanel(panel, imgConsultas, columna);
+	}
+	
     
 	public JPanel getPanel() {
 		return panel;

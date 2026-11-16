@@ -1,6 +1,6 @@
 package co.edu.unbosque.view;
 
-import java.awt.Component;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -9,50 +9,50 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 public class PanelMensualidadesRegistrar {
-	
+
 	private JPanel panel = new JPanel(new GridBagLayout());
-	private JPanel columna = new JPanel(new GridLayout(9, 2, 15, 15));
+	private JPanel columna = new JPanel(new GridLayout(5, 2, 15, 15));
 	private JLabel txt = new JLabel();
-	
+
 	private JTextField txtfieldPlaca = new JTextField();
 	private JComboBox<String> boxTiposVehiculo = new JComboBox<String>();
 	private JTextField txtfieldPropietarioDoc = new JTextField();
 	private JTextField txtfieldPropietarioNom = new JTextField();
-	
+
 	private JButton btnRegistrar = new JButton("Registrar");
 	private JButton btnVolver = new JButton("Volver");
-	
+
 	public PanelMensualidadesRegistrar() {
-		panel.setBackground(PanelMenu.FONDO);
-		columna.setBackground(PanelMenu.FONDO);
-		txt.setText("Registrar Mensualidad");
-		txt.setHorizontalAlignment(SwingConstants.CENTER);
-		
+		panel.setBackground(PanelMenuMensualidades.FONDO_MENSUALIDADES);
+		columna.setBackground(PanelMenuMensualidades.FONDO_MENSUALIDADES);
+
 		boxTiposVehiculo.addItem("Carro");
 		boxTiposVehiculo.addItem("Moto");
-		
-		columna.add(txt);
-		columna.add(new JLabel());
-		columna.add(new JLabel("Nombre del propietario:"));
+
+		Font fuente = new Font(Font.SANS_SERIF, Font.BOLD, 24);
+		txtfieldPropietarioNom.setFont(fuente);
+		txtfieldPropietarioDoc.setFont(fuente);
+		txtfieldPlaca.setFont(fuente);
+		boxTiposVehiculo.setFont(fuente);
+
+		PanelMenu.crearBoton(btnRegistrar, PanelMenu.COLOR_REGISTRAR, Color.WHITE);
+		PanelMenu.crearBoton(btnVolver, Color.BLACK, Color.WHITE);
+
+		columna.add(PanelMenu.crearLabel("Nombre del propietario:"));
 		columna.add(txtfieldPropietarioNom);
-		columna.add(new JLabel("Documento del propietario:"));
+		columna.add(PanelMenu.crearLabel("Documento del propietario:"));
 		columna.add(txtfieldPropietarioDoc);
-		columna.add(new JLabel("Placa:"));
+		columna.add(PanelMenu.crearLabel("Placa:"));
 		columna.add(txtfieldPlaca);
-		columna.add(new JLabel("Tipo de vehiculo:"));
+		columna.add(PanelMenu.crearLabel("Tipo de vehiculo:"));
 		columna.add(boxTiposVehiculo);
 		columna.add(btnRegistrar);
 		columna.add(btnVolver);
-		
-		for (Component c : columna.getComponents()) {
-			c.setFont(new Font("Arial", Font.PLAIN, 18));
-		}
-		txt.setFont(new Font("Arial", Font.BOLD, 24));
-		
-		panel.add(columna);
+
+		JLabel imgTitulo = PanelMenu.crearImagen("/co/edu/unbosque/images/RegistrarMensualidad.png");
+		PanelMenu.ajustarPanel(panel, imgTitulo, columna);
 	}
 
 	public JPanel getPanel() {
@@ -126,6 +126,5 @@ public class PanelMensualidadesRegistrar {
 	public void setBtnVolver(JButton btnVolver) {
 		this.btnVolver = btnVolver;
 	}
-	
 
 }
