@@ -38,6 +38,8 @@ public class Controller implements ActionListener {
 	private PanelVerParqueadero pvVerParqueadero;
 	private PanelVerMensualidades pmVerMensualidades;
 	private PanelMensualidadesVacantes pmVerMensualidadesVacantes;
+	private PanelVerRegistros pmVerRegistros;
+	private PanelVerFacturas pmVerFacturas;
 	// DAO
 	private CarroDAO carroDAO;
 	private FacturaDAO facturaDAO;
@@ -65,6 +67,8 @@ public class Controller implements ActionListener {
 		pmReportes = new PanelMenuReportes();
 		pmVerMensualidades = new PanelVerMensualidades();
 		pmVerMensualidadesVacantes = new PanelMensualidadesVacantes();
+		pmVerRegistros = new PanelVerRegistros();
+		pmVerFacturas = new PanelVerFacturas();
 		
 		ve = new VentanaEmergente();
 		
@@ -173,6 +177,18 @@ public class Controller implements ActionListener {
 		
 		pmConsulta.getBtnVolver().addActionListener(this);
 		pmConsulta.getBtnVolver().setActionCommand("VOLVER");
+		
+		pmConsulta.getBtnVerRegistros().addActionListener(this);
+		pmConsulta.getBtnVerRegistros().setActionCommand("VER_REGISTROS");
+		
+		pmVerRegistros.getBtnVolver().addActionListener(this);
+		pmVerRegistros.getBtnVolver().setActionCommand("VOLVER_REGISTROS");
+		
+		pmConsulta.getBtnVerFacturas().addActionListener(this);
+		pmConsulta.getBtnVerFacturas().setActionCommand("VER_FACTURAS");
+		
+		pmVerFacturas.getBtnVolver().addActionListener(this);
+		pmVerFacturas.getBtnVolver().setActionCommand("VOLVER_FACTURAS");
 		
 		pmReportes.getBtnVolver().addActionListener(this);
 		pmReportes.getBtnVolver().setActionCommand("VOLVER");
@@ -487,6 +503,22 @@ public class Controller implements ActionListener {
 			principal.cambiarPanel(pmVerMensualidadesVacantes.getPanel());
 			break;
 		case "CONSULTAS":
+			ReproducirAudio.reproducirSFX("Click.wav");
+			principal.cambiarPanel(pmConsulta.getPanel());
+			break;
+		case "VER_REGISTROS":
+			ReproducirAudio.reproducirSFX("Click.wav");
+			principal.cambiarPanel(pmVerRegistros.getPanel());
+			break;
+		case "VOLVER_REGISTROS":
+			ReproducirAudio.reproducirSFX("Click.wav");
+			principal.cambiarPanel(pmConsulta.getPanel());
+			break;
+		case "VER_FACTURAS":
+			ReproducirAudio.reproducirSFX("Click.wav");
+			principal.cambiarPanel(pmVerFacturas.getPanel());
+			break;
+		case "VOLVER_FACTURAS":
 			ReproducirAudio.reproducirSFX("Click.wav");
 			principal.cambiarPanel(pmConsulta.getPanel());
 			break;
