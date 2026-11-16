@@ -16,6 +16,7 @@ import co.edu.unbosque.util.exceptions.RegistroNoEncontradoException;
 import co.edu.unbosque.util.exceptions.SoatVencidoException;
 import co.edu.unbosque.util.exceptions.SobrecupoDeMensualidadesException;
 import co.edu.unbosque.util.exceptions.SobrecupoParqueaderoException;
+import co.edu.unbosque.util.exceptions.TelefonoInvalidoException;
 import co.edu.unbosque.model.*;
 import co.edu.unbosque.view.*;
 
@@ -198,6 +199,7 @@ public class Controller implements ActionListener {
 				if(!documento.matches("\\d+") || documento.length() != 10) throw new DocumentoInvalidoException();
 				if(nombre.isBlank()) throw new DatoVacioException("Nombre. ");
 				if(telefono.isBlank()) throw new DatoVacioException("Telefono. ");
+				if(!telefono.matches("\\d+") || telefono.length() != 10) throw new TelefonoInvalidoException();
 				
 				if (propietarioDAO.existeDocumento(documento)) {
 					ReproducirAudio.reproducirSFX("Error.wav");
@@ -221,6 +223,9 @@ public class Controller implements ActionListener {
 			} catch (DocumentoInvalidoException ex) {
 				ReproducirAudio.reproducirSFX("Error.wav");
 				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			} catch (TelefonoInvalidoException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(), "ERROR");
 			}
 			break;
 		
@@ -242,7 +247,6 @@ public class Controller implements ActionListener {
 				String tipoTarifa = pvRegistrar.getBoxTarifa().getSelectedItem().toString();
 				
 				if (placa.isBlank()) throw new DatoVacioException("Placa.");
-				if (!documento.matches("\\d+") || documento.length() != 10) throw new DocumentoInvalidoException();
 				if (documento.isBlank()) throw new DatoVacioException("Documento.");
 				if (fechaSoat.isBlank()) throw new DatoVacioException("Fecha del SOAT.");
 				

@@ -1,6 +1,6 @@
 package co.edu.unbosque.view;
 
-import java.awt.Component;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -9,12 +9,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 public class PanelPropietarioRegistrar {
 	
+	private static final Color FONDO = new Color(14,60,0);
 	private JPanel panel = new JPanel(new GridBagLayout());
-	private JPanel columna = new JPanel(new GridLayout(5, 2, 15, 15));
+	private JPanel columna = new JPanel(new GridLayout(4, 2, 15, 15));
 	private JLabel txt = new JLabel();
 	
 	private JTextField txtfieldDocumento = new JTextField();
@@ -25,29 +25,29 @@ public class PanelPropietarioRegistrar {
 	private JButton btnVolver = new JButton("Volver");
 
 	public PanelPropietarioRegistrar() {
-		panel.setBackground(PanelMenu.FONDO);
-		columna.setBackground(PanelMenu.FONDO);
-		txt.setText("Registrar Propietario");
-		txt.setHorizontalAlignment(SwingConstants.CENTER);
-
-		columna.add(txt);
-		columna.add(new JLabel());
-		columna.add(new JLabel("Documento del propietario:"));
+		panel.setBackground(FONDO);
+		columna.setBackground(FONDO);
+		
+		txtfieldDocumento.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		txtfieldNombre.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		txtfieldTelefono.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		
+		PanelMenu.crearBoton(btnRegistrar,PanelMenu.COLOR_REGISTRAR ,Color.WHITE);
+		PanelMenu.crearBoton(btnVolver,Color.BLACK,Color.WHITE);
+		
+		columna.add(PanelMenu.crearLabel("Documento del propietario:"));
 		columna.add(txtfieldDocumento);
-		columna.add(new JLabel("Nombre del propietario:"));
+		columna.add(PanelMenu.crearLabel("Nombre del propietario:"));
 		columna.add(txtfieldNombre);
-		columna.add(new JLabel("Telefono del propietario:"));
+		columna.add(PanelMenu.crearLabel("Telefono del propietario:"));
 		columna.add(txtfieldTelefono);
 		columna.add(btnRegistrar);
 		columna.add(btnVolver);
 
-		for (Component c : columna.getComponents()) {
-			c.setFont(new Font("Arial", Font.PLAIN, 18));
-		}
-		txt.setFont(new Font("Arial", Font.BOLD, 24));
-
-		panel.add(columna);
+		JLabel imgTitulo = PanelMenu.crearImagen("/co/edu/unbosque/images/propietario.png");
+		PanelMenu.ajustarPanel(panel, imgTitulo, columna);
 	}
+	
 
 	public JPanel getPanel() {
 		return panel;

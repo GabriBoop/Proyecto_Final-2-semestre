@@ -41,6 +41,7 @@ public class MainFrame extends JFrame{
 	 public void setTitulo(String txt) {
 		    this.setTitle(txt); 
 		}
+
 	
 		
 }

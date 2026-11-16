@@ -1,6 +1,6 @@
 package co.edu.unbosque.view;
 
-import java.awt.Component;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -9,43 +9,46 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 public class PanelVehiculoParqueadero {
-	
+
 	private JPanel panel = new JPanel(new GridBagLayout());
-	private JPanel columna = new JPanel(new GridLayout(5, 2, 15, 15));
+	private JPanel columna = new JPanel(new GridLayout(4, 2, 15, 15));
 	private JLabel txt = new JLabel();
 
 	private JTextField txtfieldPlaca = new JTextField();
 	private JLabel lblEstado = new JLabel("");
 	private JLabel lblPropietario = new JLabel("");
-	
+
 	private JButton btnConsultar = new JButton("Consultar");
 	private JButton btnVolver = new JButton("Volver");
-	
-	public PanelVehiculoParqueadero() {
-		panel.setBackground(PanelMenu.FONDO);
-		columna.setBackground(PanelMenu.FONDO);
-		txt.setText("Consultar Vehiculo Parqueado");
-		txt.setHorizontalAlignment(SwingConstants.CENTER);
 
-		columna.add(txt);
-		columna.add(new JLabel());
-		columna.add(new JLabel("Placa (AAA-###):"));
+	public PanelVehiculoParqueadero() {
+		panel.setBackground(PanelMenuVehiculo.FONDO_VEHICULO);
+		columna.setBackground(PanelMenuVehiculo.FONDO_VEHICULO);
+
+		txtfieldPlaca.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+
+		Font fuenteResultado = new Font("Arial", Font.BOLD, 24);
+		lblEstado.setFont(fuenteResultado);
+		lblEstado.setForeground(Color.WHITE);
+		lblPropietario.setFont(fuenteResultado);
+		lblPropietario.setForeground(Color.WHITE);
+
+		PanelMenu.crearBoton(btnConsultar, PanelMenu.COLOR_REGISTRAR, Color.WHITE);
+		PanelMenu.crearBoton(btnVolver, Color.BLACK, Color.WHITE);
+
+		columna.add(PanelMenu.crearLabel("Placa (AAA-###):"));
 		columna.add(txtfieldPlaca);
-		columna.add(new JLabel("Estado:"));
+		columna.add(PanelMenu.crearLabel("Estado:"));
 		columna.add(lblEstado);
-		columna.add(new JLabel("Propietario:"));
+		columna.add(PanelMenu.crearLabel("Propietario:"));
 		columna.add(lblPropietario);
 		columna.add(btnConsultar);
 		columna.add(btnVolver);
 
-		for (Component c : columna.getComponents()) {
-			c.setFont(new Font("Arial", Font.PLAIN, 18));
-		}
-		txt.setFont(new Font("Arial", Font.BOLD, 24));
-		panel.add(columna);
+		JLabel imgTitulo = PanelMenu.crearImagen("/co/edu/unbosque/images/ParqueaderoVehiculo.png");
+		PanelMenu.ajustarPanel(panel, imgTitulo, columna);
 	}
 
 	public JPanel getPanel() {
@@ -111,5 +114,5 @@ public class PanelVehiculoParqueadero {
 	public void setBtnVolver(JButton btnVolver) {
 		this.btnVolver = btnVolver;
 	}
-	
+
 }

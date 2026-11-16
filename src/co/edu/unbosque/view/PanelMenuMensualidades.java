@@ -1,37 +1,38 @@
 package co.edu.unbosque.view;
 
-import java.awt.Font;
+import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+
 import javax.swing.*;
 
 public class PanelMenuMensualidades {
 
+	protected static final Color FONDO_VEHICULO = new Color(60, 8, 30);  
 	private JPanel panel = new JPanel(new GridBagLayout());
-	private JPanel columna = new JPanel(new GridLayout(5, 1, 0, 30));
+	private JPanel columna = new JPanel(new GridLayout(4, 1, 0, 30));
 	private JLabel txt = new JLabel();
 	private JButton btnRegistrar = new JButton("Registrar Mensualidad");
 	private JButton btnVer = new JButton("Ver Mensualidades");
-	private JButton btnVacantes= new JButton("Vacantes Mensualidades");
+	private JButton btnVacantes = new JButton("Vacantes Mensualidades");
 	private JButton btnVolver = new JButton("Volver");
 
 	public PanelMenuMensualidades() {
-		panel.setBackground(PanelMenu.FONDO);
-		columna.setBackground(PanelMenu.FONDO);
-		txt.setText("<html>Mensualidades<br>");
-		txt.setHorizontalAlignment(SwingConstants.CENTER);
-		txt.setFont(new Font("Arial", Font.BOLD, 26));
-		btnRegistrar.setFont(new Font("Arial", Font.PLAIN, 24));
-		btnVer.setFont(new Font("Arial", Font.PLAIN, 24));
-		btnVacantes.setFont(new Font("Arial", Font.PLAIN, 24));
-		btnVolver.setFont(new Font("Arial", Font.PLAIN, 24));
+		panel.setBackground(FONDO_VEHICULO);
+		columna.setBackground(FONDO_VEHICULO);
 
-		columna.add(txt);
+		JLabel imgMensualidades = PanelMenu.crearImagen("/co/edu/unbosque/images/Mensualidades.png");
+
+		PanelMenu.crearBoton(btnRegistrar, new Color(255, 50, 62), Color.WHITE);
+		PanelMenu.crearBoton(btnVer, new Color(255, 50, 100), Color.WHITE);
+		PanelMenu.crearBoton(btnVacantes, new Color(250, 50, 140), Color.WHITE);
+		PanelMenu.crearBoton(btnVolver, new Color(235, 50, 180), Color.WHITE);
+
 		columna.add(btnRegistrar);
 		columna.add(btnVer);
 		columna.add(btnVacantes);
 		columna.add(btnVolver);
-		panel.add(columna);
+		PanelMenu.ajustarPanel(panel, imgMensualidades, columna);
 	}
 
 	public JPanel getPanel() {
@@ -89,6 +90,5 @@ public class PanelMenuMensualidades {
 	public void setBtnVolver(JButton btnVolver) {
 		this.btnVolver = btnVolver;
 	}
-
 
 }

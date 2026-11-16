@@ -1,57 +1,60 @@
 package co.edu.unbosque.view;
-import java.awt.Component;
+
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.*;
+
 public class PanelVehiculoRegistrar {
-	
+
 	private JPanel panel = new JPanel(new GridBagLayout());
-	private JPanel columna = new JPanel(new GridLayout(9, 2, 15, 15));
-	private JLabel txt = new JLabel();
-	
+	private JPanel columna = new JPanel(new GridLayout(6, 2, 15, 15));
+
 	private JTextField txtfieldPlaca = new JTextField();
 	private JComboBox<String> boxTiposVehiculo = new JComboBox<String>();
 	private JTextField txtfieldPropietarioDoc = new JTextField();
 	private JTextField txtfieldSOAT = new JTextField();
 	private JComboBox<String> boxTarifa = new JComboBox<String>();
-	
+
 	private JButton btnRegistrar = new JButton("Registrar");
 	private JButton btnVolver = new JButton("Volver");
-	
+
 	public PanelVehiculoRegistrar() {
-		panel.setBackground(PanelMenu.FONDO);
-		columna.setBackground(PanelMenu.FONDO);
-		txt.setText("Registrar Vehiculo");
-		txt.setHorizontalAlignment(SwingConstants.CENTER);
-		
+		panel.setBackground(PanelMenuVehiculo.FONDO_VEHICULO);
+		columna.setBackground(PanelMenuVehiculo.FONDO_VEHICULO);
+
 		boxTiposVehiculo.addItem("Carro");
 		boxTiposVehiculo.addItem("Moto");
 		boxTarifa.addItem("Por hora");
 		boxTarifa.addItem("Fija nocturna");
-		
-		
-		columna.add(txt);
-		columna.add(new JLabel());
-		columna.add(new JLabel("Placa (AAA-###):"));
+
+		Font fuente = new Font(Font.SANS_SERIF, Font.BOLD, 20);
+		txtfieldPlaca.setFont(fuente);
+		txtfieldPropietarioDoc.setFont(fuente);
+		txtfieldSOAT.setFont(fuente);
+		boxTiposVehiculo.setFont(fuente);
+		boxTarifa.setFont(fuente);
+
+		PanelMenu.crearBoton(btnRegistrar, PanelMenu.COLOR_REGISTRAR, Color.WHITE);
+		PanelMenu.crearBoton(btnVolver, Color.BLACK, Color.WHITE);
+
+		columna.add(PanelMenu.crearLabel("Placa (AAA-###):"));
 		columna.add(txtfieldPlaca);
-		columna.add(new JLabel("Tipo de vehiculo:"));
+		columna.add(PanelMenu.crearLabel("Tipo de vehiculo:"));
 		columna.add(boxTiposVehiculo);
-		columna.add(new JLabel("Documento del propietario:"));
+		columna.add(PanelMenu.crearLabel("Documento del propietario:"));
 		columna.add(txtfieldPropietarioDoc);
-		columna.add(new JLabel("Vencimiento SOAT (AAAA-MM-DD):"));
+		columna.add(PanelMenu.crearLabel("Vencimiento SOAT (AAAA-MM-DD):"));
 		columna.add(txtfieldSOAT);
-		columna.add(new JLabel("Cobro nocturno:"));
+		columna.add(PanelMenu.crearLabel("Cobro nocturno:"));
 		columna.add(boxTarifa);
 		columna.add(btnRegistrar);
 		columna.add(btnVolver);
-		
-		for (Component c : columna.getComponents()) {
-			c.setFont(new Font("Arial", Font.PLAIN, 18));
-		}
-		txt.setFont(new Font("Arial", Font.BOLD, 24));
-		panel.add(columna);
+
+		JLabel imgTitulo = PanelMenu.crearImagen("/co/edu/unbosque/images/RegistrarVehiculo.png");
+		PanelMenu.ajustarPanel(panel, imgTitulo, columna);
 	}
 
 	public JPanel getPanel() {
@@ -109,6 +112,7 @@ public class PanelVehiculoRegistrar {
 	public void setBoxTarifa(JComboBox<String> boxTarifa) {
 		this.boxTarifa = boxTarifa;
 	}
+
 	public JButton getBtnRegistrar() {
 		return btnRegistrar;
 	}
@@ -116,5 +120,5 @@ public class PanelVehiculoRegistrar {
 	public JButton getBtnVolver() {
 		return btnVolver;
 	}
-	
+
 }
