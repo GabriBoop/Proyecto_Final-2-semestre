@@ -17,12 +17,16 @@ public class CarroDAO implements DAO<Carro,CarroDTO>{
 		leerSerializado();
 	}
 	@Override
-	public void crear(CarroDTO D) {
+	public boolean crear(CarroDTO D) {
 		// TODO Auto-generated method stub
+		if (D!=null) {
 		listaCarros.add(DataMapper.convertirCarroDTOACarro(D));
 		escribirArchivo();
 		escribirArchivoSerializado();
-		
+		return true;
+		}else {
+			return false;
+		}
 	}
 
 	@Override

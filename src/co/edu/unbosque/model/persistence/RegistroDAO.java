@@ -13,15 +13,19 @@ public class RegistroDAO implements DAO<Registro, RegistroDTO> {
 	
 	public RegistroDAO() {
 		setListaRegistros(new ArrayList<>());
-		escribirArchivoSerializado();
+		leerSerializado();
 	}
 
 	@Override
-	public void crear(RegistroDTO D) {
+	public boolean crear(RegistroDTO D) {
+		if (D!=null) {
 		listaRegistros.add(DataMapper.convertirRegistroDTOARegistro(D));
 		escribirArchivo();
 		escribirArchivoSerializado();
-		
+		return true;
+		}else {
+			return false;
+		}
 	}
 
 	@Override

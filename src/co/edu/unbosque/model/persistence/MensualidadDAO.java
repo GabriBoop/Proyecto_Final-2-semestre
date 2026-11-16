@@ -16,12 +16,16 @@ public class MensualidadDAO implements DAO<Mensualidad,MensualidadDTO>{
 		leerSerializado();
 	}
 	@Override
-	public void crear(MensualidadDTO D) {
+	public boolean crear(MensualidadDTO D) {
 		// TODO Auto-generated method stub
+		if (D!=null) {
 		listaMensualidades.add(DataMapper.convertirMensualidadDTOAMensualidad(D));
 		escribirArchivo();
 		escribirArchivoSerializado();
-		
+		return true;
+		}else {
+			return false;
+		}
 	}
 
 	@Override

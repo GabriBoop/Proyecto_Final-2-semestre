@@ -17,10 +17,15 @@ public class PropietarioDAO implements DAO<Propietario,PropietarioDTO> {
 	}
 
 	@Override
-	public void crear(PropietarioDTO D) {
+	public boolean crear(PropietarioDTO D) {
+		if (D!=null) {
 		listaPropietarios.add(DataMapper.convertirPropietarioDTOAPropietario(D));
 		escribirArchivo();
 		escribirArchivoSerializado();
+		return true;
+		}else {
+			return false;
+		}
 	}
 
 	@Override

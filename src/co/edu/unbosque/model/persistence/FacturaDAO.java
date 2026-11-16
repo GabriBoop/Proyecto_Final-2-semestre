@@ -17,12 +17,16 @@ public class FacturaDAO implements DAO<Factura,FacturaDTO>{
 		leerSerializado();
 	}
 	@Override
-	public void crear(FacturaDTO D) {
+	public boolean crear(FacturaDTO D) {
 		// TODO Auto-generated method stub
+		if (D!=null) {
 		listaFacturas.add(DataMapper.convertirFacturaDTOAFactura(D));
 		escribirArchivo();
 		escribirArchivoSerializado();
-		
+		return true;
+		}else {
+			return false;
+		}
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public interface DAO<E,D> {
 
-    public void crear(D D);
+    public boolean crear(D D);
 
     public boolean eliminar(int index);
 

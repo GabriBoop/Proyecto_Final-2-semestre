@@ -17,11 +17,15 @@ public class MotoDAO implements DAO<Moto,MotoDTO>{
 		leerSerializado();
 	}
 	@Override
-	public void crear(MotoDTO D) {
+	public boolean crear(MotoDTO D) {
+		if(D!=null) {
 		listaMotos.add(DataMapper.convertirMotoDTOAMoto(D));
 		escribirArchivo();
 		escribirArchivoSerializado();
-		
+		return true;
+		}else {
+			return false;
+		}
 	}
 
 	@Override
