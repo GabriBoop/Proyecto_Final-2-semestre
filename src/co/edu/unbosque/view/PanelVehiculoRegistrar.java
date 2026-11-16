@@ -21,6 +21,8 @@ public class PanelVehiculoRegistrar {
 	private JButton btnVolver = new JButton("Volver");
 	
 	public PanelVehiculoRegistrar() {
+		panel.setBackground(PanelMenu.FONDO);
+		columna.setBackground(PanelMenu.FONDO);
 		txt.setText("Registrar Vehiculo");
 		txt.setHorizontalAlignment(SwingConstants.CENTER);
 		

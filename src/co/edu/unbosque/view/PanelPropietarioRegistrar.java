@@ -25,6 +25,8 @@ public class PanelPropietarioRegistrar {
 	private JButton btnVolver = new JButton("Volver");
 
 	public PanelPropietarioRegistrar() {
+		panel.setBackground(PanelMenu.FONDO);
+		columna.setBackground(PanelMenu.FONDO);
 		txt.setText("Registrar Propietario");
 		txt.setHorizontalAlignment(SwingConstants.CENTER);
 

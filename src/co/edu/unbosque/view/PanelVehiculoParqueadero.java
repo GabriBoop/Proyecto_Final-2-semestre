@@ -25,6 +25,8 @@ public class PanelVehiculoParqueadero {
 	private JButton btnVolver = new JButton("Volver");
 	
 	public PanelVehiculoParqueadero() {
+		panel.setBackground(PanelMenu.FONDO);
+		columna.setBackground(PanelMenu.FONDO);
 		txt.setText("Consultar Vehiculo Parqueado");
 		txt.setHorizontalAlignment(SwingConstants.CENTER);
 

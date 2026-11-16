@@ -78,6 +78,7 @@ public class Controller implements ActionListener {
 	}
 
 	public void start() {
+		ReproducirAudio.reproducir("eShop.wav");
 		asignarOyentes();
 		principal.cambiarPanel(pm.getPanel());
 		principal.setVisible(true);
@@ -146,10 +147,10 @@ public class Controller implements ActionListener {
 		pvSalida.getBtnRegistrarSalida().setActionCommand("SALIDA_VEHICULO");
 
 		pvSalida.getBtnVolver().addActionListener(this);
-		pvSalida.getBtnVolver().setActionCommand("VOLVER");
+		pvSalida.getBtnVolver().setActionCommand("VOLVER_VEHICULO");	
 		
 		pvRegistrar.getBtnVolver().addActionListener(this);
-		pvRegistrar.getBtnVolver().setActionCommand("VOLVER");
+		pvRegistrar.getBtnVolver().setActionCommand("VOLVER_VEHICULO");  
 		
 		pmVehiculo.getBtnParqueado().addActionListener(this);
 		pmVehiculo.getBtnParqueado().setActionCommand("VEHICULO_PARQUEADO");

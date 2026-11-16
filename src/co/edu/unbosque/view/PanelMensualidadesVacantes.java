@@ -29,6 +29,9 @@ public class PanelMensualidadesVacantes {
 	private JButton btnVolver = new JButton("Volver");
 	
 	public PanelMensualidadesVacantes() {
+		panel.setBackground(PanelMenu.FONDO);
+		columna.setBackground(PanelMenu.FONDO);
+		superior.setBackground(PanelMenu.FONDO);
 		txt.setText("Vacantes de Mensualidades");
 		txt.setHorizontalAlignment(SwingConstants.CENTER);
 		lblVacantesDisponibles.setHorizontalAlignment(SwingConstants.CENTER);

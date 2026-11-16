@@ -28,6 +28,9 @@ public class PanelVerMensualidades {
 	private JButton btnVolver = new JButton("Volver");
 	
 	public PanelVerMensualidades() {
+		panel.setBackground(PanelMenu.FONDO);
+		columna.setBackground(PanelMenu.FONDO);
+		superior.setBackground(PanelMenu.FONDO);
 		txt.setText("Mensualidades Registradas");
 		txt.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTotalMensualidades.setHorizontalAlignment(SwingConstants.CENTER);

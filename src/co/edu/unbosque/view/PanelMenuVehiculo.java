@@ -17,6 +17,8 @@ public class PanelMenuVehiculo {
 	private JButton btnVolver = new JButton("Volver");
 
 	public PanelMenuVehiculo() {
+		panel.setBackground(PanelMenu.FONDO);
+		columna.setBackground(PanelMenu.FONDO);
 		txt.setText("<html>Vehiculo<br>");
 		txt.setHorizontalAlignment(SwingConstants.CENTER);
 		txt.setFont(new Font("Arial", Font.BOLD, 26));

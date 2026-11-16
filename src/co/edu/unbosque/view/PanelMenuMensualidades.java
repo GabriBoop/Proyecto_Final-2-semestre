@@ -16,6 +16,8 @@ public class PanelMenuMensualidades {
 	private JButton btnVolver = new JButton("Volver");
 
 	public PanelMenuMensualidades() {
+		panel.setBackground(PanelMenu.FONDO);
+		columna.setBackground(PanelMenu.FONDO);
 		txt.setText("<html>Mensualidades<br>");
 		txt.setHorizontalAlignment(SwingConstants.CENTER);
 		txt.setFont(new Font("Arial", Font.BOLD, 26));

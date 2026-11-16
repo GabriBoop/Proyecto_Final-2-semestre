@@ -24,6 +24,9 @@ public class PanelVerParqueadero {
 	private JButton btnVolver = new JButton("Volver");
 	
 	public PanelVerParqueadero() {
+		panel.setBackground(PanelMenu.FONDO);
+		contenedor.setBackground(PanelMenu.FONDO);
+		cabecera.setBackground(PanelMenu.FONDO);
 		txt.setFont(new Font("Arial", Font.BOLD, 24));
 		lblCuposDisponibles.setFont(new Font("Arial", Font.PLAIN, 18));
 		areaVehiculos.setFont(new Font("Arial", Font.PLAIN, 16));

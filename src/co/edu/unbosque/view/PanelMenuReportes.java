@@ -20,6 +20,8 @@ public class PanelMenuReportes {
     private JButton btnVolver = new JButton("Volver");
     
     public PanelMenuReportes() {
+		panel.setBackground(PanelMenu.FONDO);
+		columna.setBackground(PanelMenu.FONDO);
     	txt.setText("<html>Reportes<br>");
     	txt.setHorizontalAlignment(SwingConstants.CENTER);
 		txt.setFont(new Font("Arial", Font.BOLD, 26));

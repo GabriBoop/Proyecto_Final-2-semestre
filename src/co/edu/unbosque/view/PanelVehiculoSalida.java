@@ -22,6 +22,8 @@ public class PanelVehiculoSalida {
 	private JButton btnVolver = new JButton("Volver");
 	
 	public PanelVehiculoSalida() {
+		panel.setBackground(PanelMenu.FONDO);
+		columna.setBackground(PanelMenu.FONDO);
 		txt.setText("Salida del Vehiculo");
 		txt.setHorizontalAlignment(SwingConstants.CENTER);
 		

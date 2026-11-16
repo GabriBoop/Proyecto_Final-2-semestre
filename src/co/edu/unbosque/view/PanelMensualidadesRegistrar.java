@@ -26,6 +26,8 @@ public class PanelMensualidadesRegistrar {
 	private JButton btnVolver = new JButton("Volver");
 	
 	public PanelMensualidadesRegistrar() {
+		panel.setBackground(PanelMenu.FONDO);
+		columna.setBackground(PanelMenu.FONDO);
 		txt.setText("Registrar Mensualidad");
 		txt.setHorizontalAlignment(SwingConstants.CENTER);
 		
