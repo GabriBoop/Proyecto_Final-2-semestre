@@ -1,7 +1,7 @@
 package co.edu.unbosque.view;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
@@ -15,48 +15,45 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 public class PanelMensualidadesVacantes {
-	
+
 	private JPanel panel = new JPanel(new GridBagLayout());
 	private JPanel columna = new JPanel(new BorderLayout(15, 15));
-	private JPanel superior = new JPanel(new GridLayout(5, 1, 15, 15));
+	private JPanel superior = new JPanel(new GridLayout(2, 1, 15, 15));
 	private JLabel txt = new JLabel();
 
-	private JLabel lblVacantesDisponibles = new JLabel("Vacantes disponibles: 0 / 0");
-	private JLabel lblCuposOcupados = new JLabel("Cupos ocupados: 0");
+	private JLabel lblVacantesDisponibles = PanelMenu.crearLabel("Vacantes disponibles: 0 / 0");
+	private JLabel lblCuposOcupados = PanelMenu.crearLabel("Cupos ocupados: 0");
 	private JTextArea areaVacantes = new JTextArea(8, 35);
 	private JScrollPane scrollVacantes = new JScrollPane(areaVacantes);
 
 	private JButton btnVolver = new JButton("Volver");
-	
+
 	public PanelMensualidadesVacantes() {
-		panel.setBackground(PanelMenu.FONDO);
-		columna.setBackground(PanelMenu.FONDO);
-		superior.setBackground(PanelMenu.FONDO);
-		txt.setText("Vacantes de Mensualidades");
-		txt.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.setBackground(PanelMenuMensualidades.FONDO_MENSUALIDADES);
+		columna.setBackground(PanelMenuMensualidades.FONDO_MENSUALIDADES);
+		superior.setBackground(PanelMenuMensualidades.FONDO_MENSUALIDADES);
+
 		lblVacantesDisponibles.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCuposOcupados.setHorizontalAlignment(SwingConstants.CENTER);
 
 		areaVacantes.setEditable(false);
 		areaVacantes.setLineWrap(true);
 		areaVacantes.setWrapStyleWord(true);
+		areaVacantes.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 		scrollVacantes.setPreferredSize(new Dimension(550, 180));
 
-		superior.add(txt);
+		PanelMenu.crearBoton(btnVolver, Color.BLACK, Color.WHITE);
+
 		superior.add(lblVacantesDisponibles);
 		superior.add(lblCuposOcupados);
 		columna.add(superior, BorderLayout.NORTH);
 		columna.add(scrollVacantes, BorderLayout.CENTER);
-		columna.add(btnVolver, BorderLayout.SOUTH);;
+		columna.add(btnVolver, BorderLayout.SOUTH);
 
-		for (Component c : superior.getComponents()) {
-			c.setFont(new Font("Arial", Font.PLAIN, 18));
-		}
-		areaVacantes.setFont(new Font("Arial", Font.PLAIN, 16));
-		txt.setFont(new Font("Arial", Font.BOLD, 24));
-		btnVolver.setFont(new Font("Arial", Font.PLAIN, 18));
-		panel.add(columna);
+		JLabel imgTitulo = PanelMenu.crearImagen("/co/edu/unbosque/images/VacantesMensualidades.png");
+		PanelMenu.ajustarPanel(panel, imgTitulo, columna);
 	}
+
 
 	public JPanel getPanel() {
 		return panel;

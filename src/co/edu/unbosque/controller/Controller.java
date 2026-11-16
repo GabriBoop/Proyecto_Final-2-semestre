@@ -405,9 +405,11 @@ public class Controller implements ActionListener {
 				       .append(" | Ingreso: ").append(r.getHoraIngreso())
 				       .append("\n");
 			}
-			pvVerParqueadero.getAreaVehiculos().setText(
-				listado.length() == 0 ? "No hay vehículos parqueados actualmente." : listado.toString()
-			);
+			if (listado.length() == 0) {
+				pvVerParqueadero.getAreaVehiculos().setText("No hay vehículos parqueados actualmente.");
+			} else {
+				pvVerParqueadero.getAreaVehiculos().setText(listado.toString());
+			}
 			
 			principal.cambiarPanel(pvVerParqueadero.getPanel());
 			break;

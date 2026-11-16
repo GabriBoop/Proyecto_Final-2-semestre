@@ -1,11 +1,10 @@
 package co.edu.unbosque.view;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -15,44 +14,36 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 public class PanelVerMensualidades {
-	
+
 	private JPanel panel = new JPanel(new GridBagLayout());
 	private JPanel columna = new JPanel(new BorderLayout(15, 15));
-	private JPanel superior = new JPanel(new GridLayout(4, 1, 15, 15));
-	private JLabel txt = new JLabel();
 
-	private JLabel lblTotalMensualidades = new JLabel("Mensualidades activas: 0");
-	private JTextArea areaMensualidades = new JTextArea(10, 35);
+	private JLabel lblTotalMensualidades = PanelMenu.crearLabel("Mensualidades activas: 0");
+	private JTextArea areaMensualidades = new JTextArea(12, 45);
 	private JScrollPane scrollMensualidades = new JScrollPane(areaMensualidades);
 
 	private JButton btnVolver = new JButton("Volver");
-	
+
 	public PanelVerMensualidades() {
-		panel.setBackground(PanelMenu.FONDO);
-		columna.setBackground(PanelMenu.FONDO);
-		superior.setBackground(PanelMenu.FONDO);
-		txt.setText("Mensualidades Registradas");
-		txt.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.setBackground(PanelMenuMensualidades.FONDO_MENSUALIDADES);
+		columna.setBackground(PanelMenuMensualidades.FONDO_MENSUALIDADES);
+
 		lblTotalMensualidades.setHorizontalAlignment(SwingConstants.CENTER);
 
 		areaMensualidades.setEditable(false);
 		areaMensualidades.setLineWrap(true);
 		areaMensualidades.setWrapStyleWord(true);
-		scrollMensualidades.setPreferredSize(new Dimension(550, 220));
+		areaMensualidades.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
+		scrollMensualidades.setPreferredSize(new Dimension(700, 280));
 
-		superior.add(txt);
-		superior.add(lblTotalMensualidades);
-		columna.add(superior, BorderLayout.NORTH);
+		PanelMenu.crearBoton(btnVolver, Color.BLACK, Color.WHITE);
+
+		columna.add(lblTotalMensualidades, BorderLayout.NORTH);
 		columna.add(scrollMensualidades, BorderLayout.CENTER);
 		columna.add(btnVolver, BorderLayout.SOUTH);
 
-		for (Component c : superior.getComponents()) {
-			c.setFont(new Font("Arial", Font.PLAIN, 18));
-		}
-		areaMensualidades.setFont(new Font("Arial", Font.PLAIN, 16));
-		txt.setFont(new Font("Arial", Font.BOLD, 24));
-		btnVolver.setFont(new Font("Arial", Font.PLAIN, 18));
-		panel.add(columna);
+		JLabel imgTitulo = PanelMenu.crearImagen("/co/edu/unbosque/images/VerMensualidades.png");
+		PanelMenu.ajustarPanel(panel, imgTitulo, columna);
 	}
 
 	public JPanel getPanel() {
@@ -69,14 +60,6 @@ public class PanelVerMensualidades {
 
 	public void setColumna(JPanel columna) {
 		this.columna = columna;
-	}
-
-	public JLabel getTxt() {
-		return txt;
-	}
-
-	public void setTxt(JLabel txt) {
-		this.txt = txt;
 	}
 
 	public JLabel getLblTotalMensualidades() {
@@ -111,13 +94,5 @@ public class PanelVerMensualidades {
 		this.btnVolver = btnVolver;
 	}
 
-	public JPanel getSuperior() {
-		return superior;
-	}
-
-	public void setSuperior(JPanel superior) {
-		this.superior = superior;
-	}
-	
 	
 }
