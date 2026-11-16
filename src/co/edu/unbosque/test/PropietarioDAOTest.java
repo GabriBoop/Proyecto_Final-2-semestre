@@ -1,34 +1,15 @@
 package co.edu.unbosque.test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
+import static org.junit.Assert.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.time.LocalDate;
+import org.junit.*;
+import co.edu.unbosque.model.*;
+import co.edu.unbosque.model.persistence.*;
+import co.edu.unbosque.util.exceptions.*;
 class PropietarioDAOTest {
 
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
-	}
 
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-	}
-
-	@BeforeEach
-	void setUp() throws Exception {
-	}
-
-	@AfterEach
-	void tearDown() throws Exception {
-	}
-
-	@Test
-	void test() {
-		fail("Not yet implemented");
-	}
 
 }
