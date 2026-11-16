@@ -1,6 +1,9 @@
 package co.edu.unbosque.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.net.URL;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 /**
@@ -17,7 +20,12 @@ public class MainFrame extends JFrame{
 	
 	public MainFrame() {
 	
+		URL url = getClass().getResource("/co/edu/unbosque/images/icon.png");
+		if (url != null) {
+			setIconImage(new ImageIcon(url).getImage());
+		}
 		setBounds(0, 0, ANCHO, ALTO);
+		
 		setTitle("PARQUEADERO UEB: MENU");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
