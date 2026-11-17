@@ -1,10 +1,10 @@
 package co.edu.unbosque.view;
+
 import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -13,45 +13,38 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
-
 public class PanelVerRegistros {
+
 	private JPanel panel = new JPanel(new GridBagLayout());
 	private JPanel columna = new JPanel(new BorderLayout(15, 15));
-	private JPanel superior = new JPanel(new GridLayout(4, 1, 15, 15));
 	private JLabel txt = new JLabel();
 
-	private JLabel lblTotalRegistros = new JLabel("Total de Registros: 0");
+	private JLabel lblTotalRegistros = PanelMenu.crearLabel("Total de Registros: 0");
 	private JTextArea areaRegistros = new JTextArea(10, 35);
 	private JScrollPane scrollRegistros = new JScrollPane(areaRegistros);
 
 	private JButton btnVolver = new JButton("Volver");
-	
+
 	public PanelVerRegistros() {
-		panel.setBackground(PanelMenu.FONDO);
-		columna.setBackground(PanelMenu.FONDO);
-		superior.setBackground(PanelMenu.FONDO);
-		txt.setText("Registros del Parqueadero");
-		txt.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.setBackground(PanelMenuConsulta.FONDO_CONSULTA);
+		columna.setBackground(PanelMenuConsulta.FONDO_CONSULTA);
+
 		lblTotalRegistros.setHorizontalAlignment(SwingConstants.CENTER);
 
 		areaRegistros.setEditable(false);
 		areaRegistros.setLineWrap(true);
 		areaRegistros.setWrapStyleWord(true);
+		areaRegistros.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
 		scrollRegistros.setPreferredSize(new Dimension(550, 220));
 
-		superior.add(txt);
-		superior.add(lblTotalRegistros);
-		columna.add(superior, BorderLayout.NORTH);
+		PanelMenu.crearBoton(btnVolver, Color.BLACK, Color.WHITE);
+
+		columna.add(lblTotalRegistros, BorderLayout.NORTH);
 		columna.add(scrollRegistros, BorderLayout.CENTER);
 		columna.add(btnVolver, BorderLayout.SOUTH);
 
-		for (Component c : superior.getComponents()) {
-			c.setFont(new Font("Arial", Font.PLAIN, 18));
-		}
-		areaRegistros.setFont(new Font("Arial", Font.PLAIN, 16));
-		txt.setFont(new Font("Arial", Font.BOLD, 24));
-		btnVolver.setFont(new Font("Arial", Font.PLAIN, 18));
-		panel.add(columna);
+		JLabel imgTitulo = PanelMenu.crearImagen("/co/edu/unbosque/images/VerRegistros.png");
+		PanelMenu.ajustarPanel(panel, imgTitulo, columna);
 	}
 
 	public JPanel getPanel() {
@@ -109,15 +102,5 @@ public class PanelVerRegistros {
 	public void setBtnVolver(JButton btnVolver) {
 		this.btnVolver = btnVolver;
 	}
-
-	public JPanel getSuperior() {
-		return superior;
-	}
-
-	public void setSuperior(JPanel superior) {
-		this.superior = superior;
-	}
-	
-	
 }
 

@@ -2,6 +2,7 @@ package co.edu.unbosque.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
@@ -215,6 +216,40 @@ public class Parqueadero {
     	}
     	throw new FacturaNoEncontradaException();
 	}
+    
+    public ArrayList<Registro> vehiculosQuePasaronLaNoche() {
+        ArrayList<Registro> lista = new ArrayList<Registro>();
+        for (Registro r : registros.darLista()) {
+            LocalDateTime hora;
+            if (r.getHoraSalida() != null)  hora = r.getHoraSalida(); 
+            else hora = LocalDateTime.now();
+            if (r.getHoraIngreso().toLocalDate().isBefore(hora.toLocalDate())) lista.add(r);
+        }
+        return lista;
+    }
+    
+    public ArrayList<Registro> vehiculosMasDe24Horas() {
+        ArrayList<Registro> lista = new ArrayList<Registro>();
+        for (Registro r : registros.darLista()) {
+        	LocalDateTime hora;
+        	if(r.getHoraSalida() != null) hora = r.getHoraSalida();
+        	else hora = LocalDateTime.now();
+            if (ChronoUnit.HOURS.between(r.getHoraIngreso(), hora) > 24) lista.add(r);
+        }
+        return lista;
+    }
+    
+    public double dineroRecaudadoMes() {
+        YearMonth mes = YearMonth.now();
+        double total = 0;
+        for (Factura f : facturas.darLista()) {
+            if (YearMonth.from(f.getHoraSalida()).equals(mes)) total += f.getValor();
+        }
+        for (Mensualidad m : mensualidades.darLista()) {
+            if (YearMonth.from(m.getFechaInicio()).equals(mes)) total += m.getValor();
+        }
+        return total;
+    }
     
     public int getNumeroFacturas() {
 		return numeroFacturas;

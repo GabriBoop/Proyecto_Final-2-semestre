@@ -1,7 +1,9 @@
 package co.edu.unbosque.view;
 
+import java.net.URL;
 import java.time.LocalDate;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,6 +23,14 @@ public class VentanaEmergente {
 		JOptionPane.showMessageDialog(null, txt);
 	}
 	
+	public void mostrarSUCCESS(String txt) {
+		URL url = getClass().getResource("/co/edu/unbosque/images/Succes.png");
+		ImageIcon icono;
+		if(url != null) icono = new ImageIcon(url);
+		else icono = null;
+		JOptionPane.showMessageDialog(null, txt, "SUCCESS", JOptionPane.OK_OPTION, icono);
+	}
+	
 	/**
 	 * Muestra una ventana de error con un título personalizado.
 	 * 
@@ -28,7 +38,11 @@ public class VentanaEmergente {
 	 * @param titulo Título de la ventana.
 	 */
 	public void mostrarERROR(String txt, String titulo) {
-		JOptionPane.showMessageDialog(null, txt, titulo, 0, null);
+		URL url = getClass().getResource("/co/edu/unbosque/images/error.png");
+		ImageIcon icono;
+		if(url != null) icono = new ImageIcon(url);
+		else icono = null;
+		JOptionPane.showMessageDialog(null, txt, titulo, JOptionPane.ERROR_MESSAGE, icono);
 	}
 	
 	/**
