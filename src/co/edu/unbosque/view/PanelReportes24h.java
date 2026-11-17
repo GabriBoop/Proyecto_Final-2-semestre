@@ -1,11 +1,10 @@
 package co.edu.unbosque.view;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -15,43 +14,37 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 public class PanelReportes24h {
-	
+
 	private JPanel panel = new JPanel(new GridBagLayout());
 	private JPanel columna = new JPanel(new BorderLayout(15, 15));
-	private JPanel superior = new JPanel(new GridLayout(2, 1, 10, 10));
 	private JLabel txt = new JLabel();
 
-	private JLabel lblTotal = new JLabel("");
+	private JLabel lblTotal = PanelMenu.crearLabel("");
 	private JTextArea areaReporte = new JTextArea();
 	private JScrollPane scrollReporte = new JScrollPane(areaReporte);
 
 	private JButton btnVolver = new JButton("Volver");
-	
+
 	public PanelReportes24h() {
-		txt.setText("Vehículos por Hora (Mas de 24 Horas)");
-		txt.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.setBackground(PanelMenuReportes.FONDO_REPORTES);
+		columna.setBackground(PanelMenuReportes.FONDO_REPORTES);
+
 		lblTotal.setHorizontalAlignment(SwingConstants.CENTER);
 
 		areaReporte.setEditable(false);
 		areaReporte.setLineWrap(true);
 		areaReporte.setWrapStyleWord(true);
+		areaReporte.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
 		scrollReporte.setPreferredSize(new Dimension(550, 220));
 
-		superior.add(txt);
-		superior.add(lblTotal);
+		PanelMenu.crearBoton(btnVolver, Color.BLACK, Color.WHITE);
 
-		columna.add(superior, BorderLayout.NORTH);
+		columna.add(lblTotal, BorderLayout.NORTH);
 		columna.add(scrollReporte, BorderLayout.CENTER);
 		columna.add(btnVolver, BorderLayout.SOUTH);
 
-		for (Component c : superior.getComponents()) {
-			c.setFont(new Font("Arial", Font.PLAIN, 18));
-		}
-		txt.setFont(new Font("Arial", Font.BOLD, 24));
-		areaReporte.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnVolver.setFont(new Font("Arial", Font.PLAIN, 18));
-
-		panel.add(columna);
+		JLabel imgTitulo = PanelMenu.crearImagen("/co/edu/unbosque/images/Vehiculos24H.png");
+		PanelMenu.ajustarPanel(panel, imgTitulo, columna);
 	}
 
 	public JPanel getPanel() {
@@ -68,14 +61,6 @@ public class PanelReportes24h {
 
 	public void setColumna(JPanel columna) {
 		this.columna = columna;
-	}
-
-	public JPanel getSuperior() {
-		return superior;
-	}
-
-	public void setSuperior(JPanel superior) {
-		this.superior = superior;
 	}
 
 	public JLabel getTxt() {

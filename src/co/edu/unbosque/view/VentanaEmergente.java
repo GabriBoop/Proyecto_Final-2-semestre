@@ -24,7 +24,7 @@ public class VentanaEmergente {
 	}
 	
 	public void mostrarSUCCESS(String txt) {
-		URL url = getClass().getResource("/co/edu/unbosque/images/Succes.png");
+		URL url = getClass().getResource("/co/edu/unbosque/images/Success.png");
 		ImageIcon icono;
 		if(url != null) icono = new ImageIcon(url);
 		else icono = null;

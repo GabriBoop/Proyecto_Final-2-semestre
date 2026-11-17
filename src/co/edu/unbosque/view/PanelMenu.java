@@ -78,7 +78,7 @@ public class PanelMenu {
 	
 	public static JLabel crearImagen(String ruta) {
 		JLabel label = new JLabel();
-		java.net.URL url = PanelMenu.class.getResource(ruta);
+		URL url = PanelMenu.class.getResource(ruta);
 
 		if (url != null) {
 			label.setIcon(new ImageIcon(url));

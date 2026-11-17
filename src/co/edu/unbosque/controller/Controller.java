@@ -250,11 +250,10 @@ public class Controller implements ActionListener {
 				}
 
 				PropietarioDTO propDTO = new PropietarioDTO(documento,nombre,telefono);
-				Propietario prop = new Propietario(documento,nombre,telefono);
 				propietarioDAO.crear(propDTO);
 				
 				ReproducirAudio.reproducirSFX("Success.wav");
-				ve.mostrar("Propietario " + nombre + " registrado correctamente.");
+				ve.mostrarSUCCESS("Propietario " + nombre + " registrado correctamente.");
 				ppRegistrar.getTxtfieldDocumento().setText("");
 				ppRegistrar.getTxtfieldNombre().setText("");
 				ppRegistrar.getTxtfieldTelefono().setText("");
@@ -320,7 +319,7 @@ public class Controller implements ActionListener {
                     }
                 }else throw new PropietarioNoExisteException();
                 ReproducirAudio.reproducirSFX("Success.wav");
-				ve.mostrar(tipoV + " " + placa + " registrado.");
+				ve.mostrarSUCCESS(tipoV + " " + placa + " registrado.");
 				pvRegistrar.getTxtfieldPlaca().setText("");
 				pvRegistrar.getTxtfieldPropietarioDoc().setText("");
 				pvRegistrar.getTxtfieldSOAT().setText("");
@@ -366,7 +365,7 @@ public class Controller implements ActionListener {
 				
 				ReproducirAudio.reproducirSFX("Success.wav");
 				
-				ve.mostrar(
+				ve.mostrarSUCCESS(
 						"Salida registrada correctamente\n"
 						+ "Factura #" + factura.getNum() + "\n"
 						+ "Placa: " + factura.getPlaca() + "\n"
@@ -465,7 +464,7 @@ public class Controller implements ActionListener {
 				parqueadero.registrarMensualidad(documento, nombre, placa, tipoV, propietarioDAO, carroDAO, motoDAO);
 				
 				ReproducirAudio.reproducirSFX("Success.wav");
-				ve.mostrar("Mensualidad registrada para " + tipoV + " " + placa + ".");
+				ve.mostrarSUCCESS("Mensualidad registrada para " + tipoV + " " + placa + ".");
 				pmenRegistrar.getTxtfieldPropietarioNom().setText("");
 				pmenRegistrar.getTxtfieldPropietarioDoc().setText("");
 				pmenRegistrar.getTxtfieldPlaca().setText("");
