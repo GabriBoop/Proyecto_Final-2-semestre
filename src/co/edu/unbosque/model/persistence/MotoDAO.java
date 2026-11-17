@@ -30,7 +30,7 @@ public class MotoDAO implements DAO<Moto,MotoDTO>{
 
 	@Override
 	public boolean eliminar(int index) {
-		if (index >= 0) {
+		if (index >= 0 && index < listaMotos.size()) {
 			listaMotos.remove(index);
 			escribirArchivo();
 			escribirArchivoSerializado();
@@ -44,7 +44,7 @@ public class MotoDAO implements DAO<Moto,MotoDTO>{
 	@Override
 	public boolean actualizar(int index, MotoDTO datoActualizado) {
 		// TODO Auto-generated method stub
-		if (index >= 0) {
+		if (index >= 0 && index < listaMotos.size()) {
 			listaMotos.set(index, DataMapper.convertirMotoDTOAMoto(datoActualizado));
 			escribirArchivo();
 			escribirArchivoSerializado();

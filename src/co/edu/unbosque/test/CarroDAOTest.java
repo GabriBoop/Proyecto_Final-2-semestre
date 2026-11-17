@@ -1,13 +1,16 @@
 package co.edu.unbosque.test;
 
 import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDate;
+
 import org.junit.*;
+
 import co.edu.unbosque.model.*;
 import co.edu.unbosque.model.persistence.*;
-import co.edu.unbosque.util.exceptions.*;
+import co.edu.unbosque.util.exceptions.PlacaInvalidaException;
 
 public class CarroDAOTest {
 
@@ -17,6 +20,7 @@ public class CarroDAOTest {
 
 	@BeforeClass
 	public static void antesDeTodasLasPruebas() {
+
 		rutaOriginal = FileHandler.getRutaBase();
 		Propietario propietario = new Propietario("1032941791", "Thomas", "3001234567");
 		carroEntidad = new Carro("ABC-123", "CARRO", propietario, LocalDate.of(2026, 11, 20));
@@ -28,6 +32,7 @@ public class CarroDAOTest {
 	@Before
 	public void antesDeCadaPrueba() throws IOException {
 		System.out.println("Reseteando la información de la entidad...");
+
 		FileHandler.setRutaBase(Files.createTempDirectory("carroDaoTest").toString());
 		dao = new CarroDAO();
 
@@ -67,7 +72,7 @@ public class CarroDAOTest {
 	public void crearCarroPersisteEnDisco() {
 		System.out.println("Probando que crear guarde en el archivo...");
 		dao.crear(DataMapper.convertirCarroACarroDTO(carroEntidad));
-		CarroDAO otroDao = new CarroDAO(); 
+		CarroDAO otroDao = new CarroDAO();
 		assertEquals(1, otroDao.darLista().size());
 		assertEquals("XYZ-789", otroDao.darLista().get(0).getPlaca());
 	}
@@ -110,8 +115,40 @@ public class CarroDAOTest {
 			new CarroDTO("123-ABC", "CARRO", carroEntidad.getPropietario(), LocalDate.of(2027, 1, 15));
 			fail("Debio lanzar PlacaInvalidaException");
 		} catch (PlacaInvalidaException e) {
-			
+
 		}
+	}
+
+	@Test
+	public void eliminarCarroIndiceFueraDeRango() {
+		System.out.println("Probando eliminar con índice fuera de rango...");
+		dao.crear(DataMapper.convertirCarroACarroDTO(carroEntidad));
+		assertFalse(dao.eliminar(5));
+		assertEquals(1, dao.darLista().size());
+	}
+
+	@Test
+	public void eliminarCarroListaVacia() {
+		System.out.println("Probando eliminar con la lista vacía...");
+		assertFalse(dao.eliminar(0));
+		assertEquals(0, dao.darLista().size());
+	}
+
+	@Test
+	public void actualizarCarroIndiceNegativo() {
+		System.out.println("Probando actualizar con índice negativo...");
+		CarroDTO dtoNuevo = new CarroDTO("QWE-456", "CARRO", carroEntidad.getPropietario(), LocalDate.of(2028, 5, 10));
+		assertFalse(dao.actualizar(-1, dtoNuevo));
+	}
+
+	@Test
+	public void actualizarCarroIndiceFueraDeRango() {
+		System.out.println("Probando actualizar con índice fuera de rango...");
+		dao.crear(DataMapper.convertirCarroACarroDTO(carroEntidad));
+		CarroDTO dtoNuevo = new CarroDTO("QWE-456", "CARRO", carroEntidad.getPropietario(), LocalDate.of(2028, 5, 10));
+		assertFalse(dao.actualizar(5, dtoNuevo));
+		assertEquals("XYZ-789", dao.darLista().get(0).getPlaca());
+		assertEquals(1, dao.darLista().size());
 	}
 
 	@After
@@ -123,7 +160,7 @@ public class CarroDAOTest {
 	@AfterClass
 	public static void despuesDeTodasLasPruebas() {
 		System.out.println("Finalizaron todas las pruebas unitarias.");
-		FileHandler.setRutaBase(rutaOriginal); 
+		FileHandler.setRutaBase(rutaOriginal);
 		carroEntidad = null;
 		dao = null;
 	}

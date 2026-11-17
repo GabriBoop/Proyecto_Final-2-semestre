@@ -30,7 +30,7 @@ public class MensualidadDAO implements DAO<Mensualidad,MensualidadDTO>{
 
 	@Override
 	public boolean eliminar(int index) {
-		if (index >= 0) {
+		if (index >= 0 && index < listaMensualidades.size()) {
 			listaMensualidades.remove(index);
 			escribirArchivo();
 			escribirArchivoSerializado();
@@ -44,7 +44,7 @@ public class MensualidadDAO implements DAO<Mensualidad,MensualidadDTO>{
 	@Override
 	public boolean actualizar(int index, MensualidadDTO datoActualizado) {
 		// TODO Auto-generated method stub
-		if (index >= 0) {
+		if (index >= 0 && index < listaMensualidades.size()) {
 			listaMensualidades.set(index, DataMapper.convertirMensualidadDTOAMensualidad(datoActualizado));
 			escribirArchivo();
 			escribirArchivoSerializado();
