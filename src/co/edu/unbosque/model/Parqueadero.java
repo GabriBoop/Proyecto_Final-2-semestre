@@ -62,7 +62,8 @@ public class Parqueadero {
     
     public void registrarMensualidad(String documento, String nombre, String placa, String tipoVehiculo,
     		PropietarioDAO propietarioDAO, CarroDAO carroDAO, MotoDAO motoDAO)
-    		throws PlacaInvalidaException, PlacaYaRegistradaException, SobrecupoDeMensualidadesException {
+    		throws PlacaInvalidaException, PlacaYaRegistradaException, SobrecupoDeMensualidadesException,
+    		PropietarioNoExisteException, PlacaNoEncontradaException, PlacaDeOtroPropietarioException {
 
     	placa = Vehiculo.validarPlaca(placa);
 
@@ -75,35 +76,20 @@ public class Parqueadero {
 
     	Propietario prop = propietarioDAO.buscarPorDocumento(documento);
     	if (prop == null) {
-    		PropietarioDTO propDTO = new PropietarioDTO(documento, nombre, "Sin telefono");
-    		propietarioDAO.crear(propDTO);
-    		prop = propietarioDAO.buscarPorDocumento(documento);
+    		throw new PropietarioNoExisteException();
     	}
 
     	Vehiculo vehiculo;
     	if (tipoVehiculo.equalsIgnoreCase("Carro")) {
-    		Carro carro = carroDAO.buscarPorPlaca(placa);
-    		if (carro == null) {
-    			CarroDTO carroDTO = new CarroDTO();
-    			carroDTO.setPlaca(placa);
-    			carroDTO.setPropietario(prop);
-    			carroDTO.setVencimientoSoat(LocalDate.now().plusYears(1));
-    			carroDAO.crear(carroDTO);
-    			carro = carroDAO.buscarPorPlaca(placa);
-    		}
-    		vehiculo = carro;
-    	} 
-    	else {
-    		Moto moto = motoDAO.buscarPorPlaca(placa);
-    		if (moto == null) {
-    			MotoDTO motoDTO = new MotoDTO();
-    			motoDTO.setPlaca(placa);
-    			motoDTO.setPropietario(prop);
-    			motoDTO.setVencimientoSoat(LocalDate.now().plusYears(1));
-    			motoDAO.crear(motoDTO);
-    			moto = motoDAO.buscarPorPlaca(placa);
-    		}
-    		vehiculo = moto;
+    		vehiculo = carroDAO.buscarPorPlaca(placa);
+    	} else {
+    		vehiculo = motoDAO.buscarPorPlaca(placa);
+    	}
+    	if (vehiculo == null) {
+    		throw new PlacaNoEncontradaException(placa);  
+    	}
+    	if (!vehiculo.getPropietario().getDocumento().equals(documento)) {
+    		throw new PlacaDeOtroPropietarioException();
     	}
 
     	int indice = mensualidades.buscarIndicePorDocumento(documento);
@@ -114,7 +100,7 @@ public class Parqueadero {
     		}
     		existente.agregarVehiculo(vehiculo);
     		mensualidades.actualizar(indice, DataMapper.convertirMensualidadAMensualidadDTO(existente));
-    	} 
+    	}
     	else {
     		MensualidadDTO nueva = new MensualidadDTO(prop, Mensualidad.VALOR_MENSUALIDAD, LocalDate.now());
     		nueva.agregarVehiculo(vehiculo);

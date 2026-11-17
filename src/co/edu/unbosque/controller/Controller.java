@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import co.edu.unbosque.model.persistence.*;
 import co.edu.unbosque.util.exceptions.DatoVacioException;
 import co.edu.unbosque.util.exceptions.DocumentoInvalidoException;
+import co.edu.unbosque.util.exceptions.PlacaDeOtroPropietarioException;
 import co.edu.unbosque.util.exceptions.PlacaInvalidaException;
 import co.edu.unbosque.util.exceptions.PlacaNoEncontradaException;
 import co.edu.unbosque.util.exceptions.PlacaYaRegistradaException;
@@ -342,10 +343,10 @@ public class Controller implements ActionListener {
 			} catch (SobrecupoParqueaderoException ex) {
 				ReproducirAudio.reproducirSFX("Error.wav");
 				ve.mostrarERROR(ex.getMessage(), "ERROR");
-			} catch (Exception ex) {
+			}  catch (SoatVencidoException ex) {
 				ReproducirAudio.reproducirSFX("Error.wav");
 				ve.mostrarERROR(ex.getMessage(), "ERROR");
-			} 
+			}
 
 			break;
 		case "VEHICULO_SALIDA":
@@ -417,27 +418,30 @@ public class Controller implements ActionListener {
 			}
 			break;
 		case "VER_PARQUEADO":
-			ReproducirAudio.reproducirSFX("Click.wav");
-			pvVerParqueadero.getLblCuposDisponibles().setText(
-				"Parqueaderos disponibles: " + parqueadero.espaciosDisponibles() + " / 200"
-			);
-			
-			StringBuilder listado = new StringBuilder();
-			
-			for (Registro r : parqueadero.registrosActivos()) {
-				listado.append("Placa: ").append(r.getVehiculo().getPlaca())
-				       .append(" | Propietario: ").append(r.getVehiculo().getPropietario().getNombre())
-				       .append(" | Ingreso: ").append(r.getHoraIngreso())
-				       .append("\n");
-			}
-			if (listado.length() == 0) {
-				pvVerParqueadero.getAreaVehiculos().setText("No hay vehículos parqueados actualmente.");
-			} else {
-				pvVerParqueadero.getAreaVehiculos().setText(listado.toString());
-			}
-			
-			principal.cambiarPanel(pvVerParqueadero.getPanel());
-			break;
+            ReproducirAudio.reproducirSFX("Click.wav");
+            pvVerParqueadero.getLblCuposDisponibles().setText(
+                "Parqueaderos disponibles: " + parqueadero.espaciosDisponibles() + " / 200"
+            );
+
+            StringBuilder listado = new StringBuilder();
+
+            java.time.format.DateTimeFormatter formatoHora = java.time.format.DateTimeFormatter.ofPattern("HH:mm");
+
+            for (Registro r : parqueadero.registrosActivos()) {
+                listado.append("Placa: ").append(r.getVehiculo().getPlaca())
+                       .append(" | Propietario: ").append(r.getVehiculo().getPropietario().getNombre())
+                       .append(" | Fecha: ").append(r.getHoraIngreso().toLocalDate())
+                       .append(" | Hora: ").append(r.getHoraIngreso().format(formatoHora))
+                       .append("\n");
+            }
+            if (listado.length() == 0) {
+                pvVerParqueadero.getAreaVehiculos().setText("No hay vehículos parqueados actualmente.");
+            } else {
+                pvVerParqueadero.getAreaVehiculos().setText(listado.toString());
+            }
+
+            principal.cambiarPanel(pvVerParqueadero.getPanel());
+            break;
 		case "VOLVER_VEHICULO":
 			ReproducirAudio.reproducirSFX("Click.wav");
 			principal.cambiarPanel(pmVehiculo.getPanel());
@@ -456,29 +460,41 @@ public class Controller implements ActionListener {
 				String documento = pmenRegistrar.getTxtfieldPropietarioDoc().getText().trim();
 				String placa = pmenRegistrar.getTxtfieldPlaca().getText().trim().toUpperCase();
 				String tipoV = pmenRegistrar.getBoxTiposVehiculo().getSelectedItem().toString();
-				
+
 				if (nombre.isBlank()) throw new DatoVacioException("Nombre del propietario.");
 				if (documento.isBlank()) throw new DatoVacioException("Documento del propietario.");
 				if (placa.isBlank()) throw new DatoVacioException("Placa.");
-				
+
+				placa = Vehiculo.validarPlaca(placa);
+				if (!propietarioDAO.existeDocumento(documento)) throw new PropietarioNoExisteException();
+
 				parqueadero.registrarMensualidad(documento, nombre, placa, tipoV, propietarioDAO, carroDAO, motoDAO);
-				
+
 				ReproducirAudio.reproducirSFX("Success.wav");
 				ve.mostrarSUCCESS("Mensualidad registrada para " + tipoV + " " + placa + ".");
 				pmenRegistrar.getTxtfieldPropietarioNom().setText("");
 				pmenRegistrar.getTxtfieldPropietarioDoc().setText("");
 				pmenRegistrar.getTxtfieldPlaca().setText("");
-			
+
 			} catch (DatoVacioException ex) {
 				ReproducirAudio.reproducirSFX("Error.wav");
 				ve.mostrarERROR(ex.getMessage(), "ERROR");
 			} catch (PlacaInvalidaException ex) {
 				ReproducirAudio.reproducirSFX("Error.wav");
 				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			} catch (PropietarioNoExisteException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(), "ERROR");
 			} catch (PlacaYaRegistradaException ex) {
 				ReproducirAudio.reproducirSFX("Error.wav");
 				ve.mostrarERROR(ex.getMessage(), "ERROR");
 			} catch (SobrecupoDeMensualidadesException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			} catch (PlacaNoEncontradaException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			} catch (PlacaDeOtroPropietarioException ex) {
 				ReproducirAudio.reproducirSFX("Error.wav");
 				ve.mostrarERROR(ex.getMessage(), "ERROR");
 			}
