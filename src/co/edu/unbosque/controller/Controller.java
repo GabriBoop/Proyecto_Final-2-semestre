@@ -629,7 +629,7 @@ public class Controller implements ActionListener {
 			}
 			
 			if (sb24.length() == 0) {
-				prReportes24h.getAreaReporte().setText("No hay vehículos por hora con más de 24 horas");
+				prReportes24h.getAreaReporte().setText("No hay vehículos por hora con más de 24 horas de estancia");
 			} 
 			else {
 				prReportes24h.getAreaReporte().setText(sb24.toString());
