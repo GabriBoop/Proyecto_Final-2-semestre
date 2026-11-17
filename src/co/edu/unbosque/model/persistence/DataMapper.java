@@ -118,6 +118,7 @@ public class DataMapper {
 		Registro entity = new Registro();
 		entity.setHoraIngreso(dto.getHoraIngreso());
 		entity.setHoraSalida(dto.getHoraSalida());
+		entity.setActivo(dto.isActivo());
 		entity.setPagaMensualidad(dto.isPagaMensualidad());
 		entity.setTarifaAplicada(dto.getTarifaAplicada());
 		entity.setVehiculo(dto.getVehiculo());
@@ -129,6 +130,7 @@ public class DataMapper {
 		RegistroDTO dto = new RegistroDTO();
 		dto.setHoraIngreso(e.getHoraIngreso());
 		dto.setHoraSalida(e.getHoraSalida());
+		dto.setActivo(e.isActivo());
 		dto.setPagaMensualidad(e.isPagaMensualidad());
 		dto.setTarifaAplicada(e.getTarifaAplicada());
 		dto.setVehiculo(e.getVehiculo());
