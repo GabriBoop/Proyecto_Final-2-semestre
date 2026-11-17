@@ -210,6 +210,9 @@ public class Controller implements ActionListener {
 		pbBuscarFactura.getBtnVolver().addActionListener(this);
 		pbBuscarFactura.getBtnVolver().setActionCommand("VOLVER_FACTURAS");
 		
+		pmConsulta.getBtnUltimaFactura().addActionListener(this);
+		pmConsulta.getBtnUltimaFactura().setActionCommand("ULTIMA_FACTURA");
+		
 		pmReportes.getBtnVolver().addActionListener(this);
 		pmReportes.getBtnVolver().setActionCommand("VOLVER");
 		
@@ -622,6 +625,28 @@ public class Controller implements ActionListener {
 			pbBuscarFactura.getTxtfieldID().setText("");;
 			principal.cambiarPanel(pbBuscarFactura.getPanel());
 			break;
+		case "ULTIMA_FACTURA":
+			try{
+			int idUltima = facturaDAO.darLista().size()-1;
+			Factura ultimaFactura = parqueadero.buscarFactura(idUltima);
+
+			ReproducirAudio.reproducirSFX("Success.wav");
+
+			ve.mostrarSUCCESS(
+					"Factura encontrada\n"
+					+ "Factura #" + ultimaFactura.getNum() + "\n"
+					+ "Placa: " + ultimaFactura.getPlaca() + "\n"
+					+ "Propietario: " + ultimaFactura.getNombrePropietario() + "\n"
+					+ "Hora de Ingreso: " + ultimaFactura.getHoraIngreso() + "\n"
+					+ "Hora de Salida: " + ultimaFactura.getHoraSalida() + "\n"
+					+ "Forma de cobro: " + ultimaFactura.getFormaDeCobro() + "\n"
+					+ "Total pagado: $" + ultimaFactura.getValor()
+				);
+		} catch (FacturaNoEncontradaException ex) {
+			ReproducirAudio.reproducirSFX("Error.wav");
+			ve.mostrarERROR(ex.getMessage(), "ERROR");
+		}
+
 		case "CONSULTAR_FACTURA":
 			try {
 
