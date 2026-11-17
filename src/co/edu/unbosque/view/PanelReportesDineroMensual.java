@@ -20,19 +20,16 @@ public class PanelReportesDineroMensual {
 	private JPanel panel = new JPanel(new GridBagLayout());
 	private JPanel columna = new JPanel(new BorderLayout(15, 15));
 	private JPanel superior = new JPanel(new GridLayout(3, 2, 15, 15));
-	private JPanel inferior = new JPanel(new GridLayout(1, 2, 15, 15));
 	private JLabel txt = new JLabel();
 	
-	private JTextField txtfieldMes = new JTextField();
 	private JLabel lblTotalRecaudado = new JLabel("");
 	private JTextArea areaDetalle = new JTextArea();
 	private JScrollPane scrollDetalle = new JScrollPane(areaDetalle);
 	
-	private JButton btnConsultar = new JButton("Consultar");
 	private JButton btnVolver = new JButton("Volver");
 	
 	public PanelReportesDineroMensual() {
-		txt.setText("Recaudacion Mensual");
+		txt.setText("Dinero Recaudado Mensual");
 		txt.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		areaDetalle.setEditable(false);
@@ -41,28 +38,18 @@ public class PanelReportesDineroMensual {
 		scrollDetalle.setPreferredSize(new Dimension(550, 180));
 
 		superior.add(txt);
-		superior.add(new JLabel());
-		superior.add(new JLabel("Mes y ano (AAAA-MM):"));
-		superior.add(txtfieldMes);
-		superior.add(new JLabel("Total recaudado:"));
 		superior.add(lblTotalRecaudado);
-
-		inferior.add(btnConsultar);
-		inferior.add(btnVolver);
-
+		
 		columna.add(superior, BorderLayout.NORTH);
 		columna.add(scrollDetalle, BorderLayout.CENTER);
-		columna.add(inferior, BorderLayout.SOUTH);
+		columna.add(btnVolver, BorderLayout.SOUTH);
 		
 		for (Component c : superior.getComponents()) {
 			c.setFont(new Font("Arial", Font.PLAIN, 18));
 		}
-		
-		for (Component c : inferior.getComponents()) {
-			c.setFont(new Font("Arial", Font.PLAIN, 18));
-		}
 		txt.setFont(new Font("Arial", Font.BOLD, 24));
 		areaDetalle.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnVolver.setFont(new Font("Arial", Font.PLAIN, 18));
 
 		panel.add(columna);
 	}
@@ -91,28 +78,12 @@ public class PanelReportesDineroMensual {
 		this.superior = superior;
 	}
 
-	public JPanel getInferior() {
-		return inferior;
-	}
-
-	public void setInferior(JPanel inferior) {
-		this.inferior = inferior;
-	}
-
 	public JLabel getTxt() {
 		return txt;
 	}
 
 	public void setTxt(JLabel txt) {
 		this.txt = txt;
-	}
-
-	public JTextField getTxtfieldMes() {
-		return txtfieldMes;
-	}
-
-	public void setTxtfieldMes(JTextField txtfieldMes) {
-		this.txtfieldMes = txtfieldMes;
 	}
 
 	public JLabel getLblTotalRecaudado() {
@@ -137,14 +108,6 @@ public class PanelReportesDineroMensual {
 
 	public void setScrollDetalle(JScrollPane scrollDetalle) {
 		this.scrollDetalle = scrollDetalle;
-	}
-
-	public JButton getBtnConsultar() {
-		return btnConsultar;
-	}
-
-	public void setBtnConsultar(JButton btnConsultar) {
-		this.btnConsultar = btnConsultar;
 	}
 
 	public JButton getBtnVolver() {
