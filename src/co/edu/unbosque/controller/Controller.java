@@ -510,6 +510,25 @@ public class Controller implements ActionListener {
 			break;
 		case "VER_REGISTROS":
 			ReproducirAudio.reproducirSFX("Click.wav");
+			pmVerRegistros.getLblTotalRegistros().setText(
+					"Total de Registros: " + registroDAO.darLista().size());
+			
+			StringBuilder listaReg = new StringBuilder();
+			for (Registro r : registroDAO.darLista()) {
+				listaReg.append("Vehículo: ").append(r.getVehiculo().getPlaca())
+				        .append(" (").append(r.getVehiculo().getTipo()).append(")")
+				        .append(" | Ingreso: ").append(r.getHoraIngreso())
+				        .append(" | Salida: ").append(r.getHoraSalida() == null ? "Aún en el parqueadero" : r.getHoraSalida())
+				        .append("\n   Mensualidad: ").append(r.isPagaMensualidad() ? "Sí" : "No")
+				        .append(" | Estado: ").append(r.isActivo() ? "Activo" : "Finalizado");
+				listaReg.append("\n\n");
+			}
+
+			if (listaReg.length() == 0) {
+                pmVerRegistros.getAreaRegistros().setText("No hay Registros actualmente.");
+            } else {
+                pmVerRegistros.getAreaRegistros().setText(listaReg.toString());
+            }
 			principal.cambiarPanel(pmVerRegistros.getPanel());
 			break;
 		case "VOLVER_REGISTROS":
@@ -518,6 +537,27 @@ public class Controller implements ActionListener {
 			break;
 		case "VER_FACTURAS":
 			ReproducirAudio.reproducirSFX("Click.wav");
+			pmVerFacturas.getLblTotalFacturas().setText(
+					"Total de Facturas: " + registroDAO.darLista().size());
+			
+			StringBuilder listaFac = new StringBuilder();
+			for (Factura f : facturaDAO.darLista()) {
+				listaFac.append("Factura N° ").append(f.getNum())
+				        .append(" | Placa: ").append(f.getPlaca())
+				        .append(" | Propietario: ").append(f.getNombrePropietario())
+				        .append("\n   Ingreso: ").append(f.getHoraIngreso())
+				        .append(" | Salida: ").append(f.getHoraSalida())
+				        .append("\n   Forma de cobro: ").append(f.getFormaDeCobro())
+				        .append(" | Valor: $").append(f.getValor());
+				listaFac.append("\n\n");
+			}
+
+			if (listaFac.length() == 0) {
+                pmVerFacturas.getAreaFacturas().setText("No hay Facturas actualmente.");
+            } else {
+                pmVerFacturas.getAreaFacturas().setText(listaFac.toString());
+            }
+
 			principal.cambiarPanel(pmVerFacturas.getPanel());
 			break;
 		case "VOLVER_FACTURAS":
