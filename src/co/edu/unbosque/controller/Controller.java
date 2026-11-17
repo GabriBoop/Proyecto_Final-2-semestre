@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 
 import co.edu.unbosque.model.persistence.*;
 import co.edu.unbosque.util.exceptions.DatoVacioException;
@@ -40,6 +41,9 @@ public class Controller implements ActionListener {
 	private PanelMensualidadesVacantes pmVerMensualidadesVacantes;
 	private PanelVerRegistros pmVerRegistros;
 	private PanelVerFacturas pmVerFacturas;
+	private PanelReportesNoche prReportesNoche;
+	private PanelReportes24h prReportes24h;
+	private PanelReportesDineroMensual prReportesDineroMensual;
 	// DAO
 	private CarroDAO carroDAO;
 	private FacturaDAO facturaDAO;
@@ -65,6 +69,9 @@ public class Controller implements ActionListener {
 		pmenRegistrar = new PanelMensualidadesRegistrar();
 		pmConsulta = new PanelMenuConsulta();
 		pmReportes = new PanelMenuReportes();
+		prReportesNoche = new PanelReportesNoche();
+		prReportes24h = new PanelReportes24h();
+		prReportesDineroMensual = new PanelReportesDineroMensual();
 		pmVerMensualidades = new PanelVerMensualidades();
 		pmVerMensualidadesVacantes = new PanelMensualidadesVacantes();
 		pmVerRegistros = new PanelVerRegistros();
@@ -192,6 +199,25 @@ public class Controller implements ActionListener {
 		
 		pmReportes.getBtnVolver().addActionListener(this);
 		pmReportes.getBtnVolver().setActionCommand("VOLVER");
+		
+		pmReportes.getBtnVehiculosNoche().addActionListener(this);
+		pmReportes.getBtnVehiculosNoche().setActionCommand("REPORTE_NOCHE");
+
+		pmReportes.getBtnVehiculos24h().addActionListener(this);
+		pmReportes.getBtnVehiculos24h().setActionCommand("REPORTE_24H");
+
+		pmReportes.getBtnDineroMensual().addActionListener(this);
+		pmReportes.getBtnDineroMensual().setActionCommand("REPORTE_DINERO");
+
+		prReportesNoche.getBtnVolver().addActionListener(this);
+		prReportesNoche.getBtnVolver().setActionCommand("REPORTES");
+
+		prReportes24h.getBtnVolver().addActionListener(this);
+		prReportes24h.getBtnVolver().setActionCommand("REPORTES");
+
+		prReportesDineroMensual.getBtnVolver().addActionListener(this);
+		prReportesDineroMensual.getBtnVolver().setActionCommand("REPORTES");
+		
 	}
 
 	@Override
@@ -568,6 +594,61 @@ public class Controller implements ActionListener {
 			ReproducirAudio.reproducirSFX("Click.wav");
 			principal.cambiarPanel(pmReportes.getPanel());
 			break;
+		case "REPORTE_NOCHE":
+			ReproducirAudio.reproducirSFX("Click.wav");
+			ArrayList<Registro> reporteNoche = parqueadero.vehiculosQuePasaronLaNoche();
+
+			if (reporteNoche.isEmpty()) {
+				prReportesNoche.getLblResumen().setText("Total vehículos: 0");
+				prReportesNoche.getAreaReporte().setText("No hay vehículos que hayan pasado la noche en el parqueadero.");
+			} 
+			else {
+				prReportesNoche.getLblResumen().setText("Total vehículos: " + reporteNoche.size());
+				StringBuilder sbNoche = new StringBuilder();
+				for (Registro r : reporteNoche) {
+					sbNoche.append("Placa: ").append(r.getVehiculo().getPlaca())
+					       .append(" | Propietario: ").append(r.getVehiculo().getPropietario().getNombre())
+					       .append(" | Ingreso: ").append(r.getHoraIngreso())
+					       .append("\n");
+				}
+				prReportesNoche.getAreaReporte().setText(sbNoche.toString());
+			}
+			principal.cambiarPanel(prReportesNoche.getPanel());
+			break;
+		case "REPORTE_24H":
+			ReproducirAudio.reproducirSFX("Click.wav");
+			ArrayList<Registro> lista24h = parqueadero.vehiculosMasDe24Horas();
+			prReportes24h.getLblTotal().setText("Total vehículos: " + lista24h.size());
+
+			StringBuilder sb24 = new StringBuilder();
+			for (Registro r : lista24h) {
+				sb24.append("Placa: ").append(r.getVehiculo().getPlaca())
+				    .append(" | Propietario: ").append(r.getVehiculo().getPropietario().getNombre())
+				    .append(" | Ingreso: ").append(r.getHoraIngreso())
+				    .append("\n");
+			}
+			
+			if (sb24.length() == 0) {
+				prReportes24h.getAreaReporte().setText("No hay vehículos por hora con más de 24 horas");
+			} 
+			else {
+				prReportes24h.getAreaReporte().setText(sb24.toString());
+			}
+			principal.cambiarPanel(prReportes24h.getPanel());
+			break;
+		case "REPORTE_DINERO":
+			ReproducirAudio.reproducirSFX("Click.wav");
+			String mesActual = java.time.YearMonth.now().toString();
+			double totalMes = parqueadero.dineroRecaudadoMes();
+
+			prReportesDineroMensual.getLblTotalRecaudado().setText("$" + totalMes);
+			prReportesDineroMensual.getAreaDetalle().setText(
+				"Periodo: " + mesActual + "\n"
+				+ "Total recaudado en el mes: $" + totalMes
+			);
+
+			principal.cambiarPanel(prReportesDineroMensual.getPanel());
+			break; 
 		case "VOLVER":
 			ReproducirAudio.reproducirSFX("Click.wav");
 			principal.cambiarPanel(pm.getPanel());
