@@ -31,7 +31,7 @@ public class CarroDAO implements DAO<Carro,CarroDTO>{
 
 	@Override
 	public boolean eliminar(int index) {
-		if (index >= 0) {
+		if (index >= 0 && index < listaCarros.size()) {
 			listaCarros.remove(index);
 			escribirArchivo();
 			escribirArchivoSerializado();
@@ -45,7 +45,7 @@ public class CarroDAO implements DAO<Carro,CarroDTO>{
 	@Override
 	public boolean actualizar(int index, CarroDTO datoActualizado) {
 		// TODO Auto-generated method stub
-		if (index >= 0) {
+		if (index >= 0 && index < listaCarros.size()) {
 			listaCarros.set(index, DataMapper.convertirCarroDTOACarro(datoActualizado));
 			escribirArchivo();
 			escribirArchivoSerializado();

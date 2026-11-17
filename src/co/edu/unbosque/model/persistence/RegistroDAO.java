@@ -30,7 +30,7 @@ public class RegistroDAO implements DAO<Registro, RegistroDTO> {
 
 	@Override
 	public boolean eliminar(int index) {
-		if(index >= 0) {
+		if(index >= 0 && index < listaRegistros.size()) {
 			listaRegistros.remove(index);
 			escribirArchivo();
 			escribirArchivoSerializado();
@@ -42,7 +42,7 @@ public class RegistroDAO implements DAO<Registro, RegistroDTO> {
 
 	@Override
 	public boolean actualizar(int index, RegistroDTO datoActualizado) {
-		if (index >= 0) {
+		if (index >= 0 && index < listaRegistros.size()) {
 			listaRegistros.set(index, DataMapper.convertirRegistroDTOARegistro(datoActualizado));
 			escribirArchivo();
 			escribirArchivoSerializado();

@@ -31,7 +31,7 @@ public class FacturaDAO implements DAO<Factura,FacturaDTO>{
 
 	@Override
 	public boolean eliminar(int index) {
-		if (index >= 0) {
+		if (index >= 0 && index < listaFacturas.size()) {
 			listaFacturas.remove(index);
 			escribirArchivo();
 			escribirArchivoSerializado();
@@ -45,7 +45,7 @@ public class FacturaDAO implements DAO<Factura,FacturaDTO>{
 	@Override
 	public boolean actualizar(int index, FacturaDTO datoActualizado) {
 		// TODO Auto-generated method stub
-		if (index >= 0) {
+		if (index >= 0 && index < listaFacturas.size()) {
 			listaFacturas.set(index, DataMapper.convertirFacturaDTOAFactura(datoActualizado));
 			escribirArchivo();
 			escribirArchivoSerializado();

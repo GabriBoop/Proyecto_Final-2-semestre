@@ -30,7 +30,7 @@ public class PropietarioDAO implements DAO<Propietario,PropietarioDTO> {
 
 	@Override
 	public boolean eliminar(int index) {
-		if(index >= 0) {
+		if(index >= 0 && index < listaPropietarios.size()) {
 			listaPropietarios.remove(index);
 			escribirArchivo();
 			escribirArchivoSerializado();
@@ -42,7 +42,7 @@ public class PropietarioDAO implements DAO<Propietario,PropietarioDTO> {
 
 	@Override
 	public boolean actualizar(int index, PropietarioDTO datoActualizado) {
-		if (index >= 0) {
+		if (index >= 0 && index < listaPropietarios.size()) {
 			listaPropietarios.set(index, DataMapper.convertirPropietarioDTOAPropietario(datoActualizado));
 			escribirArchivo();
 			escribirArchivoSerializado();
