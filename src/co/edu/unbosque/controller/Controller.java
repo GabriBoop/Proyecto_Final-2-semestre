@@ -646,7 +646,7 @@ public class Controller implements ActionListener {
 			ReproducirAudio.reproducirSFX("Error.wav");
 			ve.mostrarERROR(ex.getMessage(), "ERROR");
 		}
-
+			break;
 		case "CONSULTAR_FACTURA":
 			try {
 
