@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import co.edu.unbosque.model.persistence.*;
 import co.edu.unbosque.util.exceptions.DatoVacioException;
 import co.edu.unbosque.util.exceptions.DocumentoInvalidoException;
+import co.edu.unbosque.util.exceptions.FacturaNoEncontradaException;
 import co.edu.unbosque.util.exceptions.PlacaDeOtroPropietarioException;
 import co.edu.unbosque.util.exceptions.PlacaInvalidaException;
 import co.edu.unbosque.util.exceptions.PlacaNoEncontradaException;
@@ -45,6 +46,7 @@ public class Controller implements ActionListener {
 	private PanelReportesNoche prReportesNoche;
 	private PanelReportes24h prReportes24h;
 	private PanelReportesDineroMensual prReportesDineroMensual;
+	private PanelBuscarFactura pbBuscarFactura;
 	// DAO
 	private CarroDAO carroDAO;
 	private FacturaDAO facturaDAO;
@@ -77,6 +79,7 @@ public class Controller implements ActionListener {
 		pmVerMensualidadesVacantes = new PanelMensualidadesVacantes();
 		pmVerRegistros = new PanelVerRegistros();
 		pmVerFacturas = new PanelVerFacturas();
+		pbBuscarFactura = new PanelBuscarFactura();
 		
 		ve = new VentanaEmergente();
 		
@@ -197,6 +200,15 @@ public class Controller implements ActionListener {
 		
 		pmVerFacturas.getBtnVolver().addActionListener(this);
 		pmVerFacturas.getBtnVolver().setActionCommand("VOLVER_FACTURAS");
+		
+		pmConsulta.getBtnBuscarFactura().addActionListener(this);
+		pmConsulta.getBtnBuscarFactura().setActionCommand("BUSCAR_FACTURA");
+		
+		pbBuscarFactura.getBtnConsultar().addActionListener(this);
+		pbBuscarFactura.getBtnConsultar().setActionCommand("CONSULTAR_FACTURA");
+		
+		pbBuscarFactura.getBtnVolver().addActionListener(this);
+		pbBuscarFactura.getBtnVolver().setActionCommand("VOLVER_FACTURAS");
 		
 		pmReportes.getBtnVolver().addActionListener(this);
 		pmReportes.getBtnVolver().setActionCommand("VOLVER");
@@ -604,6 +616,47 @@ public class Controller implements ActionListener {
 		case "VOLVER_FACTURAS":
 			ReproducirAudio.reproducirSFX("Click.wav");
 			principal.cambiarPanel(pmConsulta.getPanel());
+			break;
+		case "BUSCAR_FACTURA":
+			ReproducirAudio.reproducirSFX("Click.wav");
+			pbBuscarFactura.getTxtfieldID().setText("");;
+			principal.cambiarPanel(pbBuscarFactura.getPanel());
+			break;
+		case "CONSULTAR_FACTURA":
+			try {
+
+				String textoId = pbBuscarFactura.getTxtfieldID().getText().trim();
+
+				if (textoId.isBlank()) throw new DatoVacioException("ID de la factura.");
+
+				int idFactura = Integer.parseInt(textoId);
+
+				Factura factura = parqueadero.buscarFactura(idFactura);
+
+				ReproducirAudio.reproducirSFX("Success.wav");
+
+				ve.mostrarSUCCESS(
+						"Factura encontrada\n"
+						+ "Factura #" + factura.getNum() + "\n"
+						+ "Placa: " + factura.getPlaca() + "\n"
+						+ "Propietario: " + factura.getNombrePropietario() + "\n"
+						+ "Hora de Ingreso: " + factura.getHoraIngreso() + "\n"
+						+ "Hora de Salida: " + factura.getHoraSalida() + "\n"
+						+ "Forma de cobro: " + factura.getFormaDeCobro() + "\n"
+						+ "Total pagado: $" + factura.getValor()
+					);
+				pbBuscarFactura.getTxtfieldID().setText("");
+
+			} catch (DatoVacioException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			} catch (NumberFormatException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR("El ID de la factura debe ser un número entero.", "ERROR");
+			} catch (FacturaNoEncontradaException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			}
 			break;
 		case "REPORTES":
 			ReproducirAudio.reproducirSFX("Click.wav");

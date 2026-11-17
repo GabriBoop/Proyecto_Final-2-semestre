@@ -240,5 +240,5 @@ public class Parqueadero {
     public int getNumeroFacturas() {
 		return numeroFacturas;
 	}
-  
+    
 }
