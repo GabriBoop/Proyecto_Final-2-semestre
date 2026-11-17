@@ -31,6 +31,7 @@ public class Parqueadero {
 		this.facturas = facturas;
 		this.mensualidades = mensualidades;
 		this.registros = registros;	
+		numeroFacturas = facturas.darLista().size();
     }
     
     public int espaciosDisponibles() {
@@ -154,13 +155,18 @@ public class Parqueadero {
 		double total = 0;
 		FormaDeCobro cobro = FormaDeCobro.MENSUAL;
 		
-		if(!r.isPagaMensualidad()) {
-			total = r.getTarifaAplicada().calcularCosto(r);
-			if(r.getTarifaAplicada() instanceof TarifaNocturnaFija) {
-				cobro = FormaDeCobro.FIJA;
-			}
-			else cobro = FormaDeCobro.HORA;
+		if (!r.isPagaMensualidad() && !tieneMensualidad(v.getPlaca())) {
+    		total = r.getTarifaAplicada().calcularCosto(r);
+   				 if (r.getTarifaAplicada() instanceof TarifaNocturnaFija) {
+       				 cobro = FormaDeCobro.FIJA;
+    			} else {
+        			cobro = FormaDeCobro.HORA;
+    			}
+		} else {
+    		r.setPagaMensualidad(true);
+    		r.setTarifaAplicada(null);
 		}
+		
 		boolean s = soatPorVencer(v);
 		if (s == true) alertaSoat.mandarAlerta(v);
 		r.setActivo(false);

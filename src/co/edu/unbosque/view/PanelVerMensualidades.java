@@ -33,7 +33,7 @@ public class PanelVerMensualidades {
 		areaMensualidades.setEditable(false);
 		areaMensualidades.setLineWrap(true);
 		areaMensualidades.setWrapStyleWord(true);
-		areaMensualidades.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
+		areaMensualidades.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
 		scrollMensualidades.setPreferredSize(new Dimension(700, 280));
 
 		PanelMenu.crearBoton(btnVolver, Color.BLACK, Color.WHITE);

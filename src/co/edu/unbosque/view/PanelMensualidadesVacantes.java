@@ -39,7 +39,7 @@ public class PanelMensualidadesVacantes {
 		areaVacantes.setEditable(false);
 		areaVacantes.setLineWrap(true);
 		areaVacantes.setWrapStyleWord(true);
-		areaVacantes.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
+		areaVacantes.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
 		scrollVacantes.setPreferredSize(new Dimension(550, 180));
 
 		PanelMenu.crearBoton(btnVolver, Color.BLACK, Color.WHITE);

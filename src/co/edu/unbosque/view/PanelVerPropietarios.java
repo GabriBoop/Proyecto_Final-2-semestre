@@ -34,7 +34,7 @@ public class PanelVerPropietarios {
 		areaPropietarios.setEditable(false);
 		areaPropietarios.setLineWrap(true);
 		areaPropietarios.setWrapStyleWord(true);
-		areaPropietarios.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
+		areaPropietarios.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
 		scrollPropietarios.setPreferredSize(new Dimension(550, 220));
 
 		PanelMenu.crearBoton(btnVolver, Color.BLACK, Color.WHITE);
