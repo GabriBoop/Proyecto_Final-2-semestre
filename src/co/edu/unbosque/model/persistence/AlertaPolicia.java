@@ -18,7 +18,7 @@ public class AlertaPolicia{
 		String contenido = "";
 		contenido = "Para: denuncias@policia.gov.co\n"
 				+ "Asunto: Alerta: vehiculo reportado ingreso al parqueadero\n\n"
-				+ "Buen dia,\n\n"
+				+ "Buen dia.\n\n"
 				+ "Se informa que el vehiculo con placa " + v.getPlaca()
 				+ ", reportado en su sistema como " + estado
 				+ ", ingreso a las instalaciones del Centro Comercial.\n\n"
@@ -26,7 +26,7 @@ public class AlertaPolicia{
 				+ "Hora de ingreso: " + LocalTime.now() + "\n\n"
 				+ "Cordialmente,\n"
 				+ "Administracion del Parqueadero\n"
-				+ "Centro Comercial";
+				+ "Centro Comercial: UEB.";
 		FileHandler.crearYEscribirArchivo(NOMBRE_ARCHIVO_TEXTO+v.getPlaca()+".txt", contenido);
 	}
 

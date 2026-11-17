@@ -14,8 +14,9 @@ public class AlertaSoat{
 	public void mandarAlerta(Vehiculo v) {
 		String contenido = "";
 		contenido = "Hola "+v.getPropietario().getNombre()+", el SOAT de su vehiculo "+v.getPlaca()+" vence el: "+v.getVencimientoSoat()
-				+ " Renuevelo pronto en cualquiera de los locales de aseguradoras "
-				+ "del Centro Comercial y reciba un 5% de descuento.";
+				+ "\nRenuevelo pronto en cualquiera de los locales de aseguradoras "
+				+ "del Centro Comercial: UEB y reciba un 5% de descuento.\n"
+				+ "Muchas Gracias.";
 		FileHandler.crearYEscribirArchivo(NOMBRE_ARCHIVO_TEXTO+v.getPlaca()+".txt", contenido);
 	}
 

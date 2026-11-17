@@ -136,10 +136,6 @@ public class Parqueadero {
 		default :
 			break;
 		}
-		boolean s = soatPorVencer(v);
-		if (s==true) {
-			alertaSoat.mandarAlerta(v);
-		}
     	Tarifa t = null;
     	if(!tieneMensualidad(v.getPlaca())) {
     		if(nocturna) t = new TarifaNocturnaFija();
@@ -165,6 +161,8 @@ public class Parqueadero {
 			}
 			else cobro = FormaDeCobro.HORA;
 		}
+		boolean s = soatPorVencer(v);
+		if (s == true) alertaSoat.mandarAlerta(v);
 		r.setActivo(false);
 		FacturaDTO f = new FacturaDTO(numeroFacturas++,v.getPlaca(),v.getPropietario().getNombre(),r.getHoraIngreso(),r.getHoraSalida(),cobro,total);
 		facturas.crear(f);

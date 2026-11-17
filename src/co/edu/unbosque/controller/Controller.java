@@ -30,6 +30,8 @@ public class Controller implements ActionListener {
 	private MainFrame principal;
 	private PanelMenu pm;
 	private PanelPropietarioRegistrar ppRegistrar;
+	private PanelMenuPropietario pmPropietario;    
+	private PanelVerPropietarios pvPropietarios;  
 	private PanelMenuVehiculo pmVehiculo;
 	private PanelMenuMensualidades pmMensualidad;
 	private PanelMensualidadesRegistrar pmenRegistrar;
@@ -63,6 +65,8 @@ public class Controller implements ActionListener {
 		principal = new MainFrame();
 		pm = new PanelMenu();
 		ppRegistrar = new PanelPropietarioRegistrar();
+		pmPropietario = new PanelMenuPropietario();     
+		pvPropietarios = new PanelVerPropietarios(); 
 		pmVehiculo = new PanelMenuVehiculo();
 		pvRegistrar = new PanelVehiculoRegistrar();
 		pvSalida = new PanelVehiculoSalida();
@@ -102,14 +106,28 @@ public class Controller implements ActionListener {
 	}
 
 	public void asignarOyentes() {
+		
 		pm.getBtnRegistrarPropietario().addActionListener(this);
 		pm.getBtnRegistrarPropietario().setActionCommand("PROPIETARIO");
+				
+		pmPropietario.getBtnRegistrar().addActionListener(this);
+		pmPropietario.getBtnRegistrar().setActionCommand("PROPIETARIO_REGISTRAR");
+
+		pmPropietario.getBtnVer().addActionListener(this);
+	    pmPropietario.getBtnVer().setActionCommand("VER_PROPIETARIOS");
+
+		pmPropietario.getBtnVolver().addActionListener(this);
+		pmPropietario.getBtnVolver().setActionCommand("VOLVER");
 		
 		ppRegistrar.getBtnRegistrar().addActionListener(this);
 		ppRegistrar.getBtnRegistrar().setActionCommand("REGISTRAR_PROPIETARIO");
-		
+
 		ppRegistrar.getBtnVolver().addActionListener(this);
-		ppRegistrar.getBtnVolver().setActionCommand("VOLVER");
+		ppRegistrar.getBtnVolver().setActionCommand("VOLVER_PROPIETARIO");   
+
+		
+		pvPropietarios.getBtnVolver().addActionListener(this);
+		pvPropietarios.getBtnVolver().setActionCommand("VOLVER_PROPIETARIO");
 		
 		pm.getBtnVerVehiculos().addActionListener(this);
 		pm.getBtnVerVehiculos().setActionCommand("VEHICULO");
@@ -245,7 +263,35 @@ public class Controller implements ActionListener {
 		
 		case "PROPIETARIO":
 			ReproducirAudio.reproducirSFX("Click.wav");
+			principal.cambiarPanel(pmPropietario.getPanel());
+			break;
+		case "PROPIETARIO_REGISTRAR":
+			ReproducirAudio.reproducirSFX("Click.wav");
 			principal.cambiarPanel(ppRegistrar.getPanel());
+			break;
+		case "VOLVER_PROPIETARIO":
+			ReproducirAudio.reproducirSFX("Click.wav");
+			principal.cambiarPanel(pmPropietario.getPanel());
+			break;
+		case "VER_PROPIETARIOS":
+			ReproducirAudio.reproducirSFX("Click.wav");
+			pvPropietarios.getLblTotalPropietarios().setText(
+					"Total de Propietarios: " + propietarioDAO.darLista().size());
+
+			StringBuilder listaProp = new StringBuilder();
+			for (Propietario p : propietarioDAO.darLista()) {
+				listaProp.append("Documento: ").append(p.getDocumento())
+						.append(" | Nombre: ").append(p.getNombre())
+						.append(" | Telefono: ").append(p.getTelefono())
+						.append("\n");
+			}
+			String txt = "";
+			
+			if(listaProp.length() == 0) txt = " No hay propietarios registrados.";
+			else txt = listaProp.toString();
+			pvPropietarios.getAreaPropietarios().setText(txt);
+
+			principal.cambiarPanel(pvPropietarios.getPanel());
 			break;
 		case "REGISTRAR_PROPIETARIO":
 			try {

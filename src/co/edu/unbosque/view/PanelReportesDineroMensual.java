@@ -43,7 +43,7 @@ public class PanelReportesDineroMensual {
 		columna.add(scrollDetalle, BorderLayout.CENTER);
 		columna.add(btnVolver, BorderLayout.SOUTH);
 
-		JLabel imgTitulo = PanelMenu.crearImagen("/co/edu/unbosque/images/RecaudoMensual.png");
+		JLabel imgTitulo = PanelMenu.crearImagen("/co/edu/unbosque/images/RecaudoDineroMensual.png");
 		PanelMenu.ajustarPanel(panel, imgTitulo, columna);
 	}
 	public JPanel getPanel() {
