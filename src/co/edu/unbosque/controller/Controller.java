@@ -357,7 +357,7 @@ public class Controller implements ActionListener {
 				if (!soat.isAfter(LocalDate.now())) throw new SoatVencidoException();
 				
 				boolean nocturna;
-				if(tipoTarifa.equals("Por Hora")) nocturna = false;
+				if(tipoTarifa.equals("Por hora")) nocturna = false;
 				else nocturna = true;
 				
 				if (propietarioDAO.existeDocumento(documento)) {
