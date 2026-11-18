@@ -14,8 +14,7 @@ public class Parqueadero {
     private static final double PORCENTAJE = 0.30;
     private static final int CANTIDAD_MAX = 200;
     
-    private int cantidad = 0;
-    private int numeroFacturas = 0;
+    private int numeroFacturas;
 	private InformacionPolicia sistemaPolicia;
 
     private FacturaDAO facturas;
@@ -35,7 +34,7 @@ public class Parqueadero {
     }
     
     public int espaciosDisponibles() {
-    	return CANTIDAD_MAX - cantidad;
+    	return CANTIDAD_MAX - registrosActivos().size();
     }
     
     public int cupoMaximoMensualidades() {
@@ -103,6 +102,14 @@ public class Parqueadero {
     		mensualidades.actualizar(indice, DataMapper.convertirMensualidadAMensualidadDTO(existente));
     	}
     	else {
+    		for (Registro r : registros.darLista()) {
+    		    if (r.isActivo() && r.getVehiculo().getPlaca().equals(placa)) {
+    		        r.setPagaMensualidad(true);
+    		        r.setTarifaAplicada(null);
+    		    }
+    		}
+    		registros.escribirArchivoSerializado();
+    		registros.escribirArchivo();
     		MensualidadDTO nueva = new MensualidadDTO(prop, Mensualidad.VALOR_MENSUALIDAD, LocalDate.now());
     		nueva.agregarVehiculo(vehiculo);
     		agregarMensualidad(nueva);
@@ -142,9 +149,8 @@ public class Parqueadero {
     		if(nocturna) t = new TarifaNocturnaFija();
     		else t = new TarifaPorHora();
     	}
-    	RegistroDTO r = new RegistroDTO(v, LocalDateTime.now(), tieneMensualidad(v.getPlaca()),t);
+    	RegistroDTO r = new RegistroDTO(v, LocalDateTime.now(), tieneMensualidad(v.getPlaca()), t);
     	registros.crear(r);
-    	cantidad++;
     	return r;
     }
     
@@ -169,10 +175,12 @@ public class Parqueadero {
 		
 		boolean s = soatPorVencer(v);
 		if (s == true) alertaSoat.mandarAlerta(v);
+		
 		r.setActivo(false);
+		registros.escribirArchivoSerializado();
+		registros.escribirArchivo();
 		FacturaDTO f = new FacturaDTO(numeroFacturas++,v.getPlaca(),v.getPropietario().getNombre(),r.getHoraIngreso(),r.getHoraSalida(),cobro,total);
 		facturas.crear(f);
-		cantidad--;
     	return f;
     }
     

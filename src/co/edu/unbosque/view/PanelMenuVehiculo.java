@@ -15,7 +15,7 @@ public class PanelMenuVehiculo {
 	/**
 	 * Color de fondo de las pantallas del módulo de vehículos.
 	 */
-	protected static final Color FONDO_VEHICULO = new Color(88, 31, 0);
+	protected static final Color FONDO_VEHICULO = new Color(60, 24, 0);
 	private JPanel panel = new JPanel(new GridBagLayout());
 	private JPanel columna = new JPanel(new GridLayout(6, 1, 0, 30));
 	private JButton btnRegistrar = new JButton("Registrar Vehiculo");
