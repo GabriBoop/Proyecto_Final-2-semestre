@@ -20,7 +20,7 @@ public class FileHandler {
 	 * Ruta relativa por defecto del directorio donde se almacenan los archivos
 	 * del sistema.
 	 */
-	private static final String RUTA_POR_DEFECTO = "src/co/edu/unbosque/files/";
+	private static final String RUTA_POR_DEFECTO = "files/";
 
 	/**
 	 * Ruta base actual utilizada para ubicar, leer y guardar los archivos.
@@ -94,6 +94,25 @@ public class FileHandler {
 	}
 
 	/**
+	 * Obtiene el archivo ubicado en la ruta base con el nombre indicado. Si las
+	 * carpetas intermedias o el archivo no existen, los crea.
+	 *
+	 * @param url Nombre o ruta relativa del archivo dentro de la ruta base.
+	 * @return Archivo listo para ser leído o escrito.
+	 * @throws IOException Si ocurre un error al crear las carpetas o el archivo.
+	 */
+	private static File abrir(String url) throws IOException {
+		File f = new File(rutaBase + url);
+		if (f.getParentFile() != null) {
+			f.getParentFile().mkdirs();
+		}
+		if (!f.exists()) {
+			f.createNewFile();
+		}
+		return f;
+	}
+
+	/**
 	 * Crea un archivo de texto plano en la ruta indicada si aún no existe y
 	 * escribe en él el contenido proporcionado.
 	 *
@@ -102,10 +121,7 @@ public class FileHandler {
 	 */
 	public static void crearYEscribirArchivo(String url, String contenido) {
 		try {
-			archivo = new File(rutaBase + url);
-			if (!archivo.exists()) {
-				archivo.createNewFile();
-			}
+			archivo = abrir(url);
 			escritor = new PrintWriter(archivo);
 			escritor.println(contenido);
 			escritor.close();
@@ -125,10 +141,7 @@ public class FileHandler {
 	public String abrirYLeerArchivo(String url) {
 		String contenido = "";
 		try {
-			archivo = new File(rutaBase + url);
-			if (!archivo.exists()) {
-				archivo.createNewFile();
-			}
+			archivo = abrir(url);
 			lector = new Scanner(archivo);
 			while (lector.hasNext()) {
 				contenido += lector.nextLine() + "\n";
@@ -150,10 +163,7 @@ public class FileHandler {
 	 */
 	public static void crearYEscribirSerializado(String url, Object o) {
 		try {
-			archivo = new File(rutaBase + url);
-			if (!archivo.exists()) {
-				archivo.createNewFile();
-			}
+			archivo = abrir(url);
 			fos = new FileOutputStream(archivo);
 			oos = new ObjectOutputStream(fos);
 			oos.writeObject(o);
@@ -174,10 +184,7 @@ public class FileHandler {
 	 */
 	public static Object abrirYLeerSerializado(String url) {
 		try {
-			archivo = new File(rutaBase + url);
-			if (!archivo.exists()) {
-				archivo.createNewFile();
-			}
+			archivo = abrir(url);
 			fis = new FileInputStream(archivo);
 			ois = new ObjectInputStream(fis);
 			Object o = ois.readObject();

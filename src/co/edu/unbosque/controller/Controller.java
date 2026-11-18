@@ -24,42 +24,141 @@ import co.edu.unbosque.model.*;
 import co.edu.unbosque.view.*;
 
 
+/**
+ * Controlador principal de la aplicación. Conecta las vistas con el modelo: asigna
+ * los oyentes a los botones de cada panel y, según el comando recibido, valida
+ * los datos ingresados, invoca la lógica del parqueadero y actualiza la vista.
+ */
 public class Controller implements ActionListener {
 	
 	// Visual
+	/**
+	 * Ventana principal donde se muestran los paneles.
+	 */
 	private MainFrame principal;
+	/**
+	 * Panel del menú principal.
+	 */
 	private PanelMenu pm;
+	/**
+	 * Panel con el formulario para registrar propietarios.
+	 */
 	private PanelPropietarioRegistrar ppRegistrar;
+	/**
+	 * Panel del submenú de propietarios.
+	 */
 	private PanelMenuPropietario pmPropietario;    
+	/**
+	 * Panel que lista los propietarios registrados.
+	 */
 	private PanelVerPropietarios pvPropietarios;  
+	/**
+	 * Panel del submenú de vehículos.
+	 */
 	private PanelMenuVehiculo pmVehiculo;
+	/**
+	 * Panel del submenú de mensualidades.
+	 */
 	private PanelMenuMensualidades pmMensualidad;
+	/**
+	 * Panel con el formulario para registrar mensualidades.
+	 */
 	private PanelMensualidadesRegistrar pmenRegistrar;
+	/**
+	 * Panel del submenú de consultas.
+	 */
 	private PanelMenuConsulta pmConsulta;
+	/**
+	 * Panel del submenú de reportes.
+	 */
 	private PanelMenuReportes pmReportes;
+	/**
+	 * Panel con el formulario de ingreso de vehículos.
+	 */
 	private PanelVehiculoRegistrar pvRegistrar;
+	/**
+	 * Panel con el formulario de salida de vehículos.
+	 */
 	private PanelVehiculoSalida pvSalida;
+	/**
+	 * Panel para consultar si un vehículo está parqueado.
+	 */
 	private PanelVehiculoParqueadero pvParqueadero;
+	/**
+	 * Panel que lista los vehículos parqueados y los cupos disponibles.
+	 */
 	private PanelVerParqueadero pvVerParqueadero;
+	/**
+	 * Panel que lista las mensualidades activas.
+	 */
 	private PanelVerMensualidades pmVerMensualidades;
+	/**
+	 * Panel que muestra las vacantes de mensualidades.
+	 */
 	private PanelMensualidadesVacantes pmVerMensualidadesVacantes;
+	/**
+	 * Panel que lista todos los registros de ingreso y salida.
+	 */
 	private PanelVerRegistros pmVerRegistros;
+	/**
+	 * Panel que lista todas las facturas.
+	 */
 	private PanelVerFacturas pmVerFacturas;
+	/**
+	 * Panel del reporte de vehículos que pasaron la noche.
+	 */
 	private PanelReportesNoche prReportesNoche;
+	/**
+	 * Panel del reporte de vehículos con más de 24 horas.
+	 */
 	private PanelReportes24h prReportes24h;
+	/**
+	 * Panel del reporte de dinero recaudado en el mes.
+	 */
 	private PanelReportesDineroMensual prReportesDineroMensual;
+	/**
+	 * Panel para buscar una factura por su número.
+	 */
 	private PanelBuscarFactura pbBuscarFactura;
 	// DAO
+	/**
+	 * DAO encargado de la persistencia de los carros.
+	 */
 	private CarroDAO carroDAO;
+	/**
+	 * DAO encargado de la persistencia de las facturas.
+	 */
 	private FacturaDAO facturaDAO;
+	/**
+	 * DAO encargado de la persistencia de las mensualidades.
+	 */
 	private MensualidadDAO mensualidadDAO;
+	/**
+	 * DAO encargado de la persistencia de las motos.
+	 */
 	private MotoDAO motoDAO;
+	/**
+	 * DAO encargado de la persistencia de los propietarios.
+	 */
 	private PropietarioDAO propietarioDAO;
+	/**
+	 * DAO encargado de la persistencia de los registros.
+	 */
 	private RegistroDAO registroDAO;
+	/**
+	 * Ventana emergente para mostrar mensajes de error, éxito y confirmación.
+	 */
 	private VentanaEmergente ve;
 	// Funcionalidad
+	/**
+	 * Lógica de negocio del parqueadero.
+	 */
 	private Parqueadero parqueadero;
 	
+	/**
+	 * Construye el controlador, creando los paneles, los DAO y la instancia del
+	 * parqueadero que gestiona la lógica del sistema.
+	 */
 	public Controller(){
 	
 		principal = new MainFrame();
@@ -97,6 +196,10 @@ public class Controller implements ActionListener {
 		parqueadero = new Parqueadero(facturaDAO, mensualidadDAO, registroDAO);
 	}
 
+	/**
+	 * Inicia la aplicación: reproduce la música de fondo, asigna los oyentes,
+	 * muestra el menú principal y hace visible la ventana.
+	 */
 	public void start() {
 		ReproducirAudio.reproducir("eShop.wav");
 		asignarOyentes();
@@ -105,6 +208,10 @@ public class Controller implements ActionListener {
 		
 	}
 
+	/**
+	 * Asigna a cada botón de los paneles su oyente (este controlador) y su comando
+	 * de acción, para identificarlo en {@link #actionPerformed(ActionEvent)}.
+	 */
 	public void asignarOyentes() {
 		
 		pm.getBtnRegistrarPropietario().addActionListener(this);
@@ -254,6 +361,14 @@ public class Controller implements ActionListener {
 		
 	}
 
+	/**
+	 * Atiende los eventos de los botones. Según el comando de acción, cambia de
+	 * panel, valida los datos de los formularios, registra propietarios, vehículos,
+	 * mensualidades y salidas, y muestra consultas y reportes. Los errores de
+	 * validación se muestran al usuario mediante ventanas emergentes.
+	 *
+	 * @param e Evento de acción generado por el botón presionado.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
@@ -361,25 +476,46 @@ public class Controller implements ActionListener {
 				else nocturna = true;
 				
 				if (propietarioDAO.existeDocumento(documento)) {
+					
                     Propietario p = propietarioDAO.buscarPorDocumento(documento);
                     
                     if (tipoV.equals("Carro")) {
-                        CarroDTO carro = new CarroDTO();
-                        carro.setPlaca(placa);
-                        carro.setPropietario(p);
-                        carro.setVencimientoSoat(soat);
-                        carroDAO.crear(carro);
-                        parqueadero.ingresarVehiculo(carro, nocturna); 
-                        
+                    	Carro existe = carroDAO.buscarPorPlaca(placa);
+                    	if(existe == null) {
+                    		CarroDTO carro = new CarroDTO();
+                    		carro.setPlaca(placa);
+                    		carro.setPropietario(p);
+                    		carro.setVencimientoSoat(soat);
+                    		carroDAO.crear(carro);
+                    		parqueadero.ingresarVehiculo(carro, nocturna); 
+                    	} else {
+                    		 if (!existe.getPropietario().getDocumento().equals(documento)) {
+                    			  throw new PlacaDeOtroPropietarioException();
+                    		 }         
+                             parqueadero.ingresarVehiculo(existe, nocturna);
+                             existe.setVencimientoSoat(soat);              
+                             carroDAO.escribirArchivoSerializado();
+                    	} 
                     } else {
-                        MotoDTO moto = new MotoDTO();
-                        moto.setPlaca(placa);
-                        moto.setPropietario(p);
-                        moto.setVencimientoSoat(soat);
-                        motoDAO.crear(moto);
-                        parqueadero.ingresarVehiculo(moto, nocturna); 
+                    	Moto existe = motoDAO.buscarPorPlaca(placa);
+                    	if(existe == null) {
+                    		MotoDTO moto = new MotoDTO();
+                    		moto.setPlaca(placa);
+                    		moto.setPropietario(p);
+                    		moto.setVencimientoSoat(soat);
+                    		motoDAO.crear(moto);
+                    		parqueadero.ingresarVehiculo(moto, nocturna); 
+                    	} else {
+                    		 if (!existe.getPropietario().getDocumento().equals(documento)) {
+                    			 throw new PlacaDeOtroPropietarioException();
+                    		 }        
+                             parqueadero.ingresarVehiculo(existe, nocturna);
+                             existe.setVencimientoSoat(soat);               
+                             motoDAO.escribirArchivoSerializado();
+                    	}
                     }
-                }else throw new PropietarioNoExisteException();
+                } else throw new PropietarioNoExisteException();
+				
                 ReproducirAudio.reproducirSFX("Success.wav");
 				ve.mostrarSUCCESS(tipoV + " " + placa + " registrado.");
 				pvRegistrar.getTxtfieldPlaca().setText("");
@@ -405,6 +541,9 @@ public class Controller implements ActionListener {
 				ReproducirAudio.reproducirSFX("Error.wav");
 				ve.mostrarERROR(ex.getMessage(), "ERROR");
 			}  catch (SoatVencidoException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			} catch (PlacaDeOtroPropietarioException ex) {
 				ReproducirAudio.reproducirSFX("Error.wav");
 				ve.mostrarERROR(ex.getMessage(), "ERROR");
 			}
@@ -627,7 +766,7 @@ public class Controller implements ActionListener {
 			for (Registro r : registroDAO.darLista()) {
 				
 				String mensualidad;
-				if (r.isPagaMensualidad()) mensualidad = "Sí";
+				if (r.isPagaMensualidad()) mensualidad = "Si";
 				else mensualidad = "No";
 				
 				String estado;
@@ -640,7 +779,7 @@ public class Controller implements ActionListener {
 				
 				listaReg.append("| Vehiculo: ").append(r.getVehiculo().getPlaca())
 				        .append(" (").append(r.getVehiculo().getTipo()).append(")")
-				        .append("\n| Ingreso: ").append(r.getHoraIngreso())
+				        .append("\n| Ingreso: ").append(r.getHoraIngreso().format(formatoHora))
 				        .append("\n| Salida: ").append(salida)
 				        .append("\n| Mensualidad: ").append(mensualidad)
 				        .append(" | Estado: ").append(estado);
@@ -700,14 +839,15 @@ public class Controller implements ActionListener {
 			Factura ultimaFactura = parqueadero.buscarFactura(idUltima);
 
 			ReproducirAudio.reproducirSFX("Success.wav");
-
+			formatoHora = java.time.format.DateTimeFormatter.ofPattern("HH:mm");
+			
 			ve.mostrarSUCCESS(
 					"Factura encontrada\n"
 					+ "Factura #" + ultimaFactura.getNum() + "\n"
 					+ "Placa: " + ultimaFactura.getPlaca() + "\n"
 					+ "Propietario: " + ultimaFactura.getNombrePropietario() + "\n"
-					+ "Hora de Ingreso: " + ultimaFactura.getHoraIngreso() + "\n"
-					+ "Hora de Salida: " + ultimaFactura.getHoraSalida() + "\n"
+					+ "Hora de Ingreso: " + ultimaFactura.getHoraIngreso().format(formatoHora) + "\n"
+					+ "Hora de Salida: " + ultimaFactura.getHoraSalida().format(formatoHora) + "\n"
 					+ "Forma de cobro: " + ultimaFactura.getFormaDeCobro() + "\n"
 					+ "Total pagado: $" + ultimaFactura.getValor()
 				);
