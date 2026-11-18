@@ -34,7 +34,7 @@ public class PanelVerFacturas {
 		areaFacturas.setEditable(false);
 		areaFacturas.setLineWrap(true);
 		areaFacturas.setWrapStyleWord(true);
-		areaFacturas.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
+		areaFacturas.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
 		scrollFacturas.setPreferredSize(new Dimension(550, 220));
 
 		PanelMenu.crearBoton(btnVolver, Color.BLACK, Color.WHITE);

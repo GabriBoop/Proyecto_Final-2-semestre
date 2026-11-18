@@ -1,5 +1,6 @@
 package co.edu.unbosque.model;
 
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class TarifaPorHora extends Tarifa {
@@ -9,20 +10,20 @@ public class TarifaPorHora extends Tarifa {
 
 	@Override
 	public double calcularCosto(Registro registro) {
-		long horas = ChronoUnit.HOURS.between(registro.getHoraIngreso(), registro.getHoraSalida());
-		
-		if(horas == 0) {
-			horas = 1;
+    	long horas = ChronoUnit.HOURS.between(registro.getHoraIngreso(), registro.getHoraSalida());
+    	if (horas <= 0) {
+    	    horas = 1;
 		}
-		
-		Jornada jornadaSalida = Jornada.de(registro.getHoraSalida().toLocalTime());
-		
-		double tarifa = TARIFA_HORA_DIURNA;
-		
-		if(jornadaSalida == Jornada.NOCTURNA) {
-			tarifa = tarifa * 1.20;
-		}
-		return horas * tarifa;
+
+    double total = 0;
+   	LocalDateTime horaActual = registro.getHoraIngreso();
+    	for (int i = 0; i < horas; i++) {
+    	    double tarifa = TARIFA_HORA_DIURNA;
+    	    if (Jornada.de(horaActual.toLocalTime()) == Jornada.NOCTURNA) tarifa *= 1.20;
+   	     	total += tarifa;
+    	    horaActual = horaActual.plusHours(1);
+    	}
+    	return total;
 	}
 
 }

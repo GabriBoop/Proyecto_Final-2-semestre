@@ -27,7 +27,7 @@ public class PanelBuscarFactura {
 
 		txtfieldID.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 
-		PanelMenu.crearBoton(btnConsultar, Color.BLACK, Color.WHITE);
+		PanelMenu.crearBoton(btnConsultar, PanelMenu.COLOR_REGISTRAR, Color.WHITE);
 		PanelMenu.crearBoton(btnVolver, Color.BLACK, Color.WHITE);
 
 		columna.add(PanelMenu.crearLabel("Numero De la Factura"));
@@ -36,7 +36,7 @@ public class PanelBuscarFactura {
 		columna.add(btnVolver);
 
 		
-		JLabel imgTitulo = PanelMenu.crearImagen("/co/edu/unbosque/images/VerFacturas.png");
+		JLabel imgTitulo = PanelMenu.crearImagen("/co/edu/unbosque/images/BuscarFacturas.png");
 		PanelMenu.ajustarPanel(panel, imgTitulo, columna);
 	}
 

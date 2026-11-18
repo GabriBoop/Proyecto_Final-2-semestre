@@ -34,7 +34,7 @@ public class PanelVerRegistros {
 		areaRegistros.setEditable(false);
 		areaRegistros.setLineWrap(true);
 		areaRegistros.setWrapStyleWord(true);
-		areaRegistros.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
+		areaRegistros.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
 		scrollRegistros.setPreferredSize(new Dimension(550, 220));
 
 		PanelMenu.crearBoton(btnVolver, Color.BLACK, Color.WHITE);

@@ -30,6 +30,8 @@ public class Controller implements ActionListener {
 	private MainFrame principal;
 	private PanelMenu pm;
 	private PanelPropietarioRegistrar ppRegistrar;
+	private PanelMenuPropietario pmPropietario;    
+	private PanelVerPropietarios pvPropietarios;  
 	private PanelMenuVehiculo pmVehiculo;
 	private PanelMenuMensualidades pmMensualidad;
 	private PanelMensualidadesRegistrar pmenRegistrar;
@@ -63,6 +65,8 @@ public class Controller implements ActionListener {
 		principal = new MainFrame();
 		pm = new PanelMenu();
 		ppRegistrar = new PanelPropietarioRegistrar();
+		pmPropietario = new PanelMenuPropietario();     
+		pvPropietarios = new PanelVerPropietarios(); 
 		pmVehiculo = new PanelMenuVehiculo();
 		pvRegistrar = new PanelVehiculoRegistrar();
 		pvSalida = new PanelVehiculoSalida();
@@ -102,14 +106,28 @@ public class Controller implements ActionListener {
 	}
 
 	public void asignarOyentes() {
+		
 		pm.getBtnRegistrarPropietario().addActionListener(this);
 		pm.getBtnRegistrarPropietario().setActionCommand("PROPIETARIO");
+				
+		pmPropietario.getBtnRegistrar().addActionListener(this);
+		pmPropietario.getBtnRegistrar().setActionCommand("PROPIETARIO_REGISTRAR");
+
+		pmPropietario.getBtnVer().addActionListener(this);
+	    pmPropietario.getBtnVer().setActionCommand("VER_PROPIETARIOS");
+
+		pmPropietario.getBtnVolver().addActionListener(this);
+		pmPropietario.getBtnVolver().setActionCommand("VOLVER");
 		
 		ppRegistrar.getBtnRegistrar().addActionListener(this);
 		ppRegistrar.getBtnRegistrar().setActionCommand("REGISTRAR_PROPIETARIO");
-		
+
 		ppRegistrar.getBtnVolver().addActionListener(this);
-		ppRegistrar.getBtnVolver().setActionCommand("VOLVER");
+		ppRegistrar.getBtnVolver().setActionCommand("VOLVER_PROPIETARIO");   
+
+		
+		pvPropietarios.getBtnVolver().addActionListener(this);
+		pvPropietarios.getBtnVolver().setActionCommand("VOLVER_PROPIETARIO");
 		
 		pm.getBtnVerVehiculos().addActionListener(this);
 		pm.getBtnVerVehiculos().setActionCommand("VEHICULO");
@@ -245,7 +263,35 @@ public class Controller implements ActionListener {
 		
 		case "PROPIETARIO":
 			ReproducirAudio.reproducirSFX("Click.wav");
+			principal.cambiarPanel(pmPropietario.getPanel());
+			break;
+		case "PROPIETARIO_REGISTRAR":
+			ReproducirAudio.reproducirSFX("Click.wav");
 			principal.cambiarPanel(ppRegistrar.getPanel());
+			break;
+		case "VOLVER_PROPIETARIO":
+			ReproducirAudio.reproducirSFX("Click.wav");
+			principal.cambiarPanel(pmPropietario.getPanel());
+			break;
+		case "VER_PROPIETARIOS":
+			ReproducirAudio.reproducirSFX("Click.wav");
+			pvPropietarios.getLblTotalPropietarios().setText(
+					"Total de Propietarios: " + propietarioDAO.darLista().size());
+
+			StringBuilder listaProp = new StringBuilder();
+			for (Propietario p : propietarioDAO.darLista()) {
+				listaProp.append("| Documento: ").append(p.getDocumento())
+						.append("\n| Nombre: ").append(p.getNombre())
+						.append("\n| Telefono: ").append(p.getTelefono())
+						.append("\n\n");
+			}
+			String txt = "";
+			
+			if(listaProp.length() == 0) txt = " No hay propietarios registrados.";
+			else txt = listaProp.toString();
+			pvPropietarios.getAreaPropietarios().setText(txt);
+
+			principal.cambiarPanel(pvPropietarios.getPanel());
 			break;
 		case "REGISTRAR_PROPIETARIO":
 			try {
@@ -311,7 +357,7 @@ public class Controller implements ActionListener {
 				if (!soat.isAfter(LocalDate.now())) throw new SoatVencidoException();
 				
 				boolean nocturna;
-				if(tipoTarifa.equals("Por Hora")) nocturna = false;
+				if(tipoTarifa.equals("Por hora")) nocturna = false;
 				else nocturna = true;
 				
 				if (propietarioDAO.existeDocumento(documento)) {
@@ -330,8 +376,8 @@ public class Controller implements ActionListener {
                         moto.setPlaca(placa);
                         moto.setPropietario(p);
                         moto.setVencimientoSoat(soat);
-                        parqueadero.ingresarVehiculo(moto, nocturna); 
                         motoDAO.crear(moto);
+                        parqueadero.ingresarVehiculo(moto, nocturna); 
                     }
                 }else throw new PropietarioNoExisteException();
                 ReproducirAudio.reproducirSFX("Success.wav");
@@ -443,11 +489,13 @@ public class Controller implements ActionListener {
             java.time.format.DateTimeFormatter formatoHora = java.time.format.DateTimeFormatter.ofPattern("HH:mm");
 
             for (Registro r : parqueadero.registrosActivos()) {
-                listado.append("Placa: ").append(r.getVehiculo().getPlaca())
+            	
+                listado.append(" | Placa: ").append(r.getVehiculo().getPlaca())
                        .append(" | Propietario: ").append(r.getVehiculo().getPropietario().getNombre())
+                       .append("\n")
                        .append(" | Fecha: ").append(r.getHoraIngreso().toLocalDate())
                        .append(" | Hora: ").append(r.getHoraIngreso().format(formatoHora))
-                       .append("\n");
+                       .append("\n\n");
             }
             if (listado.length() == 0) {
                 pvVerParqueadero.getAreaVehiculos().setText("No hay vehículos parqueados actualmente.");
@@ -523,21 +571,25 @@ public class Controller implements ActionListener {
 			
 			StringBuilder listaMen = new StringBuilder();
 			for (Mensualidad m : mensualidadDAO.darLista()) {
-				listaMen.append("Propietario: ").append(m.getPropietario().getNombre())
+				listaMen.append("| Propietario: ").append(m.getPropietario().getNombre())
 				        .append(" (Doc: ").append(m.getPropietario().getDocumento()).append(")")
-				        .append(" | Inicio: ").append(m.getFechaInicio())
-				        .append(" | Valor: $").append(m.getValor())
-				        .append("\n   Vehículos: ");
+				        .append("\n| Inicio: ").append(m.getFechaInicio())
+				        .append("\n| Valor: $").append(m.getValor())
+				        .append("\n| Vehículos: ");
 				
 				for (Vehiculo v : m.getVehiculos()) {
-					listaMen.append("[").append(v.getPlaca()).append(" - ").append(v.getTipo()).append("] ");
+					listaMen.append("[")
+					.append(v.getPlaca()).append(" - ").append(v.getTipo())
+					.append("] ");
 				}
 				listaMen.append("\n\n");
 			}
 			
-			pmVerMensualidades.getAreaMensualidades().setText(
-					listaMen.length() == 0 ? "No hay mensualidades registradas." : listaMen.toString()
-				);
+			String txtMen = "";
+			if (listaMen.length() == 0) txtMen = "No hay mensualidades registradas."; 
+			else txtMen = listaMen.toString();
+			
+			pmVerMensualidades.getAreaMensualidades().setText(txtMen);
 				principal.cambiarPanel(pmVerMensualidades.getPanel());
 			break;
 		case "VACANTES_MENSUALIDADES":
@@ -570,13 +622,28 @@ public class Controller implements ActionListener {
 					"Total de Registros: " + registroDAO.darLista().size());
 			
 			StringBuilder listaReg = new StringBuilder();
+			formatoHora = java.time.format.DateTimeFormatter.ofPattern("HH:mm");
+			
 			for (Registro r : registroDAO.darLista()) {
-				listaReg.append("Vehículo: ").append(r.getVehiculo().getPlaca())
+				
+				String mensualidad;
+				if (r.isPagaMensualidad()) mensualidad = "Sí";
+				else mensualidad = "No";
+				
+				String estado;
+				if(r.isActivo()) estado = "Activo";
+				else estado = "Finalizado";
+				
+				String salida;
+				if(r.getHoraSalida() == null) salida = "Aun en el Parqueadero";
+				else salida = r.getHoraSalida().format(formatoHora);
+				
+				listaReg.append("| Vehiculo: ").append(r.getVehiculo().getPlaca())
 				        .append(" (").append(r.getVehiculo().getTipo()).append(")")
-				        .append(" | Ingreso: ").append(r.getHoraIngreso())
-				        .append(" | Salida: ").append(r.getHoraSalida() == null ? "Aún en el parqueadero" : r.getHoraSalida())
-				        .append("\n   Mensualidad: ").append(r.isPagaMensualidad() ? "Sí" : "No")
-				        .append(" | Estado: ").append(r.isActivo() ? "Activo" : "Finalizado");
+				        .append("\n| Ingreso: ").append(r.getHoraIngreso())
+				        .append("\n| Salida: ").append(salida)
+				        .append("\n| Mensualidad: ").append(mensualidad)
+				        .append(" | Estado: ").append(estado);
 				listaReg.append("\n\n");
 			}
 
@@ -594,16 +661,18 @@ public class Controller implements ActionListener {
 		case "VER_FACTURAS":
 			ReproducirAudio.reproducirSFX("Click.wav");
 			pmVerFacturas.getLblTotalFacturas().setText(
-					"Total de Facturas: " + registroDAO.darLista().size());
+					"Total de Facturas: " + facturaDAO.darLista().size());
 			
-			StringBuilder listaFac = new StringBuilder();
+			StringBuilder listaFac = new StringBuilder(); 
+			formatoHora = java.time.format.DateTimeFormatter.ofPattern("HH:mm");
+			
 			for (Factura f : facturaDAO.darLista()) {
-				listaFac.append("Factura N° ").append(f.getNum())
-				        .append(" | Placa: ").append(f.getPlaca())
+				listaFac.append("| Factura #").append(f.getNum())
+				        .append("\n| Placa: ").append(f.getPlaca())
 				        .append(" | Propietario: ").append(f.getNombrePropietario())
-				        .append("\n   Ingreso: ").append(f.getHoraIngreso())
-				        .append(" | Salida: ").append(f.getHoraSalida())
-				        .append("\n   Forma de cobro: ").append(f.getFormaDeCobro())
+				        .append("\n| Ingreso: ").append(f.getHoraIngreso().format(formatoHora))
+				        .append(" | Salida: ").append(f.getHoraSalida().format(formatoHora))
+				        .append("\n| Forma de cobro: ").append(f.getFormaDeCobro())
 				        .append(" | Valor: $").append(f.getValor());
 				listaFac.append("\n\n");
 			}

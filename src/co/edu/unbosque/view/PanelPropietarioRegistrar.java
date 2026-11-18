@@ -12,7 +12,6 @@ import javax.swing.JTextField;
 
 public class PanelPropietarioRegistrar {
 	
-	private static final Color FONDO = new Color(14,60,0);
 	private JPanel panel = new JPanel(new GridBagLayout());
 	private JPanel columna = new JPanel(new GridLayout(4, 2, 15, 15));
 	private JLabel txt = new JLabel();
@@ -25,8 +24,8 @@ public class PanelPropietarioRegistrar {
 	private JButton btnVolver = new JButton("Volver");
 
 	public PanelPropietarioRegistrar() {
-		panel.setBackground(FONDO);
-		columna.setBackground(FONDO);
+		panel.setBackground(PanelMenuPropietario.FONDO_PROPIETARIO);
+		columna.setBackground(PanelMenuPropietario.FONDO_PROPIETARIO);
 		
 		txtfieldDocumento.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 		txtfieldNombre.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
@@ -44,7 +43,7 @@ public class PanelPropietarioRegistrar {
 		columna.add(btnRegistrar);
 		columna.add(btnVolver);
 
-		JLabel imgTitulo = PanelMenu.crearImagen("/co/edu/unbosque/images/propietario.png");
+		JLabel imgTitulo = PanelMenu.crearImagen("/co/edu/unbosque/images/CrearPropietario.png");
 		PanelMenu.ajustarPanel(panel, imgTitulo, columna);
 	}
 	

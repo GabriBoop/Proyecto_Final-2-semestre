@@ -14,7 +14,7 @@ import javax.swing.*;
 
 public class PanelMenu {
 	
-	protected static final Color FONDO = new Color(69, 36, 0);
+	protected static final Color FONDO = new Color(37, 4, 2);
 	protected static final Color COLOR_REGISTRAR = new Color(75, 30, 255);
 	private JPanel panel = new JPanel(new GridBagLayout());
 	private JPanel columna = new JPanel(new GridLayout(6, 1, 0, 10));
@@ -43,7 +43,7 @@ public class PanelMenu {
 		txt.setHorizontalAlignment(SwingConstants.CENTER);
 		txt.setFont(new Font("Arial", Font.BOLD, 26));
 		
-		crearBotonImagen(btnRegistrarPropietario, "/co/edu/unbosque/images/BTN_Propietario.png");
+		crearBotonImagen(btnRegistrarPropietario, "/co/edu/unbosque/images/BTN_Propietarios.png");
 		crearBotonImagen(btnVerVehiculos, "/co/edu/unbosque/images/BTN_Vehiculo.png");
 		crearBotonImagen(btnMensualidades, "/co/edu/unbosque/images/BTN_Mensualidades.png");
 		crearBotonImagen(btnConsultas, "/co/edu/unbosque/images/BTN_Consultas.png");

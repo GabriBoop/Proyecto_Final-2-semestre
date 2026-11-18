@@ -31,6 +31,7 @@ public class Parqueadero {
 		this.facturas = facturas;
 		this.mensualidades = mensualidades;
 		this.registros = registros;	
+		numeroFacturas = facturas.darLista().size();
     }
     
     public int espaciosDisponibles() {
@@ -136,10 +137,6 @@ public class Parqueadero {
 		default :
 			break;
 		}
-		boolean s = soatPorVencer(v);
-		if (s==true) {
-			alertaSoat.mandarAlerta(v);
-		}
     	Tarifa t = null;
     	if(!tieneMensualidad(v.getPlaca())) {
     		if(nocturna) t = new TarifaNocturnaFija();
@@ -158,13 +155,20 @@ public class Parqueadero {
 		double total = 0;
 		FormaDeCobro cobro = FormaDeCobro.MENSUAL;
 		
-		if(!r.isPagaMensualidad()) {
-			total = r.getTarifaAplicada().calcularCosto(r);
-			if(r.getTarifaAplicada() instanceof TarifaNocturnaFija) {
-				cobro = FormaDeCobro.FIJA;
-			}
-			else cobro = FormaDeCobro.HORA;
+		if (!r.isPagaMensualidad() && !tieneMensualidad(v.getPlaca())) {
+    		total = r.getTarifaAplicada().calcularCosto(r);
+   				 if (r.getTarifaAplicada() instanceof TarifaNocturnaFija) {
+       				 cobro = FormaDeCobro.FIJA;
+    			} else {
+        			cobro = FormaDeCobro.HORA;
+    			}
+		} else {
+    		r.setPagaMensualidad(true);
+    		r.setTarifaAplicada(null);
 		}
+		
+		boolean s = soatPorVencer(v);
+		if (s == true) alertaSoat.mandarAlerta(v);
 		r.setActivo(false);
 		FacturaDTO f = new FacturaDTO(numeroFacturas++,v.getPlaca(),v.getPropietario().getNombre(),r.getHoraIngreso(),r.getHoraSalida(),cobro,total);
 		facturas.crear(f);
