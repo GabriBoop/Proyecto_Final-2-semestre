@@ -3,10 +3,10 @@ package co.edu.unbosque.view;
 import javax.sound.sampled.*;
 import java.net.URL;
 /**
- * Clase para la reproduccion y control de audio del juego.
- * <p>Gestiona la musica de fondo y los efectos de sonido de forma estatica,
- * permitiendo reproducir, detener y cambiar pistas desde cualquier parte del codigo.
- *
+ * Clase para la reproducción y control de audio del sistema.
+ * Gestiona la música de fondo y los efectos de sonido de forma estática,
+ * permitiendo reproducir y detener audios desde cualquier parte del código.
+ * Los archivos se buscan en la carpeta de recursos {@code /co/edu/unbosque/sounds/}.
  */
 public class ReproducirAudio {
 
@@ -15,12 +15,11 @@ public class ReproducirAudio {
     private static final String RUTA = "/co/edu/unbosque/sounds/";
     
     /**
-     * Reproduce un archivo de audio como musica de fondo.
-     * <p>Si ya hay una pista sonando, la detiene y libera antes de reproducir la nueva.
+     * Reproduce un archivo de audio como música de fondo.
+     * Si ya hay una pista sonando, la detiene y libera antes de reproducir la nueva.
      * El audio se inicia en segundo plano sin bloquear el hilo principal.
      *
-     * @param nombreArchivo ruta del recurso de audio dentro del classpath
-     *                      
+     * @param nombreArchivo Nombre del archivo de audio dentro de la carpeta de sonidos del classpath.
      */
     public static void reproducir(String nombreArchivo) {
         try {
@@ -43,16 +42,13 @@ public class ReproducirAudio {
             System.out.println("Error: " + e.getMessage());
         }
     }
-    /**
-     * Reproduce un efecto de sonido corto de forma independiente a la musica de fondo.
-     * <p>Cada llamada crea un clip separado para no interferir con la musica principal.
-     * El clip se cierra y libera automaticamente al terminar la reproduccion,
-     * evitando acumular multiples efectos de sonido.
-     *
-     * @param nombreArchivo ruta del recurso de audio dentro del classpath
-     *                      
-     */
     
+    /**
+     * Reproduce un efecto de sonido corto de forma independiente a la música de fondo.
+     * Cada llamada crea un clip separado para no interferir con la música principal.
+     *
+     * @param nombreArchivo Nombre del archivo de audio dentro de la carpeta de sonidos del classpath.
+     */
     public static void reproducirSFX(String nombreArchivo) {
         try {
             URL url = ReproducirAudio.class.getResource(RUTA + nombreArchivo);
@@ -72,10 +68,10 @@ public class ReproducirAudio {
         }
     }
 
-    /**
-     * Detiene y libera el clip de musica de fondo actualmente en reproduccion.
-     */
     
+    /**
+     * Detiene y libera el clip de música de fondo que se está reproduciendo.
+     */
     public static void detener() {
         try {
             if (clip != null && clip.isRunning()) {
@@ -87,6 +83,11 @@ public class ReproducirAudio {
         }
     }
 
+    /**
+     * Método de prueba que reproduce el efecto de sonido {@code Click.wav}.
+     *
+     * @param args Argumentos de línea de comandos (no se utilizan).
+     */
     public static void main(String[] args) {	        
     	reproducirSFX("Click.wav");        	      
     }
