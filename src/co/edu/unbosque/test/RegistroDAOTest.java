@@ -9,12 +9,32 @@ import org.junit.*;
 import co.edu.unbosque.model.*;
 import co.edu.unbosque.model.persistence.*;
 
+/**
+ * Pruebas unitarias (JUnit) de la clase RegistroDAO.
+ * Verifica la conversión entre Registro y RegistroDTO y las operaciones de persistencia
+ * (crear, eliminar, actualizar, buscar y mostrar) usando un directorio temporal
+ * para no modificar los archivos reales del sistema.
+ */
 public class RegistroDAOTest {
 
+	/**
+	 * Entidad de Registro utilizada como dato de prueba.
+	 */
 	static Registro registroEntidad;
+	/**
+	 * DAO de registros sometido a prueba.
+	 */
 	static RegistroDAO dao;
+	/**
+	 * Ruta base original de los archivos, restaurada al terminar las pruebas.
+	 */
 	static String rutaOriginal;
 
+	/**
+	 * Se ejecuta una sola vez antes de todas las pruebas.
+	 * Guarda la ruta base original de los archivos y crea una entidad inicial de ejemplo,
+	 * mostrando sus datos en consola.
+	 */
 	@BeforeClass
 	public static void antesDeTodasLasPruebas() {
 		rutaOriginal = FileHandler.getRutaBase();
@@ -26,6 +46,12 @@ public class RegistroDAOTest {
 		System.out.println(registroEntidad.getVehiculo().getPlaca() + " - " + registroEntidad.getHoraIngreso());
 	}
 
+	/**
+	 * Se ejecuta antes de cada prueba. Redirige la ruta base a un directorio temporal nuevo
+	 * para aislar los archivos, crea un RegistroDAO limpio y reinicia la entidad con datos de prueba.
+	 *
+	 * @throws IOException si no se puede crear el directorio temporal.
+	 */
 	@Before
 	public void antesDeCadaPrueba() throws IOException {
 		System.out.println("Reseteando la información de la entidad...");
@@ -38,6 +64,9 @@ public class RegistroDAOTest {
 		registroEntidad.setHoraSalida(LocalDateTime.of(2027, 1, 15, 10, 30));
 	}
 
+	/**
+	 * Verifica que la conversión de Registro a RegistroDTO con DataMapper conserve todos los atributos.
+	 */
 	@Test
 	public void comprobarConversionEntidadDTO() {
 		System.out.println("Iniciando prueba de conversión...");
@@ -61,6 +90,9 @@ public class RegistroDAOTest {
 		assertTrue(siEsIgual);
 	}
 
+	/**
+	 * Verifica que crear almacene un registro en el DAO y que la lista quede con un elemento.
+	 */
 	@Test
 	public void crearRegistro() {
 		System.out.println("Probando metodo crear...");
@@ -69,6 +101,10 @@ public class RegistroDAOTest {
 		assertEquals(1, dao.darLista().size());
 	}
 
+	/**
+	 * Verifica que el registro creado se guarde en el archivo,
+	 * comprobándolo al leerlo desde una nueva instancia de RegistroDAO.
+	 */
 	@Test
 	public void crearRegistroPersisteEnDisco() {
 		System.out.println("Probando que crear guarde en el archivo...");
@@ -81,6 +117,9 @@ public class RegistroDAOTest {
 		assertTrue(otroDao.darLista().get(0).getTarifaAplicada() instanceof TarifaPorHora);
 	}
 
+	/**
+	 * Verifica que eliminar con un índice válido borre el registro y deje la lista vacía.
+	 */
 	@Test
 	public void eliminarRegistro() {
 		System.out.println("Probando método eliminar...");
@@ -89,12 +128,19 @@ public class RegistroDAOTest {
 		assertEquals(0, dao.darLista().size());
 	}
 
+	/**
+	 * Verifica que eliminar con un índice negativo retorne false.
+	 */
 	@Test
 	public void eliminarRegistroIndiceNegativo() {
 		System.out.println("Probando eliminar con índice inválido...");
 		assertFalse(dao.eliminar(-1));
 	}
 
+	/**
+	 * Verifica que eliminar con un índice fuera de rango retorne false
+	 * y no modifique la lista.
+	 */
 	@Test
 	public void eliminarRegistroIndiceFueraDeRango() {
 		System.out.println("Probando eliminar con índice fuera de rango...");
@@ -103,6 +149,9 @@ public class RegistroDAOTest {
 		assertEquals(1, dao.darLista().size());
 	}
 
+	/**
+	 * Verifica que eliminar con la lista vacía retorne false.
+	 */
 	@Test
 	public void eliminarRegistroListaVacia() {
 		System.out.println("Probando eliminar con la lista vacía...");
@@ -110,6 +159,10 @@ public class RegistroDAOTest {
 		assertEquals(0, dao.darLista().size());
 	}
 
+	/**
+	 * Verifica que actualizar reemplace los datos de el registro en el índice indicado
+	 * sin cambiar el tamaño de la lista.
+	 */
 	@Test
 	public void actualizarRegistro() {
 		System.out.println("Probando método actualizar...");
@@ -123,6 +176,9 @@ public class RegistroDAOTest {
 		assertEquals(1, dao.darLista().size());
 	}
 
+	/**
+	 * Verifica que actualizar con un índice negativo retorne false.
+	 */
 	@Test
 	public void actualizarRegistroIndiceNegativo() {
 		System.out.println("Probando actualizar con índice negativo...");
@@ -131,6 +187,10 @@ public class RegistroDAOTest {
 		assertFalse(dao.actualizar(-1, dtoNuevo));
 	}
 
+	/**
+	 * Verifica que actualizar con un índice fuera de rango retorne false
+	 * y deje los datos originales intactos.
+	 */
 	@Test
 	public void actualizarRegistroIndiceFueraDeRango() {
 		System.out.println("Probando actualizar con índice fuera de rango...");
@@ -142,6 +202,9 @@ public class RegistroDAOTest {
 		assertEquals(1, dao.darLista().size());
 	}
 
+	/**
+	 * Verifica que mostrarTodo incluya los datos de el registro almacenado.
+	 */
 	@Test
 	public void mostrarTodoIncluyeLosDatos() {
 		System.out.println("Probando método mostrarTodo...");
@@ -152,18 +215,28 @@ public class RegistroDAOTest {
 		assertTrue(contenido.contains("Activo: true"));
 	}
 
+	/**
+	 * Verifica que mostrarTodo retorne una cadena vacía cuando no hay registros.
+	 */
 	@Test
 	public void mostrarTodoListaVacia() {
 		System.out.println("Probando mostrarTodo sin registros...");
 		assertEquals("", dao.mostrarTodo());
 	}
 
+	/**
+	 * Se ejecuta después de cada prueba. Libera la referencia a la entidad de prueba.
+	 */
 	@After
 	public void despuesDeCadaPrueba() {
 		System.out.println("Finalizó una prueba. Limpiando entidad...");
 		registroEntidad = null;
 	}
 
+	/**
+	 * Se ejecuta una vez al finalizar todas las pruebas.
+	 * Restaura la ruta base original y libera las referencias estáticas.
+	 */
 	@AfterClass
 	public static void despuesDeTodasLasPruebas() {
 		System.out.println("Finalizaron todas las pruebas unitarias.");

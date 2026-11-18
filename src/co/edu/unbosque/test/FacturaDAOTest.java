@@ -8,12 +8,32 @@ import org.junit.*;
 import co.edu.unbosque.model.*;
 import co.edu.unbosque.model.persistence.*;
 
+/**
+ * Pruebas unitarias (JUnit) de la clase FacturaDAO.
+ * Verifica la conversión entre Factura y FacturaDTO y las operaciones de persistencia
+ * (crear, eliminar, actualizar, buscar y mostrar) usando un directorio temporal
+ * para no modificar los archivos reales del sistema.
+ */
 public class FacturaDAOTest {
 
+	/**
+	 * Entidad de Factura utilizada como dato de prueba.
+	 */
 	static Factura facturaEntidad;
+	/**
+	 * DAO de facturas sometido a prueba.
+	 */
 	static FacturaDAO dao;
+	/**
+	 * Ruta base original de los archivos, restaurada al terminar las pruebas.
+	 */
 	static String rutaOriginal;
 
+	/**
+	 * Se ejecuta una sola vez antes de todas las pruebas.
+	 * Guarda la ruta base original de los archivos y crea una entidad inicial de ejemplo,
+	 * mostrando sus datos en consola.
+	 */
 	@BeforeClass
 	public static void antesDeTodasLasPruebas() {
 		rutaOriginal = FileHandler.getRutaBase();
@@ -24,6 +44,12 @@ public class FacturaDAOTest {
 		System.out.println(facturaEntidad.getNum() + " - " + facturaEntidad.getPlaca());
 	}
 
+	/**
+	 * Se ejecuta antes de cada prueba. Redirige la ruta base a un directorio temporal nuevo
+	 * para aislar los archivos, crea un FacturaDAO limpio y reinicia la entidad con datos de prueba.
+	 *
+	 * @throws IOException si no se puede crear el directorio temporal.
+	 */
 	@Before
 	public void antesDeCadaPrueba() throws IOException {
 		System.out.println("Reseteando la información de la entidad...");
@@ -34,6 +60,9 @@ public class FacturaDAOTest {
 				LocalDateTime.of(2027, 1, 15, 11, 0), FormaDeCobro.FIJA, 8000);
 	}
 
+	/**
+	 * Verifica que la conversión de Factura a FacturaDTO con DataMapper conserve todos los atributos.
+	 */
 	@Test
 	public void comprobarConversionEntidadDTO() {
 		System.out.println("Iniciando prueba de conversión...");
@@ -63,6 +92,9 @@ public class FacturaDAOTest {
 		assertTrue(siEsIgual);
 	}
 
+	/**
+	 * Verifica que crear almacene una factura en el DAO y que la lista quede con un elemento.
+	 */
 	@Test
 	public void crearFactura() {
 		System.out.println("Probando metodo crear...");
@@ -71,6 +103,10 @@ public class FacturaDAOTest {
 		assertEquals(1, dao.darLista().size());
 	}
 
+	/**
+	 * Verifica que la factura creado se guarde en el archivo,
+	 * comprobándolo al leerlo desde una nueva instancia de FacturaDAO.
+	 */
 	@Test
 	public void crearFacturaPersisteEnDisco() {
 		System.out.println("Probando que crear guarde en el archivo...");
@@ -82,6 +118,9 @@ public class FacturaDAOTest {
 		assertEquals(8000, otroDao.darLista().get(0).getValor(), 0.001);
 	}
 
+	/**
+	 * Verifica que eliminar con un índice válido borre la factura y deje la lista vacía.
+	 */
 	@Test
 	public void eliminarFactura() {
 		System.out.println("Probando método eliminar...");
@@ -90,12 +129,19 @@ public class FacturaDAOTest {
 		assertEquals(0, dao.darLista().size());
 	}
 
+	/**
+	 * Verifica que eliminar con un índice negativo retorne false.
+	 */
 	@Test
 	public void eliminarFacturaIndiceNegativo() {
 		System.out.println("Probando eliminar con índice inválido...");
 		assertFalse(dao.eliminar(-1));
 	}
 
+	/**
+	 * Verifica que actualizar reemplace los datos de la factura en el índice indicado
+	 * sin cambiar el tamaño de la lista.
+	 */
 	@Test
 	public void actualizarFactura() {
 		System.out.println("Probando método actualizar...");
@@ -108,6 +154,9 @@ public class FacturaDAOTest {
 		assertEquals(1, dao.darLista().size());
 	}
 
+	/**
+	 * Verifica que mostrarTodo incluya los datos de la factura almacenado.
+	 */
 	@Test
 	public void mostrarTodoIncluyeLosDatos() {
 		System.out.println("Probando método mostrarTodo...");
@@ -117,12 +166,19 @@ public class FacturaDAOTest {
 		assertTrue(contenido.contains("Paula"));
 	}
 
+	/**
+	 * Verifica que mostrarTodo retorne una cadena vacía cuando no hay facturas.
+	 */
 	@Test
 	public void mostrarTodoListaVacia() {
 		System.out.println("Probando mostrarTodo sin facturas...");
 		assertEquals("", dao.mostrarTodo());
 	}
 
+	/**
+	 * Verifica que eliminar con un índice fuera de rango retorne false
+	 * y no modifique la lista.
+	 */
 	@Test
 	public void eliminarFacturaIndiceFueraDeRango() {
 		System.out.println("Probando eliminar con índice fuera de rango...");
@@ -131,6 +187,9 @@ public class FacturaDAOTest {
 		assertEquals(1, dao.darLista().size());
 	}
 
+	/**
+	 * Verifica que eliminar con la lista vacía retorne false.
+	 */
 	@Test
 	public void eliminarFacturaListaVacia() {
 		System.out.println("Probando eliminar con la lista vacía...");
@@ -138,6 +197,9 @@ public class FacturaDAOTest {
 		assertEquals(0, dao.darLista().size());
 	}
 
+	/**
+	 * Verifica que actualizar con un índice negativo retorne false.
+	 */
 	@Test
 	public void actualizarFacturaIndiceNegativo() {
 		System.out.println("Probando actualizar con índice negativo...");
@@ -146,6 +208,10 @@ public class FacturaDAOTest {
 		assertFalse(dao.actualizar(-1, dtoNuevo));
 	}
 
+	/**
+	 * Verifica que actualizar con un índice fuera de rango retorne false
+	 * y deje los datos originales intactos.
+	 */
 	@Test
 	public void actualizarFacturaIndiceFueraDeRango() {
 		System.out.println("Probando actualizar con índice fuera de rango...");
@@ -157,12 +223,19 @@ public class FacturaDAOTest {
 		assertEquals(1, dao.darLista().size());
 	}
 
+	/**
+	 * Se ejecuta después de cada prueba. Libera la referencia a la entidad de prueba.
+	 */
 	@After
 	public void despuesDeCadaPrueba() {
 		System.out.println("Finalizó una prueba. Limpiando entidad...");
 		facturaEntidad = null;
 	}
 
+	/**
+	 * Se ejecuta una vez al finalizar todas las pruebas.
+	 * Restaura la ruta base original y libera las referencias estáticas.
+	 */
 	@AfterClass
 	public static void despuesDeTodasLasPruebas() {
 		System.out.println("Finalizaron todas las pruebas unitarias.");

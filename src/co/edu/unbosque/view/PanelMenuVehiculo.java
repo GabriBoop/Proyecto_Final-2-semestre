@@ -6,8 +6,15 @@ import java.awt.GridLayout;
 
 import javax.swing.*;
 
+/**
+ * Vista del menú de vehículos. Permite registrar el ingreso, registrar la salida, consultar un vehículo parqueado y ver el estado del parqueadero.
+ * Los eventos de los botones se asignan desde el controlador.
+ */
 public class PanelMenuVehiculo {
 	
+	/**
+	 * Color de fondo de las pantallas del módulo de vehículos.
+	 */
 	protected static final Color FONDO_VEHICULO = new Color(88, 31, 0);
 	private JPanel panel = new JPanel(new GridBagLayout());
 	private JPanel columna = new JPanel(new GridLayout(6, 1, 0, 30));
@@ -17,6 +24,9 @@ public class PanelMenuVehiculo {
 	private JButton btnVerParqueado = new JButton("Estado de Parqueadero");
 	private JButton btnVolver = new JButton("Volver");
 
+	/**
+	 * Configura el fondo, crea los botones del menú y los organiza bajo la imagen de título.
+	 */
 	public PanelMenuVehiculo() {
 		panel.setBackground(FONDO_VEHICULO);
 		columna.setBackground(FONDO_VEHICULO);
@@ -37,30 +47,65 @@ public class PanelMenuVehiculo {
 		PanelMenu.ajustarPanel(panel, imgVehiculo, columna);
 	}
 
+	/**
+	 * Obtiene el panel principal.
+	 *
+	 * @return El panel principal.
+	 */
 	public JPanel getPanel() {
 		return panel;
 	}
 
+	/**
+	 * Establece el panel principal.
+	 *
+	 * @param panel Nuevo panel principal.
+	 */
 	public void setPanel(JPanel panel) {
 		this.panel = panel;
 	}
 
+	/**
+	 * Obtiene el botón "Registrar Vehiculo".
+	 *
+	 * @return El botón "Registrar Vehiculo".
+	 */
 	public JButton getBtnRegistrar() {
 		return btnRegistrar;
 	}
 
+	/**
+	 * Obtiene el botón "Salida de Vehiculo".
+	 *
+	 * @return El botón "Salida de Vehiculo".
+	 */
 	public JButton getBtnSalida() {
 		return btnSalida;
 	}
 
+	/**
+	 * Obtiene el botón "Vehiculo Parqueado".
+	 *
+	 * @return El botón "Vehiculo Parqueado".
+	 */
 	public JButton getBtnParqueado() {
 		return btnParqueado;
 	}
 
+	/**
+	 * Obtiene el botón "Estado de Parqueadero".
+	 *
+	 * @return El botón "Estado de Parqueadero".
+	 */
 	public JButton getBtnVerParqueado() {
 		return btnVerParqueado;
 	}
 
+	/**
+	 * Obtiene el botón "Volver".
+	 *
+	 * @return El botón "Volver".
+	 */
 	public JButton getBtnVolver() {
 		return btnVolver;
 	}
