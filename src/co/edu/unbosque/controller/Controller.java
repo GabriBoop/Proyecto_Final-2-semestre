@@ -10,6 +10,7 @@ import co.edu.unbosque.model.persistence.*;
 import co.edu.unbosque.util.exceptions.DatoVacioException;
 import co.edu.unbosque.util.exceptions.DocumentoInvalidoException;
 import co.edu.unbosque.util.exceptions.FacturaNoEncontradaException;
+import co.edu.unbosque.util.exceptions.NombreInvalidoException;
 import co.edu.unbosque.util.exceptions.PlacaDeOtroPropietarioException;
 import co.edu.unbosque.util.exceptions.PlacaInvalidaException;
 import co.edu.unbosque.util.exceptions.PlacaNoEncontradaException;
@@ -417,6 +418,7 @@ public class Controller implements ActionListener {
 				if(documento.isBlank()) throw new DatoVacioException("Documento.");
 				if(!documento.matches("\\d+") || documento.length() != 10) throw new DocumentoInvalidoException();
 				if(nombre.isBlank()) throw new DatoVacioException("Nombre. ");
+				if(!nombre.matches("[a-zA-Z ]+")) throw new NombreInvalidoException();
 				if(telefono.isBlank()) throw new DatoVacioException("Telefono. ");
 				if(!telefono.matches("\\d+") || telefono.length() != 10) throw new TelefonoInvalidoException();
 				
@@ -444,9 +446,12 @@ public class Controller implements ActionListener {
 			} catch (TelefonoInvalidoException ex) {
 				ReproducirAudio.reproducirSFX("Error.wav");
 				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			} catch (NombreInvalidoException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(),  "ERROR");
 			}
 			break;
-		
+	
 		case "VEHICULO":
 			ReproducirAudio.reproducirSFX("Click.wav");
 			principal.cambiarPanel(pmVehiculo.getPanel());
@@ -544,6 +549,9 @@ public class Controller implements ActionListener {
 				ReproducirAudio.reproducirSFX("Error.wav");
 				ve.mostrarERROR(ex.getMessage(), "ERROR");
 			} catch (PlacaDeOtroPropietarioException ex) {
+				ReproducirAudio.reproducirSFX("Error.wav");
+				ve.mostrarERROR(ex.getMessage(), "ERROR");
+			} catch (NombreInvalidoException ex) {
 				ReproducirAudio.reproducirSFX("Error.wav");
 				ve.mostrarERROR(ex.getMessage(), "ERROR");
 			}

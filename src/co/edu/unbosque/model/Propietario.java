@@ -1,7 +1,6 @@
 package co.edu.unbosque.model;
 
 import java.io.Serializable;
-
 /**
  * Clase que representa a un propietario de vehículo.
  * Almacena su documento de identidad, nombre y teléfono de contacto.
